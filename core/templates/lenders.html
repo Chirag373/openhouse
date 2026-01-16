@@ -1,0 +1,391 @@
+{% extends 'base.html' %}
+{% block title %}Trusted Lenders{% endblock %}
+
+{% block content %}
+<!-- Lenders Hero Banner -->
+<div class="relative bg-emerald-900 rounded-2xl overflow-hidden mb-10 shadow-xl">
+    <div class="absolute inset-0 opacity-20">
+        <img src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&q=80&w=2000"
+            class="w-full h-full object-cover grayscale" alt="Lender Banner">
+    </div>
+    <div class="relative z-10 px-6 py-12 md:py-16 text-center">
+        <h1 class="text-3xl md:text-5xl font-bold text-white mb-4 tracking-tight">
+            Find a Trusted Lender
+        </h1>
+        <p class="text-emerald-50 text-lg md:text-xl max-w-2xl mx-auto font-medium">
+            Connect with top financing professionals. Browse business listings by city and state.
+        </p>
+    </div>
+</div>
+
+<!-- Search Section (City & State) -->
+<div class="max-w-3xl mx-auto mt-8 mb-12 relative z-20 px-4">
+    <div class="flex items-center gap-4">
+        <!-- Search Input -->
+        <div class="flex-grow bg-white p-2 rounded-full shadow-lg border border-gray-200">
+            <input type="text" placeholder="Search by City or State..."
+                class="w-full px-6 py-3 rounded-full outline-none text-gray-700 placeholder-gray-400" />
+        </div>
+
+        <!-- Round Button -->
+        <button
+            class="flex-shrink-0 bg-emerald-600 hover:bg-emerald-700 text-white w-16 h-16 rounded-full shadow-lg flex items-center justify-center transition duration-200 transform hover:scale-105">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+        </button>
+    </div>
+</div>
+
+<!-- Lenders Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+    <!-- Lender Card 1 (Has Perk) -->
+    <div
+        class="bg-white rounded-xl shadow hover:shadow-lg transition relative flex flex-col h-full border border-gray-100 group overflow-hidden">
+        <!-- Perk Indicator -->
+        <div class="absolute top-3 right-3 z-30">
+            <button onclick="document.getElementById('perk-modal-1').showModal()"
+                class="bg-green-600 text-white text-xs font-semibold px-2 py-1 rounded hover:bg-green-700 transition cursor-pointer shadow-sm">
+                Has Perk
+            </button>
+        </div>
+
+        <!-- Business Card Carousel -->
+        <!-- Aspect Ratio 3.5 : 2 (1.75) for Business Card -->
+        <div class="w-full relative bg-gray-200 card-carousel" style="aspect-ratio: 1.75/1;">
+            <!-- Slide 1: Front -->
+            <div class="carousel-slide absolute inset-0 w-full h-full bg-white flex items-center justify-center transition-transform duration-300 ease-in-out translate-x-0"
+                data-index="0">
+                <img src="https://ui-avatars.com/api/?name=Apex+Mortgage&background=f0fdf4&color=166534&bold=true&length=2&size=256"
+                    class="object-contain h-3/4 w-3/4" alt="Card Front">
+                <span
+                    class="absolute bottom-2 left-3 text-[10px] text-gray-400 font-mono tracking-widest uppercase">Front</span>
+            </div>
+            <!-- Slide 2: Back -->
+            <div class="carousel-slide absolute inset-0 w-full h-full bg-gray-50 flex items-center justify-center transition-transform duration-300 ease-in-out translate-x-full"
+                data-index="1">
+                <div class="text-center p-4">
+                    <div class="text-xs text-gray-500 font-bold mb-2 tracking-wide">SCAN ME</div>
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://example.com"
+                        class="mx-auto w-24 h-24 opacity-80 mix-blend-multiply" alt="QR">
+                </div>
+                <span
+                    class="absolute bottom-2 left-3 text-[10px] text-gray-400 font-mono tracking-widest uppercase">Back</span>
+            </div>
+
+            <!-- Controls (Only visible if hovered, or always on mobile) -->
+            <button
+                class="absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-gray-800 p-1.5 rounded-full shadow-md z-20 backdrop-blur-sm transition opacity duration-200"
+                onclick="moveSlide(this, -1)">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                </svg>
+            </button>
+            <button
+                class="absolute right-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-gray-800 p-1.5 rounded-full shadow-md z-20 backdrop-blur-sm transition opacity duration-200"
+                onclick="moveSlide(this, 1)">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+            </button>
+
+            <!-- Indicators -->
+            <div class="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1 z-20">
+                <div class="w-1.5 h-1.5 rounded-full bg-emerald-600 transition-colors" data-indicator="0"></div>
+                <div class="w-1.5 h-1.5 rounded-full bg-gray-300 transition-colors" data-indicator="1"></div>
+            </div>
+        </div>
+
+        <div class="p-5 flex-grow flex flex-col gap-3">
+            <div>
+                <h2 class="font-bold text-xl text-gray-900 leading-tight">Apex Mortgage Solutions</h2>
+                <h3 class="text-emerald-600 font-medium mt-1">Sarah Jenkins</h3>
+            </div>
+            <div class="text-sm text-gray-600 line-clamp-3 leading-relaxed">
+                Specializing in first-time home buying and VA loans. With over 15 years in the finance industry, I make
+                the mortgage process simple, transparent, and fast for all my clients.
+            </div>
+            <div class="space-y-1.5 text-xs text-gray-600 mt-2 bg-gray-50 p-3 rounded-lg border border-gray-100">
+                <p class="flex gap-2"><span
+                        class="font-semibold text-gray-800 w-16 text-right flex-shrink-0">Serving:</span> TX, FL, OK</p>
+                <p class="flex gap-2"><span
+                        class="font-semibold text-gray-800 w-16 text-right flex-shrink-0">Cities:</span> Dallas, Plano,
+                    Miami</p>
+                <p class="flex gap-2"><span
+                        class="font-semibold text-gray-800 w-16 text-right flex-shrink-0">License:</span> NMLS #892810
+                </p>
+                <p class="flex gap-2"><span
+                        class="font-semibold text-gray-800 w-16 text-right flex-shrink-0">Loans:</span> FHA, VA,
+                    Conventional</p>
+            </div>
+            <div class="mt-auto pt-4 border-t flex justify-end items-center">
+                <a href="#" class="text-sm font-semibold text-blue-600 hover:underline flex items-center gap-1">
+                    Visit Website
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </div>
+    <dialog id="perk-modal-1"
+        class="p-6 rounded-lg shadow-2xl backdrop:bg-black/50 w-full max-w-sm m-auto open:animate-fade-in relative">
+        <button onclick="document.getElementById('perk-modal-1').close()"
+            class="absolute top-2 right-2 text-gray-400 hover:text-gray-600 p-2">✕</button>
+        <div class="text-center">
+            <div class="bg-green-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3">
+                <span class="text-2xl">🎁</span>
+            </div>
+            <h3 class="font-bold text-lg mb-2 text-gray-900">Appraisal Credit</h3>
+            <p class="text-gray-600 mb-6 text-sm">Receive a free appraisal credit up to $500 at closing when you fund
+                your loan with Apex Mortgage Solutions.</p>
+            <button onclick="document.getElementById('perk-modal-1').close()"
+                class="bg-gray-100 px-6 py-2 rounded-full hover:bg-gray-200 text-sm font-medium transition w-full">Close</button>
+        </div>
+    </dialog>
+
+
+    <!-- Lender Card 2 (No Perk) -->
+    <div
+        class="bg-white rounded-xl shadow hover:shadow-lg transition relative flex flex-col h-full border border-gray-100 group overflow-hidden">
+        <!-- Perk Indicator -->
+        <div class="absolute top-3 right-3 z-30">
+            <div class="bg-gray-400 text-white text-xs font-semibold px-2 py-1 rounded cursor-default shadow-sm">
+                No Perk
+            </div>
+        </div>
+
+        <!-- Business Card Carousel -->
+        <div class="w-full relative bg-gray-200 card-carousel" style="aspect-ratio: 1.75/1;">
+            <!-- Slide 1: Front -->
+            <div class="carousel-slide absolute inset-0 w-full h-full bg-white flex items-center justify-center transition-transform duration-300 ease-in-out translate-x-0"
+                data-index="0">
+                <img src="https://ui-avatars.com/api/?name=Liberty+Fin&background=eff6ff&color=1e3a8a&bold=true&length=2&size=256"
+                    class="object-contain h-3/4 w-3/4" alt="Card Front">
+                <span
+                    class="absolute bottom-2 left-3 text-[10px] text-gray-400 font-mono tracking-widest uppercase">Front</span>
+            </div>
+            <!-- Slide 2: Back -->
+            <div class="carousel-slide absolute inset-0 w-full h-full bg-gray-50 flex items-center justify-center transition-transform duration-300 ease-in-out translate-x-full"
+                data-index="1">
+                <div class="text-center p-4">
+                    <div class="text-xs text-gray-500 font-bold mb-2 tracking-wide">SCAN ME</div>
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://example.com"
+                        class="mx-auto w-24 h-24 opacity-80 mix-blend-multiply" alt="QR">
+                </div>
+                <span
+                    class="absolute bottom-2 left-3 text-[10px] text-gray-400 font-mono tracking-widest uppercase">Back</span>
+            </div>
+
+            <button
+                class="absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-gray-800 p-1.5 rounded-full shadow-md z-20 backdrop-blur-sm transition opacity duration-200"
+                onclick="moveSlide(this, -1)">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                </svg>
+            </button>
+            <button
+                class="absolute right-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-gray-800 p-1.5 rounded-full shadow-md z-20 backdrop-blur-sm transition opacity duration-200"
+                onclick="moveSlide(this, 1)">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+            </button>
+            <div class="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1 z-20">
+                <div class="w-1.5 h-1.5 rounded-full bg-emerald-600 transition-colors" data-indicator="0"></div>
+                <div class="w-1.5 h-1.5 rounded-full bg-gray-300 transition-colors" data-indicator="1"></div>
+            </div>
+        </div>
+
+        <div class="p-5 flex-grow flex flex-col gap-3">
+            <div>
+                <h2 class="font-bold text-xl text-gray-900 leading-tight">Liberty Financial</h2>
+                <h3 class="text-emerald-600 font-medium mt-1">David Chen</h3>
+            </div>
+            <div class="text-sm text-gray-600 line-clamp-3 leading-relaxed">
+                Focused on providing competitive rates and personal service. Whether you are refinancing or buying, I
+                educate you on all your options.
+            </div>
+            <div class="space-y-1.5 text-xs text-gray-600 mt-2 bg-gray-50 p-3 rounded-lg border border-gray-100">
+                <p class="flex gap-2"><span
+                        class="font-semibold text-gray-800 w-16 text-right flex-shrink-0">Serving:</span> CA, NV, AZ</p>
+                <p class="flex gap-2"><span
+                        class="font-semibold text-gray-800 w-16 text-right flex-shrink-0">Cities:</span> Los Angeles,
+                    Las Vegas</p>
+                <p class="flex gap-2"><span
+                        class="font-semibold text-gray-800 w-16 text-right flex-shrink-0">License:</span> NMLS #442211
+                </p>
+                <p class="flex gap-2"><span
+                        class="font-semibold text-gray-800 w-16 text-right flex-shrink-0">Loans:</span> Jumbo,
+                    Investment</p>
+            </div>
+            <div class="mt-auto pt-4 border-t flex justify-end items-center">
+                <a href="#" class="text-sm font-semibold text-blue-600 hover:underline flex items-center gap-1">
+                    Visit Website
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Lender Card 3 (Has Perk) -->
+    <div
+        class="bg-white rounded-xl shadow hover:shadow-lg transition relative flex flex-col h-full border border-gray-100 group overflow-hidden">
+        <!-- Perk Indicator -->
+        <div class="absolute top-3 right-3 z-30">
+            <button onclick="document.getElementById('perk-modal-3').showModal()"
+                class="bg-green-600 text-white text-xs font-semibold px-2 py-1 rounded hover:bg-green-700 transition cursor-pointer shadow-sm">
+                Has Perk
+            </button>
+        </div>
+
+        <!-- Business Card Carousel -->
+        <div class="w-full relative bg-gray-200 card-carousel" style="aspect-ratio: 1.75/1;">
+            <!-- Slide 1: Front -->
+            <div class="carousel-slide absolute inset-0 w-full h-full bg-white flex items-center justify-center transition-transform duration-300 ease-in-out translate-x-0"
+                data-index="0">
+                <img src="https://ui-avatars.com/api/?name=Prime+Lend&background=fef2f2&color=991b1b&bold=true&length=2&size=256"
+                    class="object-contain h-3/4 w-3/4" alt="Card Front">
+                <span
+                    class="absolute bottom-2 left-3 text-[10px] text-gray-400 font-mono tracking-widest uppercase">Front</span>
+            </div>
+            <!-- Slide 2: Back -->
+            <div class="carousel-slide absolute inset-0 w-full h-full bg-gray-50 flex items-center justify-center transition-transform duration-300 ease-in-out translate-x-full"
+                data-index="1">
+                <div class="text-center p-4">
+                    <div class="text-xs text-gray-500 font-bold mb-2 tracking-wide">SCAN ME</div>
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://example.com"
+                        class="mx-auto w-24 h-24 opacity-80 mix-blend-multiply" alt="QR">
+                </div>
+                <span
+                    class="absolute bottom-2 left-3 text-[10px] text-gray-400 font-mono tracking-widest uppercase">Back</span>
+            </div>
+
+            <button
+                class="absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-gray-800 p-1.5 rounded-full shadow-md z-20 backdrop-blur-sm transition opacity duration-200"
+                onclick="moveSlide(this, -1)">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                </svg>
+            </button>
+            <button
+                class="absolute right-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-gray-800 p-1.5 rounded-full shadow-md z-20 backdrop-blur-sm transition opacity duration-200"
+                onclick="moveSlide(this, 1)">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+            </button>
+            <div class="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1 z-20">
+                <div class="w-1.5 h-1.5 rounded-full bg-emerald-600 transition-colors" data-indicator="0"></div>
+                <div class="w-1.5 h-1.5 rounded-full bg-gray-300 transition-colors" data-indicator="1"></div>
+            </div>
+        </div>
+
+        <div class="p-5 flex-grow flex flex-col gap-3">
+            <div>
+                <h2 class="font-bold text-xl text-gray-900 leading-tight">Prime Lending Corp</h2>
+                <h3 class="text-emerald-600 font-medium mt-1">Michael Scott</h3>
+            </div>
+            <div class="text-sm text-gray-600 line-clamp-3 leading-relaxed">
+                We make home loans easy. Low rates, fast closing, and great service. Contact me today to get
+                pre-approved in minutes.
+            </div>
+            <div class="space-y-1.5 text-xs text-gray-600 mt-2 bg-gray-50 p-3 rounded-lg border border-gray-100">
+                <p class="flex gap-2"><span
+                        class="font-semibold text-gray-800 w-16 text-right flex-shrink-0">Serving:</span> PA, NY, OH</p>
+                <p class="flex gap-2"><span
+                        class="font-semibold text-gray-800 w-16 text-right flex-shrink-0">Cities:</span> Scranton,
+                    Buffalo</p>
+                <p class="flex gap-2"><span
+                        class="font-semibold text-gray-800 w-16 text-right flex-shrink-0">License:</span> NMLS #112233
+                </p>
+                <p class="flex gap-2"><span
+                        class="font-semibold text-gray-800 w-16 text-right flex-shrink-0">Loans:</span> FHA, USDA, 203k
+                </p>
+            </div>
+            <div class="mt-auto pt-4 border-t flex justify-end items-center">
+                <a href="#" class="text-sm font-semibold text-blue-600 hover:underline flex items-center gap-1">
+                    Visit Website
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </div>
+    <dialog id="perk-modal-3"
+        class="p-6 rounded-lg shadow-2xl backdrop:bg-black/50 w-full max-w-sm m-auto open:animate-fade-in relative">
+        <button onclick="document.getElementById('perk-modal-3').close()"
+            class="absolute top-2 right-2 text-gray-400 hover:text-gray-600 p-2">✕</button>
+        <div class="text-center">
+            <div class="bg-green-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3">
+                <span class="text-2xl">🏷️</span>
+            </div>
+            <h3 class="font-bold text-lg mb-2 text-gray-900">Rate Lock Discount</h3>
+            <p class="text-gray-600 mb-6 text-sm">Lock your rate for 60 days for free. Extended lock options available
+                with no upfront fee.</p>
+            <button onclick="document.getElementById('perk-modal-3').close()"
+                class="bg-gray-100 px-6 py-2 rounded-full hover:bg-gray-200 text-sm font-medium transition w-full">Close</button>
+        </div>
+    </dialog>
+
+</div>
+
+<script>
+    function moveSlide(btn, direction) {
+        const carousel = btn.closest('.card-carousel');
+        const slides = carousel.querySelectorAll('.carousel-slide');
+        const indicators = carousel.querySelectorAll('[data-indicator]');
+        let activeIndex = 0;
+
+        // Find current active slide (translate-x-0)
+        slides.forEach((slide, index) => {
+            if (slide.classList.contains('translate-x-0')) {
+                activeIndex = index;
+            }
+        });
+
+        // Calculate next index
+        let nextIndex = activeIndex + direction;
+        if (nextIndex < 0) nextIndex = slides.length - 1;
+        if (nextIndex >= slides.length) nextIndex = 0;
+
+        // Apply classes
+        slides.forEach((slide, index) => {
+            slide.classList.remove('translate-x-0', 'translate-x-full', '-translate-x-full');
+            if (index === nextIndex) {
+                slide.classList.add('translate-x-0');
+            } else if (index < nextIndex) {
+                slide.classList.add('-translate-x-full');
+            } else {
+                slide.classList.add('translate-x-full');
+            }
+        });
+
+        // Update indicators
+        indicators.forEach((ind, index) => {
+            if (index === nextIndex) {
+                ind.classList.remove('bg-gray-300');
+                ind.classList.add('bg-emerald-600');
+            } else {
+                ind.classList.add('bg-gray-300');
+                ind.classList.remove('bg-emerald-600');
+            }
+        });
+    }
+</script>
+{% endblock %}
