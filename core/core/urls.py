@@ -30,4 +30,5 @@ urlpatterns = [
     path('dashboard/lender/', TemplateView.as_view(template_name='lender_dashboard.html'), name='lender_dashboard'),
     path('dashboard/broker/', TemplateView.as_view(template_name='broker_dashboard.html'), name='broker_dashboard'),
     path('dashboard/partner/', TemplateView.as_view(template_name='partner_dashboard.html'), name='partner_dashboard'),
+    path('property/<str:listing_id>/', TemplateView.as_view(template_name='property_detail.html'), name='property_detail'),
 ]

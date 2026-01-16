@@ -1,0 +1,318 @@
+{% extends 'base.html' %}
+{% block title %}{{ listing_id }} - Property Details | OpenHouse{% endblock %}
+
+{% block content %}
+<style>
+    @keyframes openHouseFlash {
+
+        0%,
+        100% {
+            opacity: 1;
+        }
+
+        50% {
+            opacity: 0.5;
+        }
+    }
+
+    .flash-amber {
+        animation: openHouseFlash 1s ease-in-out infinite;
+    }
+</style>
+
+<div class="max-w-7xl mx-auto">
+
+    <!-- 1. PROPERTY MEDIA SECTION -->
+    <section class="mb-8">
+        <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100">
+            <!-- Main Image -->
+            <div class="relative aspect-[16/9] md:aspect-[21/9] bg-gray-100">
+                <img src="https://images.unsplash.com/photo-1600596542815-2a4d9fdd40d7?auto=format&fit=crop&q=80&w=1600"
+                    class="w-full h-full object-cover" alt="Property Main Image" id="main-image">
+            </div>
+            <!-- Thumbnails Grid (5 images) -->
+            <div class="p-4 grid grid-cols-5 gap-3">
+                <div
+                    class="aspect-video rounded-lg overflow-hidden cursor-pointer ring-2 ring-indigo-500 ring-offset-2 bg-gray-100">
+                    <img src="https://images.unsplash.com/photo-1600596542815-2a4d9fdd40d7?auto=format&fit=crop&q=80&w=300"
+                        class="w-full h-full object-cover" alt="Image 1">
+                </div>
+                <div
+                    class="aspect-video rounded-lg overflow-hidden cursor-pointer hover:opacity-80 transition bg-gray-100">
+                    <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&q=80&w=300"
+                        class="w-full h-full object-cover" alt="Image 2">
+                </div>
+                <div
+                    class="aspect-video rounded-lg overflow-hidden cursor-pointer hover:opacity-80 transition bg-gray-100">
+                    <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&q=80&w=300"
+                        class="w-full h-full object-cover" alt="Image 3">
+                </div>
+                <!-- Placeholder 4 -->
+                <div
+                    class="aspect-video rounded-lg bg-gray-100 flex items-center justify-center border-2 border-dashed border-gray-200">
+                    <svg class="w-8 h-8 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                            d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z">
+                        </path>
+                    </svg>
+                </div>
+                <!-- Placeholder 5 -->
+                <div
+                    class="aspect-video rounded-lg bg-gray-100 flex items-center justify-center border-2 border-dashed border-gray-200">
+                    <svg class="w-8 h-8 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                            d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z">
+                        </path>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. INDICATORS SECTION -->
+    <section class="mb-8">
+        <div class="flex flex-wrap gap-4">
+            <!-- Open House Indicator (Flashing Amber if exists) -->
+            <div
+                class="flash-amber bg-amber-400 text-amber-900 px-4 py-2 rounded-lg font-bold text-sm flex items-center gap-2 shadow-sm">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z">
+                    </path>
+                </svg>
+                Open House: 2
+            </div>
+            <!-- Perk Indicator (Green if exists) -->
+            <div
+                class="bg-green-500 text-white px-4 py-2 rounded-lg font-bold text-sm flex items-center gap-2 shadow-sm">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7">
+                    </path>
+                </svg>
+                Has Perk
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. PROPERTY INFORMATION SECTION -->
+    <section class="mb-8">
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8">
+            <!-- Address Header -->
+            <div class="mb-6 pb-6 border-b border-gray-100">
+                <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-2">123 Main Street</h1>
+                <p class="text-lg text-gray-600">Allen, TX 75002</p>
+                <p class="text-sm text-gray-400 font-mono mt-2">Listing ID: 9F3C2A</p>
+            </div>
+
+            <!-- Property Specs Grid -->
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
+                <div class="text-center p-4 bg-gray-50 rounded-xl">
+                    <span class="block text-3xl font-bold text-gray-900">3</span>
+                    <span class="text-sm text-gray-500">Bedrooms</span>
+                </div>
+                <div class="text-center p-4 bg-gray-50 rounded-xl">
+                    <span class="block text-3xl font-bold text-gray-900">2.5</span>
+                    <span class="text-sm text-gray-500">Bathrooms</span>
+                </div>
+                <div class="text-center p-4 bg-gray-50 rounded-xl">
+                    <span class="block text-3xl font-bold text-gray-900">2</span>
+                    <span class="text-sm text-gray-500">Garage</span>
+                </div>
+                <div class="text-center p-4 bg-gray-50 rounded-xl">
+                    <span class="block text-3xl font-bold text-gray-900">2,100</span>
+                    <span class="text-sm text-gray-500">Sq. Ft.</span>
+                </div>
+                <div class="text-center p-4 bg-gray-50 rounded-xl">
+                    <span class="block text-lg font-semibold text-gray-800">Hardwood</span>
+                    <span class="text-sm text-gray-500">Floor</span>
+                </div>
+                <div class="text-center p-4 bg-gray-50 rounded-xl">
+                    <span class="block text-lg font-semibold text-gray-800">Granite</span>
+                    <span class="text-sm text-gray-500">Kitchen</span>
+                </div>
+            </div>
+
+            <!-- Additional Details -->
+            <div class="mt-6 pt-6 border-t border-gray-100 grid grid-cols-2 md:grid-cols-4 gap-6 text-sm">
+                <div>
+                    <span class="block font-bold text-gray-400 uppercase tracking-wider text-xs mb-1">Foundation</span>
+                    <span class="text-gray-800 font-medium">Slab</span>
+                </div>
+                <div>
+                    <span class="block font-bold text-gray-400 uppercase tracking-wider text-xs mb-1">Exterior</span>
+                    <span class="text-gray-800 font-medium">Brick</span>
+                </div>
+                <div>
+                    <span class="block font-bold text-gray-400 uppercase tracking-wider text-xs mb-1">Roof</span>
+                    <span class="text-gray-800 font-medium">Composition Shingle</span>
+                </div>
+                <div>
+                    <span class="block font-bold text-gray-400 uppercase tracking-wider text-xs mb-1">Appliances</span>
+                    <span class="text-gray-800 font-medium">Dishwasher, Microwave, Oven</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. OPEN HOUSE SCHEDULE SECTION (Only if exists) -->
+    <section class="mb-8">
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8">
+            <div class="flex items-center gap-3 mb-6 pb-4 border-b border-gray-100">
+                <div class="w-10 h-10 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z">
+                        </path>
+                    </svg>
+                </div>
+                <h2 class="text-xl font-bold text-gray-900">Open House Schedule</h2>
+            </div>
+
+            <div class="space-y-4">
+                <div
+                    class="flex flex-col sm:flex-row sm:items-center sm:justify-between p-4 bg-amber-50 rounded-xl border border-amber-100">
+                    <div>
+                        <p class="font-bold text-gray-900 text-lg">Saturday, January 18, 2026</p>
+                        <p class="text-gray-600">11:00 AM – 4:00 PM</p>
+                    </div>
+                    <span
+                        class="mt-2 sm:mt-0 text-amber-700 text-sm font-semibold bg-amber-100 px-3 py-1 rounded-full w-fit">This
+                        Weekend</span>
+                </div>
+                <div
+                    class="flex flex-col sm:flex-row sm:items-center sm:justify-between p-4 bg-gray-50 rounded-xl border border-gray-100">
+                    <div>
+                        <p class="font-bold text-gray-900 text-lg">Sunday, January 19, 2026</p>
+                        <p class="text-gray-600">2:00 PM – 5:00 PM</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. PERKS SECTION (Only if exists) -->
+    <section class="mb-8">
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8">
+            <div class="flex items-center gap-3 mb-6 pb-4 border-b border-gray-100">
+                <div class="w-10 h-10 bg-green-100 text-green-600 rounded-full flex items-center justify-center">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7">
+                        </path>
+                    </svg>
+                </div>
+                <h2 class="text-xl font-bold text-gray-900">Available Perks</h2>
+            </div>
+
+            <div class="space-y-4">
+                <!-- Perk 1 -->
+                <div class="p-4 bg-green-50 rounded-xl border border-green-100">
+                    <div class="flex items-start gap-3">
+                        <span class="text-2xl">🎁</span>
+                        <div>
+                            <p class="font-mono text-sm text-green-700 mb-1">APEX500</p>
+                            <p class="text-gray-800">Free Home Warranty: Receive a complimentary 1-year home warranty
+                                (up to $500 value) when you close on this property.</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Perk 2 -->
+                <div class="p-4 bg-green-50 rounded-xl border border-green-100">
+                    <div class="flex items-start gap-3">
+                        <span class="text-2xl">💰</span>
+                        <div>
+                            <p class="font-mono text-sm text-green-700 mb-1">LENDER250</p>
+                            <p class="text-gray-800">Appraisal Credit: Get up to $250 credit towards your home appraisal
+                                at closing.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <p class="mt-6 text-sm text-gray-500 italic">Please ask the Realtor for more details.</p>
+        </div>
+    </section>
+
+    <!-- 6. REALTOR INFORMATION SECTION -->
+    <section class="mb-8">
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8">
+            <h2 class="text-xl font-bold text-gray-900 mb-6 pb-4 border-b border-gray-100">Listed By</h2>
+
+            <div class="flex flex-col md:flex-row gap-8">
+                <!-- Realtor Photo & Name -->
+                <div class="flex-shrink-0 text-center md:text-left">
+                    <div
+                        class="w-28 h-28 mx-auto md:mx-0 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center font-bold text-3xl border-4 border-white shadow-lg">
+                        JD
+                    </div>
+                    <h3 class="mt-4 text-xl font-bold text-gray-900">Jane Doe</h3>
+                    <p class="text-indigo-600 font-medium">Licensed Realtor</p>
+                </div>
+
+                <!-- Realtor Details -->
+                <div class="flex-grow grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <div>
+                        <span class="block font-bold text-gray-400 uppercase tracking-wider text-xs mb-1">Company</span>
+                        <span class="text-gray-800 font-medium">Prime Realty Group</span>
+                    </div>
+                    <div>
+                        <span class="block font-bold text-gray-400 uppercase tracking-wider text-xs mb-1">Phone</span>
+                        <span class="text-gray-800 font-medium">(555) 123-4567</span>
+                        <span class="text-gray-500 text-sm block">(555) 987-6543 (Alt)</span>
+                    </div>
+                    <div>
+                        <span class="block font-bold text-gray-400 uppercase tracking-wider text-xs mb-1">Email</span>
+                        <a href="mailto:jane.doe@primerealty.com"
+                            class="text-indigo-600 hover:underline font-medium">jane.doe@primerealty.com</a>
+                    </div>
+                    <div>
+                        <span class="block font-bold text-gray-400 uppercase tracking-wider text-xs mb-1">Website</span>
+                        <a href="#" class="text-indigo-600 hover:underline font-medium">www.primerealty.com</a>
+                    </div>
+                    <div>
+                        <span class="block font-bold text-gray-400 uppercase tracking-wider text-xs mb-1">Serving
+                            States</span>
+                        <span class="text-gray-800 font-medium">TX, OK, LA</span>
+                    </div>
+                    <div>
+                        <span class="block font-bold text-gray-400 uppercase tracking-wider text-xs mb-1">Serving
+                            Cities</span>
+                        <span class="text-gray-800 font-medium">Allen, Plano, Dallas, Frisco</span>
+                    </div>
+                    <div class="sm:col-span-2">
+                        <span
+                            class="block font-bold text-gray-400 uppercase tracking-wider text-xs mb-1">Biography</span>
+                        <p class="text-gray-700 leading-relaxed">
+                            With over 15 years of experience in North Texas real estate, I specialize in helping
+                            families find their dream homes. My commitment to transparency and client satisfaction has
+                            earned me recognition as a top-producing agent in Collin County…
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contact Button -->
+            <div class="mt-8 pt-6 border-t border-gray-100">
+                <button
+                    class="w-full md:w-auto bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-8 rounded-xl transition shadow-md hover:shadow-lg">
+                    Contact Realtor
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Back to Listings -->
+    <div class="text-center mb-8">
+        <a href="{% url 'home' %}"
+            class="inline-flex items-center gap-2 text-gray-600 hover:text-indigo-600 transition group">
+            <svg class="w-5 h-5 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor"
+                viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+            </svg>
+            Back to All Listings
+        </a>
+    </div>
+
+</div>
+{% endblock %}
