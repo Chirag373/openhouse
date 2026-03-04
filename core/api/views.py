@@ -2,11 +2,11 @@ from django.shortcuts import render
 from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.authtoken.models import Token
 from django.contrib.auth.models import User
-from .serializers import UserSerializer, LoginSerializer
-from .models import UserProfile
+from .serializers import UserSerializer, LoginSerializer, RealtorProfileSerializer
+from .models import UserProfile, RealtorProfile
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -74,4 +74,44 @@ class UserViewSet(viewsets.ModelViewSet):
                 'token': token.key,
                 'message': 'Login successful'
             }, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+class RealtorProfileViewSet(viewsets.ModelViewSet):
+    serializer_class = RealtorProfileSerializer
+    permission_classes = [IsAuthenticated]
+    
+    def get_queryset(self):
+        # Users can only access their own profile
+        return RealtorProfile.objects.filter(user=self.request.user)
+    
+    @action(detail=False, methods=['get'])
+    def me(self, request):
+        """Get current user's realtor profile"""
+        try:
+            profile = RealtorProfile.objects.get(user=request.user)
+            serializer = self.get_serializer(profile)
+            return Response(serializer.data)
+        except RealtorProfile.DoesNotExist:
+            # Create profile if it doesn't exist
+            profile = RealtorProfile.objects.create(user=request.user)
+            serializer = self.get_serializer(profile)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+    
+    @action(detail=False, methods=['put', 'patch'])
+    def update_profile(self, request):
+        """Update current user's realtor profile"""
+        try:
+            profile = RealtorProfile.objects.get(user=request.user)
+        except RealtorProfile.DoesNotExist:
+            profile = RealtorProfile.objects.create(user=request.user)
+        
+        serializer = self.get_serializer(profile, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({
+                'message': 'Profile updated successfully',
+                'data': serializer.data
+            })
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

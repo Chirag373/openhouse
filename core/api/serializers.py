@@ -2,7 +2,7 @@ from rest_framework import serializers
 from django.contrib.auth.models import User
 from django.contrib.auth.password_validation import validate_password
 from django.contrib.auth import authenticate
-from .models import UserProfile
+from .models import UserProfile, RealtorProfile
 
 
 class UserProfileSerializer(serializers.ModelSerializer):
@@ -112,3 +112,52 @@ class LoginSerializer(serializers.Serializer):
             raise serializers.ValidationError("Must include username and password.")
         
         return attrs
+
+
+
+class RealtorProfileSerializer(serializers.ModelSerializer):
+    # Include user basic info
+    first_name = serializers.CharField(source='user.first_name')
+    last_name = serializers.CharField(source='user.last_name')
+    email = serializers.EmailField(source='user.email', read_only=True)
+    full_name = serializers.CharField(source='user.get_full_name', read_only=True)
+    
+    class Meta:
+        model = RealtorProfile
+        fields = [
+            'id',
+            'first_name',
+            'last_name',
+            'email',
+            'full_name',
+            'profile_photo',
+            'phone_number_1',
+            'phone_number_2',
+            'company_name',
+            'company_address',
+            'address_type',
+            'business_website',
+            'license_states',
+            'serving_states',
+            'serving_cities',
+            'biography',
+            'created_at',
+            'updated_at',
+        ]
+        read_only_fields = ['id', 'email', 'full_name', 'created_at', 'updated_at']
+    
+    def update(self, instance, validated_data):
+        # Update user fields
+        user_data = validated_data.pop('user', {})
+        if 'first_name' in user_data:
+            instance.user.first_name = user_data['first_name']
+        if 'last_name' in user_data:
+            instance.user.last_name = user_data['last_name']
+        instance.user.save()
+        
+        # Update realtor profile fields
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+        instance.save()
+        
+        return instance

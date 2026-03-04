@@ -145,7 +145,7 @@
             <div id="section-profile" class="dashboard-section space-y-6">
                 <div class="flex justify-between items-center mb-2">
                     <h2 class="text-2xl font-bold text-gray-900">Agent Profile</h2>
-                    <button
+                    <button onclick="saveProfile()"
                         class="bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-indigo-700 shadow-sm">Save
                         Changes</button>
                 </div>
@@ -178,33 +178,31 @@
 
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 mb-1">First Name</label>
-                                    <input type="text"
-                                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-100 focus:border-indigo-500 outline-none transition"
-                                        value="John">
+                                    <input type="text" id="first_name"
+                                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-100 focus:border-indigo-500 outline-none transition">
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 mb-1">Last Name</label>
-                                    <input type="text"
-                                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-100 focus:border-indigo-500 outline-none transition"
-                                        value="Doe">
+                                    <input type="text" id="last_name"
+                                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-100 focus:border-indigo-500 outline-none transition">
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 mb-1">Email <span
                                             class="text-xs text-gray-400">(Read Only)</span></label>
-                                    <input type="email"
+                                    <input type="email" id="email"
                                         class="w-full px-3 py-2 border border-gray-200 rounded-lg bg-gray-50 text-gray-500 cursor-not-allowed"
-                                        value="john@example.com" readonly>
+                                        readonly>
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 mb-1">Phone Number 1</label>
-                                    <input type="tel"
+                                    <input type="tel" id="phone_number_1"
                                         class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-100 focus:border-indigo-500 outline-none transition"
                                         placeholder="(555) 000-0000">
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 mb-1">Phone Number 2 <span
                                             class="text-gray-400 font-normal">(Optional)</span></label>
-                                    <input type="tel"
+                                    <input type="tel" id="phone_number_2"
                                         class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-100 focus:border-indigo-500 outline-none transition">
                                 </div>
                             </div>
@@ -217,37 +215,37 @@
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div class="md:col-span-2">
                                     <label class="block text-sm font-medium text-gray-700 mb-1">Company Name</label>
-                                    <input type="text"
+                                    <input type="text" id="company_name"
                                         class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-100 focus:border-indigo-500 outline-none transition">
                                 </div>
                                 <div class="md:col-span-2">
                                     <label class="block text-sm font-medium text-gray-700 mb-1">Company Address</label>
                                     <div class="flex items-center gap-4 mb-2">
                                         <label class="inline-flex items-center cursor-pointer">
-                                            <input type="radio" name="addressType"
+                                            <input type="radio" name="addressType" value="actual" id="address_type_actual"
                                                 class="text-indigo-600 focus:ring-indigo-500" checked>
                                             <span class="ml-2 text-sm text-gray-700">Actual Address</span>
                                         </label>
                                         <label class="inline-flex items-center cursor-pointer">
-                                            <input type="radio" name="addressType"
+                                            <input type="radio" name="addressType" value="po_box" id="address_type_po_box"
                                                 class="text-indigo-600 focus:ring-indigo-500">
                                             <span class="ml-2 text-sm text-gray-700">PO Box</span>
                                         </label>
                                     </div>
-                                    <input type="text"
+                                    <input type="text" id="company_address"
                                         class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-100 focus:border-indigo-500 outline-none transition"
                                         placeholder="123 Business Blvd, Suite 100">
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 mb-1">Business Website</label>
-                                    <input type="url"
+                                    <input type="url" id="business_website"
                                         class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-100 focus:border-indigo-500 outline-none transition"
                                         placeholder="https://">
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 mb-1">License State(s) <span
                                             class="text-xs text-gray-400">(Comma separated)</span></label>
-                                    <input type="text"
+                                    <input type="text" id="license_states"
                                         class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-100 focus:border-indigo-500 outline-none transition"
                                         placeholder="TX, CA, NY">
                                 </div>
@@ -262,20 +260,20 @@
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 mb-1">Serving States <span
                                             class="text-xs text-gray-400">(2-letter, comma separated)</span></label>
-                                    <input type="text"
+                                    <input type="text" id="serving_states"
                                         class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-100 focus:border-indigo-500 outline-none transition"
                                         placeholder="TX, OK">
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 mb-1">Serving Cities <span
                                             class="text-xs text-gray-400">(Comma separated)</span></label>
-                                    <input type="text"
+                                    <input type="text" id="serving_cities"
                                         class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-100 focus:border-indigo-500 outline-none transition"
                                         placeholder="Dallas, Plano, Frisco">
                                 </div>
                                 <div class="md:col-span-2">
                                     <label class="block text-sm font-medium text-gray-700 mb-1">Biography</label>
-                                    <textarea rows="4"
+                                    <textarea rows="4" id="biography"
                                         class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-100 focus:border-indigo-500 outline-none transition"
                                         placeholder="Tell us about yourself..."></textarea>
                                 </div>
@@ -660,27 +658,136 @@
     </main>
 
     <script>
+        // API Configuration
+        const API_BASE_URL = '/api';
+        const AUTH_TOKEN = localStorage.getItem('auth_token'); // Store token after login
+
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
             sidebar.classList.toggle('-translate-x-full');
-            // Overlay logic could be added here for mobile
         }
 
         function switchTab(tabId) {
-            // Hide all sections
             document.querySelectorAll('.dashboard-section').forEach(el => el.classList.add('hidden'));
-            // Show target section
             document.getElementById('section-' + tabId).classList.remove('hidden');
 
-            // Update active nav state
             document.querySelectorAll('.sidebar-link').forEach(el => el.classList.remove('active'));
             document.getElementById('nav-' + tabId).classList.add('active');
 
-            // On mobile, auto-close sidebar
+            const url = new URL(window.location);
+            url.searchParams.set('tab', tabId);
+            window.history.pushState({}, '', url);
+
             if (window.innerWidth < 768) {
                 toggleSidebar();
             }
         }
+
+        function initializeTab() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const tabParam = urlParams.get('tab');
+            
+            const validTabs = ['profile', 'properties', 'open-house', 'perks', 'settings'];
+            const activeTab = validTabs.includes(tabParam) ? tabParam : 'profile';
+            
+            switchTab(activeTab);
+        }
+
+        // Fetch Profile Data
+        async function fetchProfile() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/realtor-profile/me/`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Token ${AUTH_TOKEN}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to fetch profile');
+                }
+
+                const data = await response.json();
+                populateProfileForm(data);
+            } catch (error) {
+                console.error('Error fetching profile:', error);
+                alert('Failed to load profile data. Please login again.');
+            }
+        }
+
+        // Populate Form with Profile Data
+        function populateProfileForm(data) {
+            document.getElementById('first_name').value = data.first_name || '';
+            document.getElementById('last_name').value = data.last_name || '';
+            document.getElementById('email').value = data.email || '';
+            document.getElementById('phone_number_1').value = data.phone_number_1 || '';
+            document.getElementById('phone_number_2').value = data.phone_number_2 || '';
+            document.getElementById('company_name').value = data.company_name || '';
+            document.getElementById('company_address').value = data.company_address || '';
+            document.getElementById('business_website').value = data.business_website || '';
+            document.getElementById('license_states').value = data.license_states || '';
+            document.getElementById('serving_states').value = data.serving_states || '';
+            document.getElementById('serving_cities').value = data.serving_cities || '';
+            document.getElementById('biography').value = data.biography || '';
+
+            // Set address type radio button
+            if (data.address_type === 'po_box') {
+                document.getElementById('address_type_po_box').checked = true;
+            } else {
+                document.getElementById('address_type_actual').checked = true;
+            }
+        }
+
+        // Save Profile Data
+        async function saveProfile() {
+            const profileData = {
+                first_name: document.getElementById('first_name').value,
+                last_name: document.getElementById('last_name').value,
+                phone_number_1: document.getElementById('phone_number_1').value,
+                phone_number_2: document.getElementById('phone_number_2').value,
+                company_name: document.getElementById('company_name').value,
+                company_address: document.getElementById('company_address').value,
+                address_type: document.querySelector('input[name="addressType"]:checked').value,
+                business_website: document.getElementById('business_website').value,
+                license_states: document.getElementById('license_states').value,
+                serving_states: document.getElementById('serving_states').value,
+                serving_cities: document.getElementById('serving_cities').value,
+                biography: document.getElementById('biography').value
+            };
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/realtor-profile/update_profile/`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Authorization': `Token ${AUTH_TOKEN}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(profileData)
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to save profile');
+                }
+
+                const result = await response.json();
+                alert('Profile saved successfully!');
+                console.log('Saved profile:', result);
+            } catch (error) {
+                console.error('Error saving profile:', error);
+                alert('Failed to save profile. Please try again.');
+            }
+        }
+
+        // Run on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeTab();
+            
+            // Fetch profile data if user is authenticated
+            if (AUTH_TOKEN) {
+                fetchProfile();
+            }
+        });
     </script>
 </body>
 
