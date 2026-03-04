@@ -24,14 +24,12 @@ class UserProfile(models.Model):
         verbose_name_plural = 'User Profiles'
 
 
-# Realtor Profile Model
-class RealtorProfile(models.Model):
+# Abstract Base Profile with common fields shared across all role profiles
+class BaseProfile(models.Model):
     ADDRESS_TYPE_CHOICES = [
         ('actual', 'Actual Address'),
         ('po_box', 'PO Box'),
     ]
-    
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='realtor_profile')
     
     # Personal Information
     profile_photo = models.CharField(max_length=500, blank=True, help_text='URL or path to profile photo')
@@ -43,7 +41,6 @@ class RealtorProfile(models.Model):
     company_address = models.TextField(blank=True)
     address_type = models.CharField(max_length=10, choices=ADDRESS_TYPE_CHOICES, default='actual')
     business_website = models.URLField(blank=True)
-    license_states = models.CharField(max_length=255, blank=True, help_text='Comma separated state codes')
     
     # Service Area & Bio
     serving_states = models.CharField(max_length=255, blank=True, help_text='Comma separated state codes')
@@ -53,9 +50,101 @@ class RealtorProfile(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     
+    class Meta:
+        abstract = True
+
+
+# Realtor Profile Model
+class RealtorProfile(BaseProfile):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='realtor_profile')
+    
+    # Realtor-specific fields
+    license_states = models.CharField(max_length=255, blank=True, help_text='Comma separated state codes')
+    
     def __str__(self):
         return f"{self.user.get_full_name()} - Realtor Profile"
     
     class Meta:
         verbose_name = 'Realtor Profile'
         verbose_name_plural = 'Realtor Profiles'
+
+
+# Lender Profile Model
+class LenderProfile(BaseProfile):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='lender_profile')
+    
+    # Lender-specific fields
+    license_nmls = models.CharField(max_length=50, blank=True, help_text='NMLS license number')
+    business_card_front = models.CharField(max_length=500, blank=True, help_text='URL or path to front of business card')
+    business_card_back = models.CharField(max_length=500, blank=True, help_text='URL or path to back of business card')
+    
+    def __str__(self):
+        return f"{self.user.get_full_name()} - Lender Profile"
+    
+    class Meta:
+        verbose_name = 'Lender Profile'
+        verbose_name_plural = 'Lender Profiles'
+
+
+# Broker Profile Model
+class BrokerProfile(BaseProfile):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='broker_profile')
+    
+    # Broker-specific fields
+    license_number = models.CharField(max_length=100, blank=True, help_text='Broker license number')
+    license_states = models.CharField(max_length=255, blank=True, help_text='Comma separated state codes')
+    is_international = models.BooleanField(default=False)
+    is_nationwide = models.BooleanField(default=False)
+    
+    def __str__(self):
+        return f"{self.user.get_full_name()} - Broker Profile"
+    
+    class Meta:
+        verbose_name = 'Broker Profile'
+        verbose_name_plural = 'Broker Profiles'
+
+
+# Partner Profile Model
+class PartnerProfile(BaseProfile):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='partner_profile')
+    
+    # Partner-specific fields
+    license_state = models.CharField(max_length=10, blank=True, help_text='2-letter state code')
+    license_number = models.CharField(max_length=100, blank=True)
+    business_card_front = models.CharField(max_length=500, blank=True, help_text='URL or path to front of business card')
+    business_card_back = models.CharField(max_length=500, blank=True, help_text='URL or path to back of business card')
+    
+    def __str__(self):
+        return f"{self.user.get_full_name()} - Partner Profile"
+    
+    class Meta:
+        verbose_name = 'Partner Profile'
+        verbose_name_plural = 'Partner Profiles'
+
+
+# Promoter Profile Model
+class PromoterProfile(BaseProfile):
+    BUSINESS_TYPE_CHOICES = [
+        ('photography', 'Photography'),
+        ('marketing_agency', 'Marketing Agency'),
+        ('social_media', 'Social Media Management'),
+        ('videography', 'Videography'),
+        ('staging', 'Staging Services'),
+        ('virtual_tour', 'Virtual Tour Provider'),
+        ('other', 'Other'),
+    ]
+    
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='promoter_profile')
+    
+    # Promoter-specific fields
+    business_type = models.CharField(max_length=50, choices=BUSINESS_TYPE_CHOICES, blank=True)
+    business_card_front = models.CharField(max_length=500, blank=True, help_text='URL or path to front of business card')
+    business_card_back = models.CharField(max_length=500, blank=True, help_text='URL or path to back of business card')
+    
+    def __str__(self):
+        return f"{self.user.get_full_name()} - Promoter Profile"
+    
+    class Meta:
+        verbose_name = 'Promoter Profile'
+        verbose_name_plural = 'Promoter Profiles'
+

@@ -9,9 +9,13 @@ from .serializers import (
     UserSerializer,
     LoginSerializer,
     RealtorProfileSerializer,
+    LenderProfileSerializer,
+    BrokerProfileSerializer,
+    PartnerProfileSerializer,
+    PromoterProfileSerializer,
     ProfilePhotoUploadSerializer
 )
-from .models import UserProfile, RealtorProfile
+from .models import UserProfile, RealtorProfile, LenderProfile, BrokerProfile, PartnerProfile, PromoterProfile
 
 
 class SignupViewSet(viewsets.ViewSet):
@@ -155,6 +159,206 @@ class RealtorProfileViewSet(viewsets.ModelViewSet):
         except RealtorProfile.DoesNotExist:
             profile = RealtorProfile.objects.create(user=request.user)
         
+        serializer = self.get_serializer(profile, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class LenderProfileViewSet(viewsets.ModelViewSet):
+    serializer_class = LenderProfileSerializer
+    permission_classes = [IsAuthenticated]
+    
+    def get_queryset(self):
+        return LenderProfile.objects.filter(user=self.request.user)
+    
+    @action(detail=False, methods=['get'])
+    def me(self, request):
+        """Get current user's lender profile"""
+        try:
+            profile = LenderProfile.objects.get(user=request.user)
+            serializer = self.get_serializer(profile)
+            return Response(serializer.data)
+        except LenderProfile.DoesNotExist:
+            profile = LenderProfile.objects.create(user=request.user)
+            serializer = self.get_serializer(profile)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+    
+    @action(detail=False, methods=['post'])
+    def upload_photo(self, request):
+        """Upload profile photo"""
+        try:
+            profile = LenderProfile.objects.get(user=request.user)
+        except LenderProfile.DoesNotExist:
+            profile = LenderProfile.objects.create(user=request.user)
+
+        serializer = ProfilePhotoUploadSerializer(data=request.data)
+
+        if not serializer.is_valid():
+            return Response(
+                serializer.errors,
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        try:
+            photo_url = serializer.save_photo(request.user, profile)
+            return Response({
+                'message': 'Photo uploaded successfully',
+                'photo_url': photo_url
+            }, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response(
+                {'error': f'Failed to save photo: {str(e)}'},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+    
+    @action(detail=False, methods=['put', 'patch'])
+    def update_profile(self, request):
+        """Update current user's lender profile"""
+        try:
+            profile = LenderProfile.objects.get(user=request.user)
+        except LenderProfile.DoesNotExist:
+            profile = LenderProfile.objects.create(user=request.user)
+        
+        serializer = self.get_serializer(profile, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class BrokerProfileViewSet(viewsets.ModelViewSet):
+    serializer_class = BrokerProfileSerializer
+    permission_classes = [IsAuthenticated]
+    
+    def get_queryset(self):
+        return BrokerProfile.objects.filter(user=self.request.user)
+    
+    @action(detail=False, methods=['get'])
+    def me(self, request):
+        try:
+            profile = BrokerProfile.objects.get(user=request.user)
+            serializer = self.get_serializer(profile)
+            return Response(serializer.data)
+        except BrokerProfile.DoesNotExist:
+            profile = BrokerProfile.objects.create(user=request.user)
+            serializer = self.get_serializer(profile)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+    
+    @action(detail=False, methods=['post'])
+    def upload_photo(self, request):
+        try:
+            profile = BrokerProfile.objects.get(user=request.user)
+        except BrokerProfile.DoesNotExist:
+            profile = BrokerProfile.objects.create(user=request.user)
+        serializer = ProfilePhotoUploadSerializer(data=request.data)
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        try:
+            photo_url = serializer.save_photo(request.user, profile)
+            return Response({'message': 'Photo uploaded successfully', 'photo_url': photo_url})
+        except Exception as e:
+            return Response({'error': f'Failed to save photo: {str(e)}'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    
+    @action(detail=False, methods=['put', 'patch'])
+    def update_profile(self, request):
+        try:
+            profile = BrokerProfile.objects.get(user=request.user)
+        except BrokerProfile.DoesNotExist:
+            profile = BrokerProfile.objects.create(user=request.user)
+        serializer = self.get_serializer(profile, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class PartnerProfileViewSet(viewsets.ModelViewSet):
+    serializer_class = PartnerProfileSerializer
+    permission_classes = [IsAuthenticated]
+    
+    def get_queryset(self):
+        return PartnerProfile.objects.filter(user=self.request.user)
+    
+    @action(detail=False, methods=['get'])
+    def me(self, request):
+        try:
+            profile = PartnerProfile.objects.get(user=request.user)
+            serializer = self.get_serializer(profile)
+            return Response(serializer.data)
+        except PartnerProfile.DoesNotExist:
+            profile = PartnerProfile.objects.create(user=request.user)
+            serializer = self.get_serializer(profile)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+    
+    @action(detail=False, methods=['post'])
+    def upload_photo(self, request):
+        try:
+            profile = PartnerProfile.objects.get(user=request.user)
+        except PartnerProfile.DoesNotExist:
+            profile = PartnerProfile.objects.create(user=request.user)
+        serializer = ProfilePhotoUploadSerializer(data=request.data)
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        try:
+            photo_url = serializer.save_photo(request.user, profile)
+            return Response({'message': 'Photo uploaded successfully', 'photo_url': photo_url})
+        except Exception as e:
+            return Response({'error': f'Failed to save photo: {str(e)}'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    
+    @action(detail=False, methods=['put', 'patch'])
+    def update_profile(self, request):
+        try:
+            profile = PartnerProfile.objects.get(user=request.user)
+        except PartnerProfile.DoesNotExist:
+            profile = PartnerProfile.objects.create(user=request.user)
+        serializer = self.get_serializer(profile, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class PromoterProfileViewSet(viewsets.ModelViewSet):
+    serializer_class = PromoterProfileSerializer
+    permission_classes = [IsAuthenticated]
+    
+    def get_queryset(self):
+        return PromoterProfile.objects.filter(user=self.request.user)
+    
+    @action(detail=False, methods=['get'])
+    def me(self, request):
+        try:
+            profile = PromoterProfile.objects.get(user=request.user)
+            serializer = self.get_serializer(profile)
+            return Response(serializer.data)
+        except PromoterProfile.DoesNotExist:
+            profile = PromoterProfile.objects.create(user=request.user)
+            serializer = self.get_serializer(profile)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+    
+    @action(detail=False, methods=['post'])
+    def upload_photo(self, request):
+        try:
+            profile = PromoterProfile.objects.get(user=request.user)
+        except PromoterProfile.DoesNotExist:
+            profile = PromoterProfile.objects.create(user=request.user)
+        serializer = ProfilePhotoUploadSerializer(data=request.data)
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        try:
+            photo_url = serializer.save_photo(request.user, profile)
+            return Response({'message': 'Photo uploaded successfully', 'photo_url': photo_url})
+        except Exception as e:
+            return Response({'error': f'Failed to save photo: {str(e)}'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    
+    @action(detail=False, methods=['put', 'patch'])
+    def update_profile(self, request):
+        try:
+            profile = PromoterProfile.objects.get(user=request.user)
+        except PromoterProfile.DoesNotExist:
+            profile = PromoterProfile.objects.create(user=request.user)
         serializer = self.get_serializer(profile, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()

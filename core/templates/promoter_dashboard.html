@@ -17,7 +17,8 @@
                 <div class="flex items-center gap-3 mb-6">
                     <div class="w-10 h-10 bg-purple-100 text-purple-600 rounded-full flex items-center justify-center">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                         </svg>
                     </div>
                     <h2 class="text-xl font-bold text-gray-900">Generate Promo Code</h2>
@@ -27,10 +28,10 @@
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 mb-2">Promo Code</label>
                         <div class="flex gap-2">
-                            <input type="text" id="promoCode" 
-                                class="flex-grow px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent" 
+                            <input type="text" id="promoCode"
+                                class="flex-grow px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                                 placeholder="e.g., PHOTO2024" />
-                            <button type="button" onclick="generateRandomCode()" 
+                            <button type="button" onclick="generateRandomCode()"
                                 class="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium rounded-lg transition">
                                 Generate
                             </button>
@@ -39,22 +40,22 @@
 
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 mb-2">Realtor Name</label>
-                        <input type="text" 
-                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent" 
+                        <input type="text"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                             placeholder="Enter realtor name" />
                     </div>
 
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 mb-2">Realtor Email</label>
-                        <input type="email" 
-                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent" 
+                        <input type="email"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                             placeholder="realtor@example.com" />
                     </div>
 
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 mb-2">Promotion Description</label>
-                        <textarea rows="3" 
-                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent" 
+                        <textarea rows="3"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                             placeholder="e.g., Free professional photography package for new listings"></textarea>
                         <p class="text-xs text-gray-500 mt-1">This will be displayed on the property perk page</p>
                     </div>
@@ -62,26 +63,27 @@
                     <div class="grid grid-cols-2 gap-4">
                         <div>
                             <label class="block text-sm font-semibold text-gray-700 mb-2">Discount Value</label>
-                            <input type="text" 
-                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent" 
+                            <input type="text"
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                                 placeholder="e.g., $500 or 20%" />
                         </div>
                         <div>
                             <label class="block text-sm font-semibold text-gray-700 mb-2">Expiration Date</label>
-                            <input type="date" 
+                            <input type="date"
                                 class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent" />
                         </div>
                     </div>
 
                     <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">Property Address (Optional)</label>
-                        <input type="text" 
-                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent" 
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Property Address
+                            (Optional)</label>
+                        <input type="text"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                             placeholder="Link to specific property listing" />
                         <p class="text-xs text-gray-500 mt-1">Leave blank for general promotion</p>
                     </div>
 
-                    <button type="submit" 
+                    <button type="submit"
                         class="w-full bg-purple-600 hover:bg-purple-700 text-white font-semibold py-3 px-6 rounded-lg transition shadow-md hover:shadow-lg">
                         Create Promo Code
                     </button>
@@ -91,7 +93,7 @@
             <!-- Active Promo Codes -->
             <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
                 <h2 class="text-xl font-bold text-gray-900 mb-6">Active Promo Codes</h2>
-                
+
                 <div class="space-y-4">
                     <!-- Promo Code 1 -->
                     <div class="border border-gray-200 rounded-lg p-4 hover:border-purple-300 transition">
@@ -99,15 +101,20 @@
                             <div>
                                 <div class="flex items-center gap-2 mb-1">
                                     <span class="font-mono text-lg font-bold text-purple-600">PHOTO2024</span>
-                                    <button onclick="copyToClipboard('PHOTO2024')" class="text-gray-400 hover:text-gray-600">
+                                    <button onclick="copyToClipboard('PHOTO2024')"
+                                        class="text-gray-400 hover:text-gray-600">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z">
+                                            </path>
                                         </svg>
                                     </button>
                                 </div>
-                                <p class="text-sm text-gray-600">Free professional photography package for new listings</p>
+                                <p class="text-sm text-gray-600">Free professional photography package for new listings
+                                </p>
                             </div>
-                            <span class="bg-green-100 text-green-700 text-xs font-semibold px-2 py-1 rounded">Active</span>
+                            <span
+                                class="bg-green-100 text-green-700 text-xs font-semibold px-2 py-1 rounded">Active</span>
                         </div>
                         <div class="grid grid-cols-2 gap-4 text-sm">
                             <div>
@@ -139,15 +146,19 @@
                             <div>
                                 <div class="flex items-center gap-2 mb-1">
                                     <span class="font-mono text-lg font-bold text-purple-600">DRONE360</span>
-                                    <button onclick="copyToClipboard('DRONE360')" class="text-gray-400 hover:text-gray-600">
+                                    <button onclick="copyToClipboard('DRONE360')"
+                                        class="text-gray-400 hover:text-gray-600">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z">
+                                            </path>
                                         </svg>
                                     </button>
                                 </div>
                                 <p class="text-sm text-gray-600">Complimentary drone footage and aerial photography</p>
                             </div>
-                            <span class="bg-green-100 text-green-700 text-xs font-semibold px-2 py-1 rounded">Active</span>
+                            <span
+                                class="bg-green-100 text-green-700 text-xs font-semibold px-2 py-1 rounded">Active</span>
                         </div>
                         <div class="grid grid-cols-2 gap-4 text-sm">
                             <div>
@@ -179,15 +190,19 @@
                             <div>
                                 <div class="flex items-center gap-2 mb-1">
                                     <span class="font-mono text-lg font-bold text-gray-500">SOCIAL2025</span>
-                                    <button onclick="copyToClipboard('SOCIAL2025')" class="text-gray-400 hover:text-gray-600">
+                                    <button onclick="copyToClipboard('SOCIAL2025')"
+                                        class="text-gray-400 hover:text-gray-600">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z">
+                                            </path>
                                         </svg>
                                     </button>
                                 </div>
                                 <p class="text-sm text-gray-600">30 days of social media marketing campaign</p>
                             </div>
-                            <span class="bg-gray-100 text-gray-600 text-xs font-semibold px-2 py-1 rounded">Expired</span>
+                            <span
+                                class="bg-gray-100 text-gray-600 text-xs font-semibold px-2 py-1 rounded">Expired</span>
                         </div>
                         <div class="grid grid-cols-2 gap-4 text-sm">
                             <div>
@@ -247,7 +262,8 @@
             <div class="bg-purple-50 rounded-xl border border-purple-200 p-6">
                 <div class="flex items-center gap-2 mb-3">
                     <svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                     </svg>
                     <h3 class="font-semibold text-purple-900">Quick Tips</h3>
                 </div>
@@ -277,55 +293,57 @@
                 <div class="space-y-3 text-sm">
                     <div>
                         <span class="text-gray-500 block">Business Name</span>
-                        <span class="font-medium text-gray-900">Pro Property Photography</span>
+                        <span id="display_company_name" class="font-medium text-gray-900">—</span>
                     </div>
                     <div>
                         <span class="text-gray-500 block">Business Type</span>
-                        <span class="font-medium text-gray-900">Photography</span>
+                        <span id="display_business_type" class="font-medium text-gray-900">—</span>
                     </div>
                     <div>
                         <span class="text-gray-500 block">Contact Person</span>
-                        <span class="font-medium text-gray-900">John Smith</span>
+                        <span id="display_contact_person" class="font-medium text-gray-900">—</span>
                     </div>
                     <div>
                         <span class="text-gray-500 block">Phone Number</span>
-                        <span class="font-medium text-gray-900">(972) 555-0456</span>
+                        <span id="display_phone" class="font-medium text-gray-900">—</span>
                     </div>
                     <div>
                         <span class="text-gray-500 block">Email</span>
-                        <span class="font-medium text-gray-900">info@proprophoto.com</span>
+                        <span id="display_email" class="font-medium text-gray-900">—</span>
                     </div>
                     <div>
                         <span class="text-gray-500 block">Website</span>
-                        <span class="font-medium text-gray-900">proprophoto.com</span>
+                        <span id="display_website" class="font-medium text-gray-900">—</span>
                     </div>
                     <div>
                         <span class="text-gray-500 block">Service States</span>
-                        <span class="font-medium text-gray-900">TX, OK</span>
+                        <span id="display_states" class="font-medium text-gray-900">—</span>
                     </div>
                     <div>
                         <span class="text-gray-500 block">Service Cities</span>
-                        <span class="font-medium text-gray-900">Dallas, Plano, Frisco, Allen</span>
+                        <span id="display_cities" class="font-medium text-gray-900">—</span>
                     </div>
                     <div>
                         <span class="text-gray-500 block">Business Description</span>
-                        <span class="font-medium text-gray-900">Professional real estate photography and drone services</span>
+                        <span id="display_bio" class="font-medium text-gray-900">—</span>
                     </div>
                     <div>
                         <span class="text-gray-500 block">Business Card</span>
                         <div class="mt-2 space-y-1">
                             <div class="flex items-center gap-2">
                                 <span class="text-xs text-gray-500">Front:</span>
-                                <span class="text-xs text-blue-600 hover:underline cursor-pointer">card-front.jpg</span>
+                                <span id="display_card_front"
+                                    class="text-xs text-blue-600 hover:underline cursor-pointer">—</span>
                             </div>
                             <div class="flex items-center gap-2">
                                 <span class="text-xs text-gray-500">Back:</span>
-                                <span class="text-xs text-blue-600 hover:underline cursor-pointer">card-back.jpg</span>
+                                <span id="display_card_back"
+                                    class="text-xs text-blue-600 hover:underline cursor-pointer">—</span>
                             </div>
                         </div>
                     </div>
                 </div>
-                <button onclick="document.getElementById('edit-business-modal').showModal()" 
+                <button onclick="document.getElementById('edit-business-modal').showModal()"
                     class="mt-4 w-full text-sm bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 rounded-lg transition">
                     Edit Business Info
                 </button>
@@ -343,60 +361,71 @@
             <button onclick="document.getElementById('edit-business-modal').close()"
                 class="text-gray-400 hover:text-gray-600 transition">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
+                    </path>
                 </svg>
             </button>
         </div>
 
-        <form class="space-y-4 max-h-[70vh] overflow-y-auto pr-2">
+        <form class="space-y-4 max-h-[70vh] overflow-y-auto pr-2" onsubmit="event.preventDefault(); saveProfile();">
             <div>
                 <label class="block text-sm font-semibold text-gray-700 mb-2">Business Name *</label>
-                <input type="text" value="Pro Property Photography"
+                <input type="text" id="company_name"
                     class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent" />
             </div>
 
             <div>
                 <label class="block text-sm font-semibold text-gray-700 mb-2">Business Type *</label>
-                <select class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
-                    <option>Photography</option>
-                    <option>Marketing Agency</option>
-                    <option>Social Media Management</option>
-                    <option>Videography</option>
-                    <option>Staging Services</option>
-                    <option>Virtual Tour Provider</option>
-                    <option>Other</option>
+                <select id="business_type"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+                    <option value="">Select Type...</option>
+                    <option value="photography">Photography</option>
+                    <option value="marketing_agency">Marketing Agency</option>
+                    <option value="social_media">Social Media Management</option>
+                    <option value="videography">Videography</option>
+                    <option value="staging">Staging Services</option>
+                    <option value="virtual_tour">Virtual Tour Provider</option>
+                    <option value="other">Other</option>
                 </select>
             </div>
 
-            <div>
-                <label class="block text-sm font-semibold text-gray-700 mb-2">Contact Person *</label>
-                <input type="text" value="John Smith"
-                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent" />
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">First Name *</label>
+                    <input type="text" id="first_name"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent" />
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Last Name *</label>
+                    <input type="text" id="last_name"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent" />
+                </div>
             </div>
 
             <div class="grid grid-cols-2 gap-4">
                 <div>
                     <label class="block text-sm font-semibold text-gray-700 mb-2">Phone Number *</label>
-                    <input type="tel" value="(972) 555-0456"
+                    <input type="tel" id="phone_number_1"
                         class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent" />
                 </div>
                 <div>
                     <label class="block text-sm font-semibold text-gray-700 mb-2">Email *</label>
-                    <input type="email" value="info@proprophoto.com"
-                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent" />
+                    <input type="email" id="email"
+                        class="w-full px-4 py-2 border border-gray-200 rounded-lg bg-gray-50 text-gray-500 cursor-not-allowed"
+                        readonly />
                 </div>
             </div>
 
             <div>
                 <label class="block text-sm font-semibold text-gray-700 mb-2">Website</label>
-                <input type="url" value="proprophoto.com"
+                <input type="url" id="business_website"
                     class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                     placeholder="https://yourwebsite.com" />
             </div>
 
             <div>
                 <label class="block text-sm font-semibold text-gray-700 mb-2">Service States *</label>
-                <input type="text" value="TX, OK"
+                <input type="text" id="serving_states"
                     class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                     placeholder="e.g., TX, CA, FL" />
                 <p class="text-xs text-gray-500 mt-1">Separate multiple states with commas</p>
@@ -404,7 +433,7 @@
 
             <div>
                 <label class="block text-sm font-semibold text-gray-700 mb-2">Service Cities *</label>
-                <input type="text" value="Dallas, Plano, Frisco, Allen"
+                <input type="text" id="serving_cities"
                     class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                     placeholder="e.g., Dallas, Houston, Austin" />
                 <p class="text-xs text-gray-500 mt-1">Separate multiple cities with commas</p>
@@ -412,19 +441,23 @@
 
             <div>
                 <label class="block text-sm font-semibold text-gray-700 mb-2">Business Description *</label>
-                <textarea rows="3"
+                <textarea rows="3" id="biography"
                     class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                    placeholder="Describe your services">Professional real estate photography and drone services</textarea>
+                    placeholder="Describe your services"></textarea>
                 <p class="text-xs text-gray-500 mt-1">This will be displayed on your public listing</p>
             </div>
 
             <div>
                 <label class="block text-sm font-semibold text-gray-700 mb-2">Business Card - Front *</label>
-                <div class="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center hover:border-purple-400 transition cursor-pointer">
+                <div
+                    class="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center hover:border-purple-400 transition cursor-pointer">
                     <input type="file" accept="image/*" class="hidden" id="card-front" />
                     <label for="card-front" class="cursor-pointer">
-                        <svg class="w-8 h-8 mx-auto text-gray-400 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                        <svg class="w-8 h-8 mx-auto text-gray-400 mb-2" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z">
+                            </path>
                         </svg>
                         <span class="text-sm text-gray-600">Click to upload front of business card</span>
                         <p class="text-xs text-gray-400 mt-1">PNG, JPG up to 5MB</p>
@@ -434,11 +467,15 @@
 
             <div>
                 <label class="block text-sm font-semibold text-gray-700 mb-2">Business Card - Back *</label>
-                <div class="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center hover:border-purple-400 transition cursor-pointer">
+                <div
+                    class="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center hover:border-purple-400 transition cursor-pointer">
                     <input type="file" accept="image/*" class="hidden" id="card-back" />
                     <label for="card-back" class="cursor-pointer">
-                        <svg class="w-8 h-8 mx-auto text-gray-400 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                        <svg class="w-8 h-8 mx-auto text-gray-400 mb-2" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z">
+                            </path>
                         </svg>
                         <span class="text-sm text-gray-600">Click to upload back of business card</span>
                         <p class="text-xs text-gray-400 mt-1">PNG, JPG up to 5MB</p>
@@ -461,6 +498,20 @@
 </dialog>
 
 <script>
+    const API_BASE_URL = '/api';
+    const AUTH_TOKEN = localStorage.getItem('authToken') || localStorage.getItem('auth_token');
+    const FETCH_TIMEOUT = 5000;
+
+    const BUSINESS_TYPE_LABELS = {
+        'photography': 'Photography',
+        'marketing_agency': 'Marketing Agency',
+        'social_media': 'Social Media Management',
+        'videography': 'Videography',
+        'staging': 'Staging Services',
+        'virtual_tour': 'Virtual Tour Provider',
+        'other': 'Other'
+    };
+
     function generateRandomCode() {
         const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
         let code = '';
@@ -476,40 +527,118 @@
         });
     }
 
-    // Authentication check
-    const AUTH_TOKEN = localStorage.getItem('authToken') || localStorage.getItem('auth_token');
-
-    // Check auth on page load
-    if (!AUTH_TOKEN) {
-        console.warn('No authentication token. Redirecting to login...');
-        setTimeout(() => {
-            window.location.href = '/login/';
-        }, 1000);
-    } else {
-        // Load user info from localStorage
+    async function fetchWithTimeout(url, options, timeout = FETCH_TIMEOUT) {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), timeout);
         try {
+            const response = await fetch(url, { ...options, signal: controller.signal });
+            clearTimeout(timeoutId);
+            return response;
+        } catch (error) { clearTimeout(timeoutId); throw error; }
+    }
+
+    function checkAuth() {
+        if (!AUTH_TOKEN) { setTimeout(() => { window.location.href = '/login/'; }, 1000); return false; }
+        return true;
+    }
+
+    async function fetchProfile() {
+        if (!checkAuth()) return;
+        try {
+            const response = await fetchWithTimeout(`${API_BASE_URL}/promoter-profile/me/`, {
+                method: 'GET',
+                headers: { 'Authorization': `Token ${AUTH_TOKEN}`, 'Content-Type': 'application/json' }
+            });
+            if (response.status === 401 || response.status === 403) {
+                localStorage.removeItem('authToken'); localStorage.removeItem('auth_token'); localStorage.removeItem('user');
+                window.location.href = '/login/'; return;
+            }
+            if (!response.ok) return;
+            const data = await response.json();
+            populateProfileForm(data);
+            updateDisplayPanel(data);
+        } catch (error) { console.warn('Error fetching profile:', error); }
+    }
+
+    function populateProfileForm(data) {
+        const fields = {
+            'first_name': data.first_name, 'last_name': data.last_name, 'email': data.email,
+            'phone_number_1': data.phone_number_1, 'company_name': data.company_name,
+            'business_website': data.business_website,
+            'serving_states': data.serving_states, 'serving_cities': data.serving_cities,
+            'biography': data.biography
+        };
+        Object.keys(fields).forEach(key => {
+            const el = document.getElementById(key);
+            if (el) el.value = fields[key] || '';
+        });
+        const btSelect = document.getElementById('business_type');
+        if (btSelect) btSelect.value = data.business_type || '';
+    }
+
+    function updateDisplayPanel(data) {
+        const fullName = `${data.first_name || ''} ${data.last_name || ''}`.trim();
+        const setText = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val || '—'; };
+        setText('display_company_name', data.company_name);
+        setText('display_business_type', BUSINESS_TYPE_LABELS[data.business_type] || data.business_type || '—');
+        setText('display_contact_person', fullName);
+        setText('display_phone', data.phone_number_1);
+        setText('display_email', data.email);
+        setText('display_website', data.business_website);
+        setText('display_states', data.serving_states);
+        setText('display_cities', data.serving_cities);
+        setText('display_bio', data.biography);
+        setText('display_card_front', data.business_card_front ? 'Uploaded' : 'Not uploaded');
+        setText('display_card_back', data.business_card_back ? 'Uploaded' : 'Not uploaded');
+    }
+
+    async function saveProfile() {
+        if (!checkAuth()) return;
+        const profileData = {
+            first_name: document.getElementById('first_name').value,
+            last_name: document.getElementById('last_name').value,
+            phone_number_1: document.getElementById('phone_number_1').value,
+            company_name: document.getElementById('company_name').value,
+            business_type: document.getElementById('business_type').value,
+            business_website: document.getElementById('business_website').value,
+            serving_states: document.getElementById('serving_states').value,
+            serving_cities: document.getElementById('serving_cities').value,
+            biography: document.getElementById('biography').value
+        };
+        try {
+            const response = await fetchWithTimeout(`${API_BASE_URL}/promoter-profile/update_profile/`, {
+                method: 'PATCH',
+                headers: { 'Authorization': `Token ${AUTH_TOKEN}`, 'Content-Type': 'application/json' },
+                body: JSON.stringify(profileData)
+            });
+            if (response.status === 401 || response.status === 403) {
+                alert('Session expired. Please login again.'); window.location.href = '/login/'; return;
+            }
+            if (!response.ok) throw new Error('Failed to save profile');
+            const result = await response.json();
+            alert('Profile saved successfully!');
+            updateDisplayPanel(result);
+            document.getElementById('edit-business-modal').close();
+
             const userStr = localStorage.getItem('user');
             if (userStr) {
                 const user = JSON.parse(userStr);
-                const fullName = user.full_name || `${user.first_name || ''} ${user.last_name || ''}`.trim() || 'User';
-                const role = user.role || 'User';
-                
-                // Update sidebar user info if exists
-                const sidebarUserName = document.querySelector('.p-6.pb-2 .font-semibold');
-                const sidebarUserRole = document.querySelector('.p-6.pb-2 .text-xs.text-gray-500');
-                
-                if (sidebarUserName) sidebarUserName.textContent = fullName;
-                if (sidebarUserRole) sidebarUserRole.textContent = role.charAt(0).toUpperCase() + role.slice(1);
-                
-                // Update avatar
-                const avatar = document.querySelector('.p-6.pb-2 img');
-                if (avatar && fullName) {
-                    avatar.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(fullName)}&background=e0e7ff&color=4f46e5`;
-                }
+                user.first_name = result.first_name; user.last_name = result.last_name; user.full_name = result.full_name;
+                localStorage.setItem('user', JSON.stringify(user));
             }
         } catch (error) {
-            console.warn('Could not load user from storage:', error);
+            console.error('Error saving profile:', error);
+            alert('Failed to save profile. Please try again.');
         }
     }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        if (AUTH_TOKEN) {
+            setTimeout(() => { fetchProfile(); }, 100);
+        } else {
+            console.warn('No authentication token. Redirecting to login...');
+            setTimeout(() => { window.location.href = '/login/'; }, 1000);
+        }
+    });
 </script>
 {% endblock %}

@@ -4,7 +4,7 @@ from django.contrib.auth.password_validation import validate_password
 from django.contrib.auth import authenticate
 from django.core.files.storage import default_storage
 from django.conf import settings
-from .models import UserProfile, RealtorProfile
+from .models import UserProfile, RealtorProfile, LenderProfile, BrokerProfile, PartnerProfile, PromoterProfile
 import os
 
 
@@ -165,6 +165,150 @@ class RealtorProfileSerializer(serializers.ModelSerializer):
         
         return instance
 
+
+class LenderProfileSerializer(serializers.ModelSerializer):
+    # Include user basic info
+    first_name = serializers.CharField(source='user.first_name')
+    last_name = serializers.CharField(source='user.last_name')
+    email = serializers.EmailField(source='user.email', read_only=True)
+    full_name = serializers.CharField(source='user.get_full_name', read_only=True)
+    
+    class Meta:
+        model = LenderProfile
+        fields = [
+            'id',
+            'first_name',
+            'last_name',
+            'email',
+            'full_name',
+            'profile_photo',
+            'phone_number_1',
+            'phone_number_2',
+            'company_name',
+            'company_address',
+            'address_type',
+            'business_website',
+            'license_nmls',
+            'serving_states',
+            'serving_cities',
+            'biography',
+            'business_card_front',
+            'business_card_back',
+            'created_at',
+            'updated_at',
+        ]
+        read_only_fields = ['id', 'email', 'full_name', 'created_at', 'updated_at']
+    
+    def update(self, instance, validated_data):
+        # Update user fields
+        user_data = validated_data.pop('user', {})
+        if 'first_name' in user_data:
+            instance.user.first_name = user_data['first_name']
+        if 'last_name' in user_data:
+            instance.user.last_name = user_data['last_name']
+        instance.user.save()
+        
+        # Update lender profile fields
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+        instance.save()
+        
+        return instance
+
+
+class BrokerProfileSerializer(serializers.ModelSerializer):
+    first_name = serializers.CharField(source='user.first_name')
+    last_name = serializers.CharField(source='user.last_name')
+    email = serializers.EmailField(source='user.email', read_only=True)
+    full_name = serializers.CharField(source='user.get_full_name', read_only=True)
+    
+    class Meta:
+        model = BrokerProfile
+        fields = [
+            'id', 'first_name', 'last_name', 'email', 'full_name',
+            'profile_photo', 'phone_number_1', 'phone_number_2',
+            'company_name', 'company_address', 'address_type', 'business_website',
+            'license_number', 'license_states', 'is_international', 'is_nationwide',
+            'serving_states', 'serving_cities', 'biography',
+            'created_at', 'updated_at',
+        ]
+        read_only_fields = ['id', 'email', 'full_name', 'created_at', 'updated_at']
+    
+    def update(self, instance, validated_data):
+        user_data = validated_data.pop('user', {})
+        if 'first_name' in user_data:
+            instance.user.first_name = user_data['first_name']
+        if 'last_name' in user_data:
+            instance.user.last_name = user_data['last_name']
+        instance.user.save()
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+        instance.save()
+        return instance
+
+
+class PartnerProfileSerializer(serializers.ModelSerializer):
+    first_name = serializers.CharField(source='user.first_name')
+    last_name = serializers.CharField(source='user.last_name')
+    email = serializers.EmailField(source='user.email', read_only=True)
+    full_name = serializers.CharField(source='user.get_full_name', read_only=True)
+    
+    class Meta:
+        model = PartnerProfile
+        fields = [
+            'id', 'first_name', 'last_name', 'email', 'full_name',
+            'profile_photo', 'phone_number_1', 'phone_number_2',
+            'company_name', 'company_address', 'address_type', 'business_website',
+            'license_state', 'license_number',
+            'serving_states', 'serving_cities', 'biography',
+            'business_card_front', 'business_card_back',
+            'created_at', 'updated_at',
+        ]
+        read_only_fields = ['id', 'email', 'full_name', 'created_at', 'updated_at']
+    
+    def update(self, instance, validated_data):
+        user_data = validated_data.pop('user', {})
+        if 'first_name' in user_data:
+            instance.user.first_name = user_data['first_name']
+        if 'last_name' in user_data:
+            instance.user.last_name = user_data['last_name']
+        instance.user.save()
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+        instance.save()
+        return instance
+
+
+class PromoterProfileSerializer(serializers.ModelSerializer):
+    first_name = serializers.CharField(source='user.first_name')
+    last_name = serializers.CharField(source='user.last_name')
+    email = serializers.EmailField(source='user.email', read_only=True)
+    full_name = serializers.CharField(source='user.get_full_name', read_only=True)
+    
+    class Meta:
+        model = PromoterProfile
+        fields = [
+            'id', 'first_name', 'last_name', 'email', 'full_name',
+            'profile_photo', 'phone_number_1', 'phone_number_2',
+            'company_name', 'company_address', 'address_type', 'business_website',
+            'business_type',
+            'serving_states', 'serving_cities', 'biography',
+            'business_card_front', 'business_card_back',
+            'created_at', 'updated_at',
+        ]
+        read_only_fields = ['id', 'email', 'full_name', 'created_at', 'updated_at']
+    
+    def update(self, instance, validated_data):
+        user_data = validated_data.pop('user', {})
+        if 'first_name' in user_data:
+            instance.user.first_name = user_data['first_name']
+        if 'last_name' in user_data:
+            instance.user.last_name = user_data['last_name']
+        instance.user.save()
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+        instance.save()
+        return instance
 
 
 class ProfilePhotoUploadSerializer(serializers.Serializer):

@@ -7,6 +7,10 @@ router.register(r'signup', views.SignupViewSet, basename='signup')
 router.register(r'login', views.LoginViewSet, basename='login')
 router.register(r'users', views.UserViewSet, basename='user')
 router.register(r'realtor-profile', views.RealtorProfileViewSet, basename='realtor-profile')
+router.register(r'lender-profile', views.LenderProfileViewSet, basename='lender-profile')
+router.register(r'broker-profile', views.BrokerProfileViewSet, basename='broker-profile')
+router.register(r'partner-profile', views.PartnerProfileViewSet, basename='partner-profile')
+router.register(r'promoter-profile', views.PromoterProfileViewSet, basename='promoter-profile')
 
 urlpatterns = [
     path('', include(router.urls)),

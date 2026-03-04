@@ -124,7 +124,7 @@
             <div id="section-profile" class="dashboard-section space-y-6">
                 <div class="flex justify-between items-center mb-2">
                     <h2 class="text-2xl font-bold text-gray-900">Partner Profile</h2>
-                    <button
+                    <button onclick="saveProfile()"
                         class="bg-orange-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-orange-700 shadow-sm">Save
                         Changes</button>
                 </div>
@@ -138,34 +138,31 @@
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div class="md:col-span-2">
                                     <label class="block text-sm font-medium text-gray-700 mb-1">Business Name</label>
-                                    <input type="text"
-                                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-100 focus:border-orange-500 outline-none transition"
-                                        value="Home Inspectors Inc">
+                                    <input type="text" id="company_name"
+                                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-100 focus:border-orange-500 outline-none transition">
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 mb-1">Contact First
                                         Name</label>
-                                    <input type="text"
-                                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-100 focus:border-orange-500 outline-none transition"
-                                        value="Mike">
+                                    <input type="text" id="first_name"
+                                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-100 focus:border-orange-500 outline-none transition">
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 mb-1">Contact Last
                                         Name</label>
-                                    <input type="text"
-                                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-100 focus:border-orange-500 outline-none transition"
-                                        value="Smith">
+                                    <input type="text" id="last_name"
+                                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-100 focus:border-orange-500 outline-none transition">
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 mb-1">Email <span
                                             class="text-xs text-gray-400">(Read Only)</span></label>
-                                    <input type="email"
+                                    <input type="email" id="email"
                                         class="w-full px-3 py-2 border border-gray-200 rounded-lg bg-gray-50 text-gray-500 cursor-not-allowed"
-                                        value="mike@inspectors.com" readonly>
+                                        readonly>
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 mb-1">Business Website</label>
-                                    <input type="url"
+                                    <input type="url" id="business_website"
                                         class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-100 focus:border-orange-500 outline-none transition"
                                         placeholder="https://">
                                 </div>
@@ -173,30 +170,31 @@
                                     <label class="block text-sm font-medium text-gray-700 mb-1">Company Address</label>
                                     <div class="flex items-center gap-4 mb-2">
                                         <label class="inline-flex items-center cursor-pointer">
-                                            <input type="radio" name="addressType"
-                                                class="text-orange-600 focus:ring-orange-500" checked>
+                                            <input type="radio" name="addressType" value="actual"
+                                                id="address_type_actual" class="text-orange-600 focus:ring-orange-500"
+                                                checked>
                                             <span class="ml-2 text-sm text-gray-700">Actual Address</span>
                                         </label>
                                         <label class="inline-flex items-center cursor-pointer">
-                                            <input type="radio" name="addressType"
-                                                class="text-orange-600 focus:ring-orange-500">
+                                            <input type="radio" name="addressType" value="po_box"
+                                                id="address_type_po_box" class="text-orange-600 focus:ring-orange-500">
                                             <span class="ml-2 text-sm text-gray-700">PO Box</span>
                                         </label>
                                     </div>
-                                    <input type="text"
+                                    <input type="text" id="company_address"
                                         class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-100 focus:border-orange-500 outline-none transition"
                                         placeholder="123 Service Rd">
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 mb-1">Phone Number 1</label>
-                                    <input type="tel"
+                                    <input type="tel" id="phone_number_1"
                                         class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-100 focus:border-orange-500 outline-none transition"
                                         placeholder="(555) 000-0000">
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 mb-1">Phone Number 2 <span
                                             class="text-gray-400 font-normal">(Optional)</span></label>
-                                    <input type="tel"
+                                    <input type="tel" id="phone_number_2"
                                         class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-100 focus:border-orange-500 outline-none transition">
                                 </div>
                             </div>
@@ -210,20 +208,20 @@
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 mb-1">License State <span
                                             class="text-xs text-gray-400">(2-letter code)</span></label>
-                                    <input type="text"
+                                    <input type="text" id="license_state"
                                         class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-100 focus:border-orange-500 outline-none transition"
                                         placeholder="TX">
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 mb-1">License Number</label>
-                                    <input type="text"
+                                    <input type="text" id="license_number"
                                         class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-100 focus:border-orange-500 outline-none transition"
                                         placeholder="12345678">
                                 </div>
                                 <div class="md:col-span-2">
                                     <label class="block text-sm font-medium text-gray-700 mb-1">Business Description /
                                         Bio</label>
-                                    <textarea rows="5"
+                                    <textarea rows="5" id="biography"
                                         class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-100 focus:border-orange-500 outline-none transition"
                                         placeholder="Describe your services..."></textarea>
                                 </div>
@@ -373,8 +371,9 @@
     </main>
 
     <script>
-        // Authentication check
-        const AUTH_TOKEN = localStorage.getItem("authToken") || localStorage.getItem("auth_token");
+        const API_BASE_URL = '/api';
+        const AUTH_TOKEN = localStorage.getItem('authToken') || localStorage.getItem('auth_token');
+        const FETCH_TIMEOUT = 5000;
 
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
@@ -382,79 +381,144 @@
         }
 
         function switchTab(tabId) {
-            // Hide all sections
             document.querySelectorAll('.dashboard-section').forEach(el => el.classList.add('hidden'));
-            // Show target section
             document.getElementById('section-' + tabId).classList.remove('hidden');
-
-            // Update active nav state
             document.querySelectorAll('.sidebar-link').forEach(el => el.classList.remove('active'));
             document.getElementById('nav-' + tabId).classList.add('active');
-
-            // Update URL with tab parameter
             const url = new URL(window.location);
             url.searchParams.set('tab', tabId);
             window.history.pushState({}, '', url);
-
-            // On mobile, auto-close sidebar
-            if (window.innerWidth < 768) {
-                toggleSidebar();
-            }
+            if (window.innerWidth < 768) toggleSidebar();
         }
 
         function initializeTab() {
             const urlParams = new URLSearchParams(window.location.search);
             const tabParam = urlParams.get('tab');
-
             const validTabs = ['profile', 'services', 'settings'];
-            const activeTab = validTabs.includes(tabParam) ? tabParam : 'profile';
-
-            switchTab(activeTab);
+            switchTab(validTabs.includes(tabParam) ? tabParam : 'profile');
         }
 
-        // Run on page load
-        document.addEventListener('DOMContentLoaded', function () {
-            // Initialize tab from URL
-            initializeTab();
+        async function fetchWithTimeout(url, options, timeout = FETCH_TIMEOUT) {
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), timeout);
+            try {
+                const response = await fetch(url, { ...options, signal: controller.signal });
+                clearTimeout(timeoutId);
+                return response;
+            } catch (error) { clearTimeout(timeoutId); throw error; }
+        }
 
-            // Check auth on page load
-            if (!AUTH_TOKEN) {
-                console.warn("No authentication token. Redirecting to login...");
-                setTimeout(() => {
-                    window.location.href = "/login/";
-                }, 1000);
-            } else {
-                // Load user info from localStorage
-                try {
-                    const userStr = localStorage.getItem("user");
-                    if (userStr) {
-                        const user = JSON.parse(userStr);
-                        const fullName = user.full_name || `${user.first_name || ""} ${user.last_name || ""}`.trim() || "User";
-                        const role = user.role || "User";
+        function checkAuth() {
+            if (!AUTH_TOKEN) { setTimeout(() => { window.location.href = '/login/'; }, 1000); return false; }
+            return true;
+        }
 
-                        // Update sidebar user info
-                        const sidebarUserName = document.querySelector(".p-6.pb-2 .font-semibold");
-                        const sidebarUserRole = document.querySelector(".p-6.pb-2 .text-xs.text-gray-500");
-
-                        if (sidebarUserName) sidebarUserName.textContent = fullName;
-                        if (sidebarUserRole) sidebarUserRole.textContent = role.charAt(0).toUpperCase() + role.slice(1);
-
-                        // Update avatar
-                        const avatar = document.querySelector(".p-6.pb-2 img");
-                        if (avatar && fullName) {
-                            avatar.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(fullName)}&background=e0e7ff&color=4f46e5`;
-                        }
-                    }
-                } catch (error) {
-                    console.warn("Could not load user from storage:", error);
+        async function fetchProfile() {
+            if (!checkAuth()) return;
+            try {
+                const response = await fetchWithTimeout(`${API_BASE_URL}/partner-profile/me/`, {
+                    method: 'GET',
+                    headers: { 'Authorization': `Token ${AUTH_TOKEN}`, 'Content-Type': 'application/json' }
+                });
+                if (response.status === 401 || response.status === 403) {
+                    localStorage.removeItem('authToken'); localStorage.removeItem('auth_token'); localStorage.removeItem('user');
+                    window.location.href = '/login/'; return;
                 }
+                if (!response.ok) return;
+                const data = await response.json();
+                populateProfileForm(data);
+                updateUserInfo(data);
+            } catch (error) { loadUserFromStorage(); }
+        }
+
+        function loadUserFromStorage() {
+            try {
+                const userStr = localStorage.getItem('user');
+                if (userStr) {
+                    const user = JSON.parse(userStr);
+                    updateUserInfo({ first_name: user.first_name, last_name: user.last_name, email: user.email, full_name: user.full_name });
+                }
+            } catch (error) { console.warn('Could not load user from storage:', error); }
+        }
+
+        function updateUserInfo(data) {
+            const fullName = data.full_name || `${data.first_name || ''} ${data.last_name || ''}`.trim() || 'User';
+            const sidebarUserName = document.querySelector('.p-6.pb-2 .font-semibold');
+            const sidebarUserRole = document.querySelector('.p-6.pb-2 .text-xs.text-gray-500');
+            if (sidebarUserName) sidebarUserName.textContent = fullName;
+            if (sidebarUserRole) sidebarUserRole.textContent = 'Partner';
+        }
+
+        function populateProfileForm(data) {
+            const fields = {
+                'first_name': data.first_name, 'last_name': data.last_name, 'email': data.email,
+                'phone_number_1': data.phone_number_1, 'phone_number_2': data.phone_number_2,
+                'company_name': data.company_name, 'company_address': data.company_address,
+                'business_website': data.business_website,
+                'license_state': data.license_state, 'license_number': data.license_number,
+                'biography': data.biography
+            };
+            Object.keys(fields).forEach(key => {
+                const el = document.getElementById(key);
+                if (el) el.value = fields[key] || '';
+            });
+            if (data.address_type === 'po_box') {
+                const poBox = document.getElementById('address_type_po_box');
+                if (poBox) poBox.checked = true;
+            } else {
+                const actual = document.getElementById('address_type_actual');
+                if (actual) actual.checked = true;
             }
+        }
+
+        async function saveProfile() {
+            if (!checkAuth()) return;
+            const profileData = {
+                first_name: document.getElementById('first_name').value,
+                last_name: document.getElementById('last_name').value,
+                phone_number_1: document.getElementById('phone_number_1').value,
+                phone_number_2: document.getElementById('phone_number_2').value,
+                company_name: document.getElementById('company_name').value,
+                company_address: document.getElementById('company_address').value,
+                address_type: document.querySelector('input[name="addressType"]:checked')?.value || 'actual',
+                business_website: document.getElementById('business_website').value,
+                license_state: document.getElementById('license_state').value,
+                license_number: document.getElementById('license_number').value,
+                biography: document.getElementById('biography').value
+            };
+            try {
+                const response = await fetchWithTimeout(`${API_BASE_URL}/partner-profile/update_profile/`, {
+                    method: 'PATCH',
+                    headers: { 'Authorization': `Token ${AUTH_TOKEN}`, 'Content-Type': 'application/json' },
+                    body: JSON.stringify(profileData)
+                });
+                if (response.status === 401 || response.status === 403) {
+                    alert('Session expired. Please login again.'); window.location.href = '/login/'; return;
+                }
+                if (!response.ok) throw new Error('Failed to save profile');
+                const result = await response.json();
+                alert('Profile saved successfully!');
+                updateUserInfo(result);
+                const userStr = localStorage.getItem('user');
+                if (userStr) {
+                    const user = JSON.parse(userStr);
+                    user.first_name = result.first_name; user.last_name = result.last_name; user.full_name = result.full_name;
+                    localStorage.setItem('user', JSON.stringify(user));
+                }
+            } catch (error) {
+                console.error('Error saving profile:', error);
+                alert('Failed to save profile. Please try again.');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            initializeTab();
+            loadUserFromStorage();
+            if (AUTH_TOKEN) { setTimeout(() => { fetchProfile(); }, 100); }
+            else { setTimeout(() => { window.location.href = '/login/'; }, 1000); }
         });
 
-        // Handle browser back/forward navigation
-        window.addEventListener('popstate', function () {
-            initializeTab();
-        });
+        window.addEventListener('popstate', function () { initializeTab(); });
     </script>
 </body>
 
