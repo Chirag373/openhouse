@@ -42,19 +42,10 @@
 <!-- Lenders Grid -->
 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
 
-    <!-- Lender Card 1 (Has Perk) -->
+    <!-- Lender Card 1 -->
     <div
         class="bg-white rounded-xl shadow hover:shadow-lg transition relative flex flex-col h-full border border-gray-100 group overflow-hidden">
-        <!-- Perk Indicator -->
-        <div class="absolute top-3 right-3 z-30">
-            <button onclick="document.getElementById('perk-modal-1').showModal()"
-                class="bg-green-600 text-white text-xs font-semibold px-2 py-1 rounded hover:bg-green-700 transition cursor-pointer shadow-sm">
-                Has Perk
-            </button>
-        </div>
-
         <!-- Business Card Carousel -->
-        <!-- Aspect Ratio 3.5 : 2 (1.75) for Business Card -->
         <div class="w-full relative bg-gray-200 card-carousel" style="aspect-ratio: 1.75/1;">
             <!-- Slide 1: Front -->
             <div class="carousel-slide absolute inset-0 w-full h-full bg-white flex items-center justify-center transition-transform duration-300 ease-in-out translate-x-0"
@@ -76,7 +67,7 @@
                     class="absolute bottom-2 left-3 text-[10px] text-gray-400 font-mono tracking-widest uppercase">Back</span>
             </div>
 
-            <!-- Controls (Only visible if hovered, or always on mobile) -->
+            <!-- Controls -->
             <button
                 class="absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-gray-800 p-1.5 rounded-full shadow-md z-20 backdrop-blur-sm transition opacity duration-200"
                 onclick="moveSlide(this, -1)">
@@ -134,33 +125,10 @@
             </div>
         </div>
     </div>
-    <dialog id="perk-modal-1"
-        class="p-6 rounded-lg shadow-2xl backdrop:bg-black/50 w-full max-w-sm m-auto open:animate-fade-in relative">
-        <button onclick="document.getElementById('perk-modal-1').close()"
-            class="absolute top-2 right-2 text-gray-400 hover:text-gray-600 p-2">✕</button>
-        <div class="text-center">
-            <div class="bg-green-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3">
-                <span class="text-2xl">🎁</span>
-            </div>
-            <h3 class="font-bold text-lg mb-2 text-gray-900">Appraisal Credit</h3>
-            <p class="text-gray-600 mb-6 text-sm">Receive a free appraisal credit up to $500 at closing when you fund
-                your loan with Apex Mortgage Solutions.</p>
-            <button onclick="document.getElementById('perk-modal-1').close()"
-                class="bg-gray-100 px-6 py-2 rounded-full hover:bg-gray-200 text-sm font-medium transition w-full">Close</button>
-        </div>
-    </dialog>
 
-
-    <!-- Lender Card 2 (No Perk) -->
+    <!-- Lender Card 2 -->
     <div
         class="bg-white rounded-xl shadow hover:shadow-lg transition relative flex flex-col h-full border border-gray-100 group overflow-hidden">
-        <!-- Perk Indicator -->
-        <div class="absolute top-3 right-3 z-30">
-            <div class="bg-gray-400 text-white text-xs font-semibold px-2 py-1 rounded cursor-default shadow-sm">
-                No Perk
-            </div>
-        </div>
-
         <!-- Business Card Carousel -->
         <div class="w-full relative bg-gray-200 card-carousel" style="aspect-ratio: 1.75/1;">
             <!-- Slide 1: Front -->
@@ -239,17 +207,9 @@
         </div>
     </div>
 
-    <!-- Lender Card 3 (Has Perk) -->
+    <!-- Lender Card 3 -->
     <div
         class="bg-white rounded-xl shadow hover:shadow-lg transition relative flex flex-col h-full border border-gray-100 group overflow-hidden">
-        <!-- Perk Indicator -->
-        <div class="absolute top-3 right-3 z-30">
-            <button onclick="document.getElementById('perk-modal-3').showModal()"
-                class="bg-green-600 text-white text-xs font-semibold px-2 py-1 rounded hover:bg-green-700 transition cursor-pointer shadow-sm">
-                Has Perk
-            </button>
-        </div>
-
         <!-- Business Card Carousel -->
         <div class="w-full relative bg-gray-200 card-carousel" style="aspect-ratio: 1.75/1;">
             <!-- Slide 1: Front -->
@@ -327,21 +287,6 @@
             </div>
         </div>
     </div>
-    <dialog id="perk-modal-3"
-        class="p-6 rounded-lg shadow-2xl backdrop:bg-black/50 w-full max-w-sm m-auto open:animate-fade-in relative">
-        <button onclick="document.getElementById('perk-modal-3').close()"
-            class="absolute top-2 right-2 text-gray-400 hover:text-gray-600 p-2">✕</button>
-        <div class="text-center">
-            <div class="bg-green-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3">
-                <span class="text-2xl">🏷️</span>
-            </div>
-            <h3 class="font-bold text-lg mb-2 text-gray-900">Rate Lock Discount</h3>
-            <p class="text-gray-600 mb-6 text-sm">Lock your rate for 60 days for free. Extended lock options available
-                with no upfront fee.</p>
-            <button onclick="document.getElementById('perk-modal-3').close()"
-                class="bg-gray-100 px-6 py-2 rounded-full hover:bg-gray-200 text-sm font-medium transition w-full">Close</button>
-        </div>
-    </dialog>
 
 </div>
 

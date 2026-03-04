@@ -1,0 +1,298 @@
+{% extends 'base.html' %}
+{% block title %}Trusted Promoters{% endblock %}
+
+{% block content %}
+<!-- Promoters Hero Banner -->
+<div class="relative bg-purple-900 rounded-2xl overflow-hidden mb-10 shadow-xl">
+    <div class="absolute inset-0 opacity-20">
+        <img src="https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&q=80&w=2000"
+            class="w-full h-full object-cover grayscale" alt="Promoter Banner">
+    </div>
+    <div class="relative z-10 px-6 py-12 md:py-16 text-center">
+        <h1 class="text-3xl md:text-5xl font-bold text-white mb-4 tracking-tight">
+            Professional Promoters
+        </h1>
+        <p class="text-purple-50 text-lg md:text-xl max-w-2xl mx-auto font-medium">
+            Marketing experts who help showcase your properties. Connect with top real estate promoters.
+        </p>
+    </div>
+</div>
+
+<!-- Search Section -->
+<div class="max-w-3xl mx-auto mt-8 mb-12 relative z-20 px-4">
+    <div class="flex items-center gap-4">
+        <!-- Search Input -->
+        <div class="flex-grow bg-white p-2 rounded-full shadow-lg border border-gray-200">
+            <input type="text" placeholder="Search by Service or City..."
+                class="w-full px-6 py-3 rounded-full outline-none text-gray-700 placeholder-gray-400" />
+        </div>
+
+        <!-- Round Button -->
+        <button
+            class="flex-shrink-0 bg-purple-700 hover:bg-purple-800 text-white w-16 h-16 rounded-full shadow-lg flex items-center justify-center transition duration-200 transform hover:scale-105">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+        </button>
+    </div>
+</div>
+
+<!-- Promoters Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+    <!-- Card 1: Marketing Agency -->
+    <div
+        class="bg-white rounded-xl shadow hover:shadow-lg transition relative flex flex-col h-full border border-gray-100 group overflow-hidden">
+        <div class="absolute top-3 right-3 z-30">
+            <span
+                class="bg-gray-100 text-gray-600 text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider border border-gray-200">Marketing
+                Agency</span>
+        </div>
+        <div class="w-full relative bg-gray-200 card-carousel" style="aspect-ratio: 1.75/1;">
+            <div
+                class="carousel-slide absolute inset-0 w-full h-full bg-white flex items-center justify-center transition-transform duration-300 ease-in-out translate-x-0">
+                <img src="https://ui-avatars.com/api/?name=Elite+Marketing&background=faf5ff&color=7c3aed&bold=true&length=2&size=256"
+                    class="object-contain h-3/4 w-3/4" alt="Front">
+                <span
+                    class="absolute bottom-2 left-3 text-[10px] text-gray-400 font-mono tracking-widest uppercase">Front</span>
+            </div>
+            <div
+                class="carousel-slide absolute inset-0 w-full h-full bg-gray-50 flex items-center justify-center transition-transform duration-300 ease-in-out translate-x-full">
+                <div class="text-center p-4">
+                    <div class="text-xs text-gray-500 font-bold mb-2 tracking-wide">SCAN ME</div>
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=example.com"
+                        class="mx-auto w-24 h-24 opacity-80 mix-blend-multiply" alt="QR">
+                </div>
+                <span
+                    class="absolute bottom-2 left-3 text-[10px] text-gray-400 font-mono tracking-widest uppercase">Back</span>
+            </div>
+            <!-- Controls -->
+            <button
+                class="absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-gray-800 p-1.5 rounded-full shadow-md z-20 backdrop-blur-sm transition opacity duration-200"
+                onclick="moveSlide(this, -1)">
+                <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                </svg>
+            </button>
+            <button
+                class="absolute right-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-gray-800 p-1.5 rounded-full shadow-md z-20 backdrop-blur-sm transition opacity duration-200"
+                onclick="moveSlide(this, 1)">
+                <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+            </button>
+            <!-- Indicators -->
+            <div class="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1 z-20">
+                <div class="w-1.5 h-1.5 rounded-full bg-purple-600 transition-colors" data-indicator="0"></div>
+                <div class="w-1.5 h-1.5 rounded-full bg-gray-300 transition-colors" data-indicator="1"></div>
+            </div>
+        </div>
+
+        <div class="p-5 flex-grow flex flex-col gap-3">
+            <div>
+                <h2 class="font-bold text-xl text-gray-900 leading-tight">Elite Marketing Group</h2>
+                <h3 class="text-purple-700 font-medium mt-1">Digital Marketing & Branding</h3>
+            </div>
+            <div class="text-sm text-gray-600 line-clamp-2 leading-relaxed">
+                Full-service marketing agency specializing in real estate promotion. We create stunning property videos,
+                virtual tours, and social media campaigns that drive results.
+            </div>
+            <div class="space-y-1.5 text-xs text-gray-600 mt-2 bg-gray-50 p-3 rounded-lg border border-gray-100">
+                <p class="flex gap-2"><span
+                        class="font-semibold text-gray-800 w-16 text-right flex-shrink-0">Phone:</span> (214) 555-0123</p>
+                <p class="flex gap-2"><span
+                        class="font-semibold text-gray-800 w-16 text-right flex-shrink-0">Email:</span> <a href="mailto:dallas@elitemarketing.com" class="text-blue-600 hover:underline">dallas@elitemarketing.com</a></p>
+                <p class="flex gap-2"><span
+                        class="font-semibold text-gray-800 w-16 text-right flex-shrink-0">States:</span> TX, CA, FL</p>
+                <p class="flex gap-2"><span
+                        class="font-semibold text-gray-800 w-16 text-right flex-shrink-0">Cities:</span> Dallas, Austin,
+                    Houston</p>
+                <p class="flex gap-2"><span
+                        class="font-semibold text-gray-800 w-16 text-right flex-shrink-0">Website:</span> <a href="#" class="text-blue-600 hover:underline">elitemarketing.com</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Card 2: Photographer -->
+    <div
+        class="bg-white rounded-xl shadow hover:shadow-lg transition relative flex flex-col h-full border border-gray-100 group overflow-hidden">
+        <div class="absolute top-3 right-3 z-30">
+            <span
+                class="bg-gray-100 text-gray-600 text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider border border-gray-200">Photographer</span>
+        </div>
+        <div class="w-full relative bg-gray-200 card-carousel" style="aspect-ratio: 1.75/1;">
+            <div
+                class="carousel-slide absolute inset-0 w-full h-full bg-white flex items-center justify-center transition-transform duration-300 ease-in-out translate-x-0">
+                <img src="https://ui-avatars.com/api/?name=Pro+Photo&background=fef3c7&color=d97706&bold=true&length=2&size=256"
+                    class="object-contain h-3/4 w-3/4" alt="Front">
+                <span
+                    class="absolute bottom-2 left-3 text-[10px] text-gray-400 font-mono tracking-widest uppercase">Front</span>
+            </div>
+            <div
+                class="carousel-slide absolute inset-0 w-full h-full bg-gray-50 flex items-center justify-center transition-transform duration-300 ease-in-out translate-x-full">
+                <div class="text-center p-4">
+                    <div class="text-xs text-gray-500 font-bold mb-2 tracking-wide">SCAN ME</div>
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=example.com"
+                        class="mx-auto w-24 h-24 opacity-80 mix-blend-multiply" alt="QR">
+                </div>
+                <span
+                    class="absolute bottom-2 left-3 text-[10px] text-gray-400 font-mono tracking-widest uppercase">Back</span>
+            </div>
+            <button
+                class="absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-gray-800 p-1.5 rounded-full shadow-md z-20 backdrop-blur-sm transition opacity duration-200"
+                onclick="moveSlide(this, -1)">
+                <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                </svg>
+            </button>
+            <button
+                class="absolute right-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-gray-800 p-1.5 rounded-full shadow-md z-20 backdrop-blur-sm transition opacity duration-200"
+                onclick="moveSlide(this, 1)">
+                <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+            </button>
+            <div class="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1 z-20">
+                <div class="w-1.5 h-1.5 rounded-full bg-purple-600 transition-colors" data-indicator="0"></div>
+                <div class="w-1.5 h-1.5 rounded-full bg-gray-300 transition-colors" data-indicator="1"></div>
+            </div>
+        </div>
+
+        <div class="p-5 flex-grow flex flex-col gap-3">
+            <div>
+                <h2 class="font-bold text-xl text-gray-900 leading-tight">Pro Property Photography</h2>
+                <h3 class="text-purple-700 font-medium mt-1">Real Estate Photography</h3>
+            </div>
+            <div class="text-sm text-gray-600 line-clamp-2 leading-relaxed">
+                Professional real estate photography and drone services. High-quality images that make your listings
+                stand out and sell faster.
+            </div>
+            <div class="space-y-1.5 text-xs text-gray-600 mt-2 bg-gray-50 p-3 rounded-lg border border-gray-100">
+                <p class="flex gap-2"><span
+                        class="font-semibold text-gray-800 w-16 text-right flex-shrink-0">Phone:</span> (972) 555-0456</p>
+                <p class="flex gap-2"><span
+                        class="font-semibold text-gray-800 w-16 text-right flex-shrink-0">Email:</span> <a href="mailto:info@proprophoto.com" class="text-blue-600 hover:underline">info@proprophoto.com</a></p>
+                <p class="flex gap-2"><span
+                        class="font-semibold text-gray-800 w-16 text-right flex-shrink-0">States:</span> TX</p>
+                <p class="flex gap-2"><span
+                        class="font-semibold text-gray-800 w-16 text-right flex-shrink-0">Cities:</span> Dallas, Plano,
+                    Frisco</p>
+                <p class="flex gap-2"><span
+                        class="font-semibold text-gray-800 w-16 text-right flex-shrink-0">Website:</span> <a href="#" class="text-blue-600 hover:underline">proprophoto.com</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Card 3: Social Media Manager -->
+    <div
+        class="bg-white rounded-xl shadow hover:shadow-lg transition relative flex flex-col h-full border border-gray-100 group overflow-hidden">
+        <div class="absolute top-3 right-3 z-30">
+            <span
+                class="bg-gray-100 text-gray-600 text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider border border-gray-200">Social
+                Media</span>
+        </div>
+        <div class="w-full relative bg-gray-200 card-carousel" style="aspect-ratio: 1.75/1;">
+            <div
+                class="carousel-slide absolute inset-0 w-full h-full bg-white flex items-center justify-center transition-transform duration-300 ease-in-out translate-x-0">
+                <img src="https://ui-avatars.com/api/?name=Social+Boost&background=dbeafe&color=1e40af&bold=true&length=2&size=256"
+                    class="object-contain h-3/4 w-3/4" alt="Front">
+                <span
+                    class="absolute bottom-2 left-3 text-[10px] text-gray-400 font-mono tracking-widest uppercase">Front</span>
+            </div>
+            <div
+                class="carousel-slide absolute inset-0 w-full h-full bg-gray-50 flex items-center justify-center transition-transform duration-300 ease-in-out translate-x-full">
+                <div class="text-center p-4">
+                    <div class="text-xs text-gray-500 font-bold mb-2 tracking-wide">SCAN ME</div>
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=example.com"
+                        class="mx-auto w-24 h-24 opacity-80 mix-blend-multiply" alt="QR">
+                </div>
+                <span
+                    class="absolute bottom-2 left-3 text-[10px] text-gray-400 font-mono tracking-widest uppercase">Back</span>
+            </div>
+            <button
+                class="absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-gray-800 p-1.5 rounded-full shadow-md z-20 backdrop-blur-sm transition opacity duration-200"
+                onclick="moveSlide(this, -1)">
+                <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                </svg>
+            </button>
+            <button
+                class="absolute right-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-gray-800 p-1.5 rounded-full shadow-md z-20 backdrop-blur-sm transition opacity duration-200"
+                onclick="moveSlide(this, 1)">
+                <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+            </button>
+            <div class="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1 z-20">
+                <div class="w-1.5 h-1.5 rounded-full bg-purple-600 transition-colors" data-indicator="0"></div>
+                <div class="w-1.5 h-1.5 rounded-full bg-gray-300 transition-colors" data-indicator="1"></div>
+            </div>
+        </div>
+
+        <div class="p-5 flex-grow flex flex-col gap-3">
+            <div>
+                <h2 class="font-bold text-xl text-gray-900 leading-tight">Social Boost Agency</h2>
+                <h3 class="text-purple-700 font-medium mt-1">Social Media Management</h3>
+            </div>
+            <div class="text-sm text-gray-600 line-clamp-2 leading-relaxed">
+                Grow your real estate brand on social media. We manage your Instagram, Facebook, and TikTok to attract
+                more clients and listings.
+            </div>
+            <div class="space-y-1.5 text-xs text-gray-600 mt-2 bg-gray-50 p-3 rounded-lg border border-gray-100">
+                <p class="flex gap-2"><span
+                        class="font-semibold text-gray-800 w-16 text-right flex-shrink-0">Phone:</span> (888) 555-7890</p>
+                <p class="flex gap-2"><span
+                        class="font-semibold text-gray-800 w-16 text-right flex-shrink-0">Email:</span> <a href="mailto:contact@socialboost.com" class="text-blue-600 hover:underline">contact@socialboost.com</a></p>
+                <p class="flex gap-2"><span
+                        class="font-semibold text-gray-800 w-16 text-right flex-shrink-0">States:</span> Nationwide</p>
+                <p class="flex gap-2"><span
+                        class="font-semibold text-gray-800 w-16 text-right flex-shrink-0">Cities:</span> Remote Services
+                </p>
+                <p class="flex gap-2"><span
+                        class="font-semibold text-gray-800 w-16 text-right flex-shrink-0">Website:</span> <a href="#" class="text-blue-600 hover:underline">socialboost.com</a></p>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    function moveSlide(btn, direction) {
+        const carousel = btn.closest('.card-carousel');
+        const slides = carousel.querySelectorAll('.carousel-slide');
+        const indicators = carousel.querySelectorAll('[data-indicator]');
+        let activeIndex = 0;
+
+        slides.forEach((slide, index) => {
+            if (slide.classList.contains('translate-x-0')) activeIndex = index;
+        });
+
+        let nextIndex = activeIndex + direction;
+        if (nextIndex < 0) nextIndex = slides.length - 1;
+        if (nextIndex >= slides.length) nextIndex = 0;
+
+        slides.forEach((slide, index) => {
+            slide.classList.remove('translate-x-0', 'translate-x-full', '-translate-x-full');
+            if (index === nextIndex) {
+                slide.classList.add('translate-x-0');
+            } else if (index < nextIndex) {
+                slide.classList.add('-translate-x-full');
+            } else {
+                slide.classList.add('translate-x-full');
+            }
+        });
+
+        indicators.forEach((ind, index) => {
+            if (index === nextIndex) {
+                ind.classList.remove('bg-gray-300');
+                ind.classList.add('bg-purple-600');
+            } else {
+                ind.classList.add('bg-gray-300');
+                ind.classList.remove('bg-purple-600');
+            }
+        });
+    }
+</script>
+{% endblock %}

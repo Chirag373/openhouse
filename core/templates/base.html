@@ -31,14 +31,31 @@
                     class="px-3 py-2 rounded-lg transition-all duration-200 {% if request.resolver_match.url_name == 'brokers' %}text-indigo-600 bg-indigo-50 font-semibold{% else %}hover:text-indigo-600 hover:bg-indigo-50{% endif %}">Brokers</a>
                 <a href="{% url 'partners' %}"
                     class="px-3 py-2 rounded-lg transition-all duration-200 {% if request.resolver_match.url_name == 'partners' %}text-indigo-600 bg-indigo-50 font-semibold{% else %}hover:text-indigo-600 hover:bg-indigo-50{% endif %}">Partners</a>
+                <a href="{% url 'promoters' %}"
+                    class="px-3 py-2 rounded-lg transition-all duration-200 {% if request.resolver_match.url_name == 'promoters' %}text-indigo-600 bg-indigo-50 font-semibold{% else %}hover:text-indigo-600 hover:bg-indigo-50{% endif %}">Promoters</a>
             </nav>
 
             <!-- Actions -->
             <div class="flex items-center gap-4">
-                <button onclick="document.getElementById('auth-modal').showModal()"
-                    class="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2.5 rounded-full font-medium transition-all duration-200 shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
-                    Join OpenHouse
-                </button>
+                <!-- Logged Out State -->
+                <div id="logged-out-state">
+                    <button onclick="document.getElementById('auth-modal').showModal()"
+                        class="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2.5 rounded-full font-medium transition-all duration-200 shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
+                        Join OpenHouse
+                    </button>
+                </div>
+                
+                <!-- Logged In State -->
+                <div id="logged-in-state" class="hidden flex items-center gap-4">
+                    <div class="text-right">
+                        <span class="text-sm text-gray-600">Welcome, <span id="user-name" class="font-semibold text-gray-900"></span></span>
+                        <span id="user-role-badge" class="hidden ml-2 px-2 py-1 text-xs font-medium rounded-full"></span>
+                    </div>
+                    <button onclick="logout()"
+                        class="bg-red-600 hover:bg-red-700 text-white px-5 py-2.5 rounded-full font-medium transition-all duration-200 shadow-md hover:shadow-lg">
+                        Logout
+                    </button>
+                </div>
             </div>
 
             <!-- Mobile Menu Button (Placeholder) -->
@@ -113,6 +130,51 @@
             </div>
         </div>
     </footer>
+
+    <script>
+        // Check if user is logged in
+        function checkAuth() {
+            const token = localStorage.getItem('authToken');
+            const user = localStorage.getItem('user');
+            
+            if (token && user) {
+                const userData = JSON.parse(user);
+                document.getElementById('logged-out-state').classList.add('hidden');
+                document.getElementById('logged-in-state').classList.remove('hidden');
+                document.getElementById('user-name').textContent = userData.first_name || userData.username;
+                
+                // Show role badge if role exists
+                if (userData.role) {
+                    const roleBadge = document.getElementById('user-role-badge');
+                    roleBadge.textContent = userData.role.charAt(0).toUpperCase() + userData.role.slice(1);
+                    roleBadge.classList.remove('hidden');
+                    
+                    // Set badge color based on role
+                    const roleColors = {
+                        'realtor': 'bg-blue-100 text-blue-800',
+                        'lender': 'bg-green-100 text-green-800',
+                        'broker': 'bg-purple-100 text-purple-800',
+                        'partner': 'bg-orange-100 text-orange-800',
+                        'promoter': 'bg-pink-100 text-pink-800'
+                    };
+                    roleBadge.className = `ml-2 px-2 py-1 text-xs font-medium rounded-full ${roleColors[userData.role] || 'bg-gray-100 text-gray-800'}`;
+                }
+            } else {
+                document.getElementById('logged-out-state').classList.remove('hidden');
+                document.getElementById('logged-in-state').classList.add('hidden');
+            }
+        }
+        
+        // Logout function
+        function logout() {
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('user');
+            window.location.href = '/';
+        }
+        
+        // Check auth on page load
+        document.addEventListener('DOMContentLoaded', checkAuth);
+    </script>
 
 </body>
 

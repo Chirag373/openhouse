@@ -1,0 +1,479 @@
+{% extends 'base.html' %}
+{% block title %}Promoter Dashboard{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto">
+    <!-- Header -->
+    <div class="mb-8">
+        <h1 class="text-3xl font-bold text-gray-900">Promoter Dashboard</h1>
+        <p class="text-gray-600 mt-2">Manage your promotional codes and campaigns</p>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Left Column: Promo Code Generator -->
+        <div class="lg:col-span-2 space-y-6">
+            <!-- Generate New Promo Code -->
+            <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="w-10 h-10 bg-purple-100 text-purple-600 rounded-full flex items-center justify-center">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                        </svg>
+                    </div>
+                    <h2 class="text-xl font-bold text-gray-900">Generate Promo Code</h2>
+                </div>
+
+                <form class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Promo Code</label>
+                        <div class="flex gap-2">
+                            <input type="text" id="promoCode" 
+                                class="flex-grow px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent" 
+                                placeholder="e.g., PHOTO2024" />
+                            <button type="button" onclick="generateRandomCode()" 
+                                class="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium rounded-lg transition">
+                                Generate
+                            </button>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Realtor Name</label>
+                        <input type="text" 
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent" 
+                            placeholder="Enter realtor name" />
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Realtor Email</label>
+                        <input type="email" 
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent" 
+                            placeholder="realtor@example.com" />
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Promotion Description</label>
+                        <textarea rows="3" 
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent" 
+                            placeholder="e.g., Free professional photography package for new listings"></textarea>
+                        <p class="text-xs text-gray-500 mt-1">This will be displayed on the property perk page</p>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Discount Value</label>
+                            <input type="text" 
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent" 
+                                placeholder="e.g., $500 or 20%" />
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Expiration Date</label>
+                            <input type="date" 
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent" />
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Property Address (Optional)</label>
+                        <input type="text" 
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent" 
+                            placeholder="Link to specific property listing" />
+                        <p class="text-xs text-gray-500 mt-1">Leave blank for general promotion</p>
+                    </div>
+
+                    <button type="submit" 
+                        class="w-full bg-purple-600 hover:bg-purple-700 text-white font-semibold py-3 px-6 rounded-lg transition shadow-md hover:shadow-lg">
+                        Create Promo Code
+                    </button>
+                </form>
+            </div>
+
+            <!-- Active Promo Codes -->
+            <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                <h2 class="text-xl font-bold text-gray-900 mb-6">Active Promo Codes</h2>
+                
+                <div class="space-y-4">
+                    <!-- Promo Code 1 -->
+                    <div class="border border-gray-200 rounded-lg p-4 hover:border-purple-300 transition">
+                        <div class="flex justify-between items-start mb-3">
+                            <div>
+                                <div class="flex items-center gap-2 mb-1">
+                                    <span class="font-mono text-lg font-bold text-purple-600">PHOTO2024</span>
+                                    <button onclick="copyToClipboard('PHOTO2024')" class="text-gray-400 hover:text-gray-600">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                                        </svg>
+                                    </button>
+                                </div>
+                                <p class="text-sm text-gray-600">Free professional photography package for new listings</p>
+                            </div>
+                            <span class="bg-green-100 text-green-700 text-xs font-semibold px-2 py-1 rounded">Active</span>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4 text-sm">
+                            <div>
+                                <span class="text-gray-500">Realtor:</span>
+                                <span class="font-medium text-gray-900 ml-1">Jane Doe</span>
+                            </div>
+                            <div>
+                                <span class="text-gray-500">Value:</span>
+                                <span class="font-medium text-gray-900 ml-1">$500</span>
+                            </div>
+                            <div>
+                                <span class="text-gray-500">Created:</span>
+                                <span class="font-medium text-gray-900 ml-1">Jan 15, 2026</span>
+                            </div>
+                            <div>
+                                <span class="text-gray-500">Expires:</span>
+                                <span class="font-medium text-gray-900 ml-1">Mar 15, 2026</span>
+                            </div>
+                        </div>
+                        <div class="mt-3 flex gap-2">
+                            <button class="text-sm text-blue-600 hover:text-blue-800 font-medium">Edit</button>
+                            <button class="text-sm text-red-600 hover:text-red-800 font-medium">Deactivate</button>
+                        </div>
+                    </div>
+
+                    <!-- Promo Code 2 -->
+                    <div class="border border-gray-200 rounded-lg p-4 hover:border-purple-300 transition">
+                        <div class="flex justify-between items-start mb-3">
+                            <div>
+                                <div class="flex items-center gap-2 mb-1">
+                                    <span class="font-mono text-lg font-bold text-purple-600">DRONE360</span>
+                                    <button onclick="copyToClipboard('DRONE360')" class="text-gray-400 hover:text-gray-600">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                                        </svg>
+                                    </button>
+                                </div>
+                                <p class="text-sm text-gray-600">Complimentary drone footage and aerial photography</p>
+                            </div>
+                            <span class="bg-green-100 text-green-700 text-xs font-semibold px-2 py-1 rounded">Active</span>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4 text-sm">
+                            <div>
+                                <span class="text-gray-500">Realtor:</span>
+                                <span class="font-medium text-gray-900 ml-1">Mike Ross</span>
+                            </div>
+                            <div>
+                                <span class="text-gray-500">Value:</span>
+                                <span class="font-medium text-gray-900 ml-1">$350</span>
+                            </div>
+                            <div>
+                                <span class="text-gray-500">Created:</span>
+                                <span class="font-medium text-gray-900 ml-1">Jan 10, 2026</span>
+                            </div>
+                            <div>
+                                <span class="text-gray-500">Expires:</span>
+                                <span class="font-medium text-gray-900 ml-1">Apr 10, 2026</span>
+                            </div>
+                        </div>
+                        <div class="mt-3 flex gap-2">
+                            <button class="text-sm text-blue-600 hover:text-blue-800 font-medium">Edit</button>
+                            <button class="text-sm text-red-600 hover:text-red-800 font-medium">Deactivate</button>
+                        </div>
+                    </div>
+
+                    <!-- Promo Code 3 -->
+                    <div class="border border-gray-200 rounded-lg p-4 hover:border-purple-300 transition opacity-60">
+                        <div class="flex justify-between items-start mb-3">
+                            <div>
+                                <div class="flex items-center gap-2 mb-1">
+                                    <span class="font-mono text-lg font-bold text-gray-500">SOCIAL2025</span>
+                                    <button onclick="copyToClipboard('SOCIAL2025')" class="text-gray-400 hover:text-gray-600">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                                        </svg>
+                                    </button>
+                                </div>
+                                <p class="text-sm text-gray-600">30 days of social media marketing campaign</p>
+                            </div>
+                            <span class="bg-gray-100 text-gray-600 text-xs font-semibold px-2 py-1 rounded">Expired</span>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4 text-sm">
+                            <div>
+                                <span class="text-gray-500">Realtor:</span>
+                                <span class="font-medium text-gray-900 ml-1">Sarah Lee</span>
+                            </div>
+                            <div>
+                                <span class="text-gray-500">Value:</span>
+                                <span class="font-medium text-gray-900 ml-1">$800</span>
+                            </div>
+                            <div>
+                                <span class="text-gray-500">Created:</span>
+                                <span class="font-medium text-gray-900 ml-1">Dec 1, 2025</span>
+                            </div>
+                            <div>
+                                <span class="text-gray-500">Expired:</span>
+                                <span class="font-medium text-gray-900 ml-1">Jan 1, 2026</span>
+                            </div>
+                        </div>
+                        <div class="mt-3 flex gap-2">
+                            <button class="text-sm text-gray-400 font-medium">Renew</button>
+                            <button class="text-sm text-red-600 hover:text-red-800 font-medium">Delete</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Column: Stats & Info -->
+        <div class="space-y-6">
+            <!-- Stats Card -->
+            <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                <h3 class="font-semibold text-gray-700 mb-4">Statistics</h3>
+                <div class="space-y-4">
+                    <div>
+                        <div class="flex justify-between items-center mb-1">
+                            <span class="text-sm text-gray-600">Active Codes</span>
+                            <span class="text-2xl font-bold text-purple-600">12</span>
+                        </div>
+                    </div>
+                    <div class="border-t pt-4">
+                        <div class="flex justify-between items-center mb-1">
+                            <span class="text-sm text-gray-600">Total Redeemed</span>
+                            <span class="text-2xl font-bold text-green-600">47</span>
+                        </div>
+                    </div>
+                    <div class="border-t pt-4">
+                        <div class="flex justify-between items-center mb-1">
+                            <span class="text-sm text-gray-600">Expired Codes</span>
+                            <span class="text-2xl font-bold text-gray-400">8</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Tips -->
+            <div class="bg-purple-50 rounded-xl border border-purple-200 p-6">
+                <div class="flex items-center gap-2 mb-3">
+                    <svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <h3 class="font-semibold text-purple-900">Quick Tips</h3>
+                </div>
+                <ul class="space-y-2 text-sm text-purple-800">
+                    <li class="flex gap-2">
+                        <span>•</span>
+                        <span>Use unique codes for each realtor to track performance</span>
+                    </li>
+                    <li class="flex gap-2">
+                        <span>•</span>
+                        <span>Set expiration dates to create urgency</span>
+                    </li>
+                    <li class="flex gap-2">
+                        <span>•</span>
+                        <span>Include clear descriptions for the perk page</span>
+                    </li>
+                    <li class="flex gap-2">
+                        <span>•</span>
+                        <span>Link codes to specific properties when applicable</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Business Info -->
+            <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                <h3 class="font-semibold text-gray-700 mb-4">Your Business</h3>
+                <div class="space-y-3 text-sm">
+                    <div>
+                        <span class="text-gray-500 block">Business Name</span>
+                        <span class="font-medium text-gray-900">Pro Property Photography</span>
+                    </div>
+                    <div>
+                        <span class="text-gray-500 block">Business Type</span>
+                        <span class="font-medium text-gray-900">Photography</span>
+                    </div>
+                    <div>
+                        <span class="text-gray-500 block">Contact Person</span>
+                        <span class="font-medium text-gray-900">John Smith</span>
+                    </div>
+                    <div>
+                        <span class="text-gray-500 block">Phone Number</span>
+                        <span class="font-medium text-gray-900">(972) 555-0456</span>
+                    </div>
+                    <div>
+                        <span class="text-gray-500 block">Email</span>
+                        <span class="font-medium text-gray-900">info@proprophoto.com</span>
+                    </div>
+                    <div>
+                        <span class="text-gray-500 block">Website</span>
+                        <span class="font-medium text-gray-900">proprophoto.com</span>
+                    </div>
+                    <div>
+                        <span class="text-gray-500 block">Service States</span>
+                        <span class="font-medium text-gray-900">TX, OK</span>
+                    </div>
+                    <div>
+                        <span class="text-gray-500 block">Service Cities</span>
+                        <span class="font-medium text-gray-900">Dallas, Plano, Frisco, Allen</span>
+                    </div>
+                    <div>
+                        <span class="text-gray-500 block">Business Description</span>
+                        <span class="font-medium text-gray-900">Professional real estate photography and drone services</span>
+                    </div>
+                    <div>
+                        <span class="text-gray-500 block">Business Card</span>
+                        <div class="mt-2 space-y-1">
+                            <div class="flex items-center gap-2">
+                                <span class="text-xs text-gray-500">Front:</span>
+                                <span class="text-xs text-blue-600 hover:underline cursor-pointer">card-front.jpg</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span class="text-xs text-gray-500">Back:</span>
+                                <span class="text-xs text-blue-600 hover:underline cursor-pointer">card-back.jpg</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button onclick="document.getElementById('edit-business-modal').showModal()" 
+                    class="mt-4 w-full text-sm bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 rounded-lg transition">
+                    Edit Business Info
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Business Info Modal -->
+<dialog id="edit-business-modal"
+    class="p-0 rounded-2xl shadow-2xl backdrop:bg-black/60 w-full max-w-2xl m-auto open:animate-scale-in relative overflow-hidden">
+    <div class="bg-white p-8">
+        <div class="flex justify-between items-center mb-6">
+            <h3 class="text-2xl font-bold text-gray-900">Edit Business Information</h3>
+            <button onclick="document.getElementById('edit-business-modal').close()"
+                class="text-gray-400 hover:text-gray-600 transition">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+        </div>
+
+        <form class="space-y-4 max-h-[70vh] overflow-y-auto pr-2">
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Business Name *</label>
+                <input type="text" value="Pro Property Photography"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent" />
+            </div>
+
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Business Type *</label>
+                <select class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+                    <option>Photography</option>
+                    <option>Marketing Agency</option>
+                    <option>Social Media Management</option>
+                    <option>Videography</option>
+                    <option>Staging Services</option>
+                    <option>Virtual Tour Provider</option>
+                    <option>Other</option>
+                </select>
+            </div>
+
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Contact Person *</label>
+                <input type="text" value="John Smith"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent" />
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Phone Number *</label>
+                    <input type="tel" value="(972) 555-0456"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent" />
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Email *</label>
+                    <input type="email" value="info@proprophoto.com"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent" />
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Website</label>
+                <input type="url" value="proprophoto.com"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                    placeholder="https://yourwebsite.com" />
+            </div>
+
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Service States *</label>
+                <input type="text" value="TX, OK"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                    placeholder="e.g., TX, CA, FL" />
+                <p class="text-xs text-gray-500 mt-1">Separate multiple states with commas</p>
+            </div>
+
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Service Cities *</label>
+                <input type="text" value="Dallas, Plano, Frisco, Allen"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                    placeholder="e.g., Dallas, Houston, Austin" />
+                <p class="text-xs text-gray-500 mt-1">Separate multiple cities with commas</p>
+            </div>
+
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Business Description *</label>
+                <textarea rows="3"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                    placeholder="Describe your services">Professional real estate photography and drone services</textarea>
+                <p class="text-xs text-gray-500 mt-1">This will be displayed on your public listing</p>
+            </div>
+
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Business Card - Front *</label>
+                <div class="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center hover:border-purple-400 transition cursor-pointer">
+                    <input type="file" accept="image/*" class="hidden" id="card-front" />
+                    <label for="card-front" class="cursor-pointer">
+                        <svg class="w-8 h-8 mx-auto text-gray-400 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                        </svg>
+                        <span class="text-sm text-gray-600">Click to upload front of business card</span>
+                        <p class="text-xs text-gray-400 mt-1">PNG, JPG up to 5MB</p>
+                    </label>
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Business Card - Back *</label>
+                <div class="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center hover:border-purple-400 transition cursor-pointer">
+                    <input type="file" accept="image/*" class="hidden" id="card-back" />
+                    <label for="card-back" class="cursor-pointer">
+                        <svg class="w-8 h-8 mx-auto text-gray-400 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                        </svg>
+                        <span class="text-sm text-gray-600">Click to upload back of business card</span>
+                        <p class="text-xs text-gray-400 mt-1">PNG, JPG up to 5MB</p>
+                    </label>
+                </div>
+            </div>
+
+            <div class="flex gap-3 pt-4">
+                <button type="button" onclick="document.getElementById('edit-business-modal').close()"
+                    class="flex-1 px-6 py-3 border border-gray-300 text-gray-700 font-semibold rounded-lg hover:bg-gray-50 transition">
+                    Cancel
+                </button>
+                <button type="submit"
+                    class="flex-1 px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-lg transition shadow-md hover:shadow-lg">
+                    Save Changes
+                </button>
+            </div>
+        </form>
+    </div>
+</dialog>
+
+<script>
+    function generateRandomCode() {
+        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        let code = '';
+        for (let i = 0; i < 8; i++) {
+            code += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+        document.getElementById('promoCode').value = code;
+    }
+
+    function copyToClipboard(text) {
+        navigator.clipboard.writeText(text).then(() => {
+            alert('Promo code copied to clipboard!');
+        });
+    }
+</script>
+{% endblock %}

@@ -15,20 +15,23 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from django.views.generic import TemplateView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('api/', include('api.urls')),
     path('', TemplateView.as_view(template_name='home.html'), name='home'),
     path('lenders/', TemplateView.as_view(template_name='lenders.html'), name='lenders'),
     path('brokers/', TemplateView.as_view(template_name='brokers.html'), name='brokers'),
     path('partners/', TemplateView.as_view(template_name='partners.html'), name='partners'),
+    path('promoters/', TemplateView.as_view(template_name='promoters.html'), name='promoters'),
     path('login/', TemplateView.as_view(template_name='login.html'), name='login'),
     path('signup/', TemplateView.as_view(template_name='signup.html'), name='signup'),
     path('dashboard/realtor/', TemplateView.as_view(template_name='realtor_dashboard.html'), name='realtor_dashboard'),
     path('dashboard/lender/', TemplateView.as_view(template_name='lender_dashboard.html'), name='lender_dashboard'),
     path('dashboard/broker/', TemplateView.as_view(template_name='broker_dashboard.html'), name='broker_dashboard'),
     path('dashboard/partner/', TemplateView.as_view(template_name='partner_dashboard.html'), name='partner_dashboard'),
+    path('dashboard/promoter/', TemplateView.as_view(template_name='promoter_dashboard.html'), name='promoter_dashboard'),
     path('property/<str:listing_id>/', TemplateView.as_view(template_name='property_detail.html'), name='property_detail'),
 ]
