@@ -475,5 +475,41 @@
             alert('Promo code copied to clipboard!');
         });
     }
+
+    // Authentication check
+    const AUTH_TOKEN = localStorage.getItem('authToken') || localStorage.getItem('auth_token');
+
+    // Check auth on page load
+    if (!AUTH_TOKEN) {
+        console.warn('No authentication token. Redirecting to login...');
+        setTimeout(() => {
+            window.location.href = '/login/';
+        }, 1000);
+    } else {
+        // Load user info from localStorage
+        try {
+            const userStr = localStorage.getItem('user');
+            if (userStr) {
+                const user = JSON.parse(userStr);
+                const fullName = user.full_name || `${user.first_name || ''} ${user.last_name || ''}`.trim() || 'User';
+                const role = user.role || 'User';
+                
+                // Update sidebar user info if exists
+                const sidebarUserName = document.querySelector('.p-6.pb-2 .font-semibold');
+                const sidebarUserRole = document.querySelector('.p-6.pb-2 .text-xs.text-gray-500');
+                
+                if (sidebarUserName) sidebarUserName.textContent = fullName;
+                if (sidebarUserRole) sidebarUserRole.textContent = role.charAt(0).toUpperCase() + role.slice(1);
+                
+                // Update avatar
+                const avatar = document.querySelector('.p-6.pb-2 img');
+                if (avatar && fullName) {
+                    avatar.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(fullName)}&background=e0e7ff&color=4f46e5`;
+                }
+            }
+        } catch (error) {
+            console.warn('Could not load user from storage:', error);
+        }
+    }
 </script>
 {% endblock %}

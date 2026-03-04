@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Broker Dashboard | Open House</title>
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🏠%3C/text%3E%3C/svg%3E">
+    <link rel="icon"
+        href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🏠%3C/text%3E%3C/svg%3E">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         .sidebar-link.active {
@@ -323,6 +324,9 @@
     </main>
 
     <script>
+        // Authentication check
+        const AUTH_TOKEN = localStorage.getItem("authToken") || localStorage.getItem("auth_token");
+
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
             sidebar.classList.toggle('-translate-x-full');
@@ -338,11 +342,70 @@
             document.querySelectorAll('.sidebar-link').forEach(el => el.classList.remove('active'));
             document.getElementById('nav-' + tabId).classList.add('active');
 
+            // Update URL with tab parameter
+            const url = new URL(window.location);
+            url.searchParams.set('tab', tabId);
+            window.history.pushState({}, '', url);
+
             // On mobile, auto-close sidebar
             if (window.innerWidth < 768) {
                 toggleSidebar();
             }
         }
+
+        function initializeTab() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const tabParam = urlParams.get('tab');
+
+            const validTabs = ['profile', 'media', 'settings'];
+            const activeTab = validTabs.includes(tabParam) ? tabParam : 'profile';
+
+            switchTab(activeTab);
+        }
+
+        // Run on page load
+        document.addEventListener('DOMContentLoaded', function () {
+            // Initialize tab from URL
+            initializeTab();
+
+            // Check auth on page load
+            if (!AUTH_TOKEN) {
+                console.warn("No authentication token. Redirecting to login...");
+                setTimeout(() => {
+                    window.location.href = "/login/";
+                }, 1000);
+            } else {
+                // Load user info from localStorage
+                try {
+                    const userStr = localStorage.getItem("user");
+                    if (userStr) {
+                        const user = JSON.parse(userStr);
+                        const fullName = user.full_name || `${user.first_name || ""} ${user.last_name || ""}`.trim() || "User";
+                        const role = user.role || "User";
+
+                        // Update sidebar user info
+                        const sidebarUserName = document.querySelector(".p-6.pb-2 .font-semibold");
+                        const sidebarUserRole = document.querySelector(".p-6.pb-2 .text-xs.text-gray-500");
+
+                        if (sidebarUserName) sidebarUserName.textContent = fullName;
+                        if (sidebarUserRole) sidebarUserRole.textContent = role.charAt(0).toUpperCase() + role.slice(1);
+
+                        // Update avatar
+                        const avatar = document.querySelector(".p-6.pb-2 img");
+                        if (avatar && fullName) {
+                            avatar.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(fullName)}&background=e0e7ff&color=4f46e5`;
+                        }
+                    }
+                } catch (error) {
+                    console.warn("Could not load user from storage:", error);
+                }
+            }
+        });
+
+        // Handle browser back/forward navigation
+        window.addEventListener('popstate', function () {
+            initializeTab();
+        });
     </script>
 </body>
 

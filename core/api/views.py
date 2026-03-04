@@ -5,11 +5,13 @@ from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.authtoken.models import Token
 from django.contrib.auth.models import User
-from .serializers import UserSerializer, LoginSerializer, RealtorProfileSerializer
+from .serializers import (
+    UserSerializer,
+    LoginSerializer,
+    RealtorProfileSerializer,
+    ProfilePhotoUploadSerializer
+)
 from .models import UserProfile, RealtorProfile
-from django.core.files.storage import default_storage
-from django.conf import settings
-import os
 
 
 class SignupViewSet(viewsets.ViewSet):
@@ -120,49 +122,30 @@ class RealtorProfileViewSet(viewsets.ModelViewSet):
             profile = RealtorProfile.objects.get(user=request.user)
         except RealtorProfile.DoesNotExist:
             profile = RealtorProfile.objects.create(user=request.user)
-        
-        if 'photo' not in request.FILES:
+
+        # Use serializer for validation and processing
+        serializer = ProfilePhotoUploadSerializer(data=request.data)
+
+        if not serializer.is_valid():
             return Response(
-                {'error': 'No photo file provided'},
+                serializer.errors,
                 status=status.HTTP_400_BAD_REQUEST
             )
-        
-        photo = request.FILES['photo']
-        
-        # Validate file size (max 3MB)
-        if photo.size > 3 * 1024 * 1024:
+
+        try:
+            # Save photo using serializer
+            photo_url = serializer.save_photo(request.user, profile)
+
+            return Response({
+                'message': 'Photo uploaded successfully',
+                'photo_url': photo_url
+            }, status=status.HTTP_200_OK)
+
+        except Exception as e:
             return Response(
-                {'error': 'File size exceeds 3MB limit'},
-                status=status.HTTP_400_BAD_REQUEST
+                {'error': f'Failed to save photo: {str(e)}'},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
-        
-        # Validate file type
-        allowed_types = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp']
-        if photo.content_type not in allowed_types:
-            return Response(
-                {'error': 'Invalid file type. Allowed: JPEG, JPG, PNG, WEBP'},
-                status=status.HTTP_400_BAD_REQUEST
-            )
-        
-        # Create unique filename
-        ext = os.path.splitext(photo.name)[1]
-        filename = f'profile_photos/{request.user.id}_{request.user.username}{ext}'
-        
-        # Delete old photo if exists
-        if profile.profile_photo:
-            old_path = profile.profile_photo.replace(settings.MEDIA_URL, '')
-            if default_storage.exists(old_path):
-                default_storage.delete(old_path)
-        
-        # Save new photo
-        path = default_storage.save(filename, photo)
-        profile.profile_photo = settings.MEDIA_URL + path
-        profile.save()
-        
-        return Response({
-            'message': 'Photo uploaded successfully',
-            'photo_url': profile.profile_photo
-        }, status=status.HTTP_200_OK)
     
     @action(detail=False, methods=['put', 'patch'])
     def update_profile(self, request):

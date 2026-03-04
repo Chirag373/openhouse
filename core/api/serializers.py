@@ -2,7 +2,10 @@ from rest_framework import serializers
 from django.contrib.auth.models import User
 from django.contrib.auth.password_validation import validate_password
 from django.contrib.auth import authenticate
+from django.core.files.storage import default_storage
+from django.conf import settings
 from .models import UserProfile, RealtorProfile
+import os
 
 
 class UserProfileSerializer(serializers.ModelSerializer):
@@ -161,3 +164,71 @@ class RealtorProfileSerializer(serializers.ModelSerializer):
         instance.save()
         
         return instance
+
+
+
+class ProfilePhotoUploadSerializer(serializers.Serializer):
+    """
+    Serializer for handling profile photo uploads with validation
+    """
+    photo = serializers.ImageField(required=True)
+    
+    # Configuration
+    MAX_FILE_SIZE = 3 * 1024 * 1024  # 3MB
+    ALLOWED_CONTENT_TYPES = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp']
+    ALLOWED_EXTENSIONS = ['.jpg', '.jpeg', '.png', '.webp']
+    
+    def validate_photo(self, value):
+        """
+        Validate the uploaded photo file
+        """
+        # Validate file size
+        if value.size > self.MAX_FILE_SIZE:
+            raise serializers.ValidationError(
+                f'File size exceeds {self.MAX_FILE_SIZE / (1024 * 1024):.0f}MB limit'
+            )
+        
+        # Validate content type
+        if value.content_type not in self.ALLOWED_CONTENT_TYPES:
+            raise serializers.ValidationError(
+                f'Invalid file type. Allowed types: {", ".join(self.ALLOWED_CONTENT_TYPES)}'
+            )
+        
+        # Validate file extension
+        ext = os.path.splitext(value.name)[1].lower()
+        if ext not in self.ALLOWED_EXTENSIONS:
+            raise serializers.ValidationError(
+                f'Invalid file extension. Allowed extensions: {", ".join(self.ALLOWED_EXTENSIONS)}'
+            )
+        
+        return value
+    
+    def save_photo(self, user, profile):
+        """
+        Save the uploaded photo and return the URL
+        """
+        photo = self.validated_data['photo']
+        
+        # Generate unique filename
+        ext = os.path.splitext(photo.name)[1].lower()
+        filename = f'profile_photos/{user.id}_{user.username}{ext}'
+        
+        # Delete old photo if exists
+        if profile.profile_photo:
+            old_path = profile.profile_photo.replace(settings.MEDIA_URL, '')
+            if default_storage.exists(old_path):
+                try:
+                    default_storage.delete(old_path)
+                except Exception as e:
+                    # Log error but don't fail the upload
+                    print(f"Warning: Could not delete old photo: {e}")
+        
+        # Save new photo
+        path = default_storage.save(filename, photo)
+        photo_url = settings.MEDIA_URL + path
+        
+        # Update profile
+        profile.profile_photo = photo_url
+        profile.save()
+        
+        return photo_url
