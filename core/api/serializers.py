@@ -4,7 +4,10 @@ from django.contrib.auth.password_validation import validate_password
 from django.contrib.auth import authenticate
 from django.core.files.storage import default_storage
 from django.conf import settings
-from .models import UserProfile, RealtorProfile, LenderProfile, BrokerProfile, PartnerProfile, PromoterProfile
+from .models import (
+    UserProfile, RealtorProfile, LenderProfile, BrokerProfile, 
+    PartnerProfile, PromoterProfile, Property, PropertyPhoto
+)
 import os
 
 
@@ -376,3 +379,91 @@ class ProfilePhotoUploadSerializer(serializers.Serializer):
         profile.save()
         
         return photo_url
+
+
+
+# Property Photo Serializer
+class PropertyPhotoSerializer(serializers.Serializer):
+    """Serializer for property photo uploads"""
+    photo = serializers.ImageField(required=True)
+    order = serializers.IntegerField(required=False, default=0)
+    
+    MAX_FILE_SIZE = 5 * 1024 * 1024  # 5MB
+    ALLOWED_CONTENT_TYPES = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp']
+    ALLOWED_EXTENSIONS = ['.jpg', '.jpeg', '.png', '.webp']
+    
+    def validate_photo(self, value):
+        """Validate the uploaded photo file"""
+        # Validate file size
+        if value.size > self.MAX_FILE_SIZE:
+            raise serializers.ValidationError(
+                f'File size exceeds {self.MAX_FILE_SIZE / (1024 * 1024):.0f}MB limit'
+            )
+        
+        # Validate content type
+        if value.content_type not in self.ALLOWED_CONTENT_TYPES:
+            raise serializers.ValidationError(
+                f'Invalid file type. Allowed types: {", ".join(self.ALLOWED_CONTENT_TYPES)}'
+            )
+        
+        # Validate file extension
+        ext = os.path.splitext(value.name)[1].lower()
+        if ext not in self.ALLOWED_EXTENSIONS:
+            raise serializers.ValidationError(
+                f'Invalid file extension. Allowed extensions: {", ".join(self.ALLOWED_EXTENSIONS)}'
+            )
+        
+        return value
+
+
+# Property Serializer
+class PropertySerializer(serializers.ModelSerializer):
+    realtor_name = serializers.CharField(source='realtor.get_full_name', read_only=True)
+    realtor_email = serializers.EmailField(source='realtor.email', read_only=True)
+    photos = serializers.SerializerMethodField(read_only=True)
+    photo_count = serializers.SerializerMethodField(read_only=True)
+    
+    class Meta:
+        model = Property
+        fields = [
+            'id',
+            'listing_id',
+            'realtor',
+            'realtor_name',
+            'realtor_email',
+            'property_type',
+            'status',
+            'street_address',
+            'unit_apt',
+            'city',
+            'state',
+            'zip_code',
+            'county',
+            'country',
+            'bedrooms',
+            'bathrooms',
+            'garage',
+            'sqft',
+            'lot_size',
+            'year_built',
+            'floor_type',
+            'kitchen_type',
+            'foundation_type',
+            'exterior',
+            'roof',
+            'appliances',
+            'price',
+            'description',
+            'photos',
+            'photo_count',
+            'created_at',
+            'updated_at',
+        ]
+        read_only_fields = ['id', 'listing_id', 'realtor', 'realtor_name', 'realtor_email', 'created_at', 'updated_at']
+    
+    def get_photos(self, obj):
+        photos = PropertyPhoto.objects.filter(property=obj).order_by('order')
+        return [{'id': p.id, 'url': p.photo_url, 'order': p.order} for p in photos]
+    
+    def get_photo_count(self, obj):
+        return PropertyPhoto.objects.filter(property=obj).count()

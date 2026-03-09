@@ -364,3 +364,155 @@ class PromoterProfileViewSet(viewsets.ModelViewSet):
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+import random
+import string
+from .models import Property, PropertyPhoto
+from .serializers import PropertySerializer, PropertyPhotoSerializer
+
+
+def generate_listing_id():
+    """Generate a unique 6-character alphanumeric listing ID"""
+    while True:
+        listing_id = ''.join(random.choices(string.ascii_uppercase + string.digits, k=6))
+        if not Property.objects.filter(listing_id=listing_id).exists():
+            return listing_id
+
+
+class PropertyViewSet(viewsets.ModelViewSet):
+    serializer_class = PropertySerializer
+    permission_classes = [IsAuthenticated]
+    
+    def get_queryset(self):
+        # Realtors can only see their own properties
+        if self.action == 'list':
+            return Property.objects.filter(realtor=self.request.user)
+        return Property.objects.all()
+    
+    def perform_create(self, serializer):
+        # Auto-generate listing ID and set realtor
+        serializer.save(
+            realtor=self.request.user,
+            listing_id=generate_listing_id()
+        )
+    
+    @action(detail=False, methods=['get'], permission_classes=[AllowAny])
+    def public_listings(self, request):
+        """Get all active properties for public display"""
+        properties = Property.objects.filter(status='active').select_related('realtor')
+        serializer = self.get_serializer(properties, many=True)
+        return Response(serializer.data)
+    
+    @action(detail=True, methods=['get'], permission_classes=[AllowAny])
+    def by_listing_id(self, request, pk=None):
+        """Get property by listing ID (public access)"""
+        try:
+            property_obj = Property.objects.get(listing_id=pk)
+            serializer = self.get_serializer(property_obj)
+            return Response(serializer.data)
+        except Property.DoesNotExist:
+            return Response({'error': 'Property not found'}, status=status.HTTP_404_NOT_FOUND)
+    
+    @action(detail=True, methods=['post'])
+    def upload_photos(self, request, pk=None):
+        """Upload photos for a property (max 5 photos)"""
+        property_obj = self.get_object()
+        
+        # Check if user owns this property
+        if property_obj.realtor != request.user:
+            return Response(
+                {'error': 'You do not have permission to upload photos for this property'},
+                status=status.HTTP_403_FORBIDDEN
+            )
+        
+        # Check current photo count
+        current_count = PropertyPhoto.objects.filter(property=property_obj).count()
+        
+        # Get uploaded files
+        files = request.FILES.getlist('photos')
+        
+        if not files:
+            return Response({'error': 'No photos provided'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        # Check if adding these photos would exceed limit
+        if current_count + len(files) > 5:
+            return Response(
+                {'error': f'Cannot upload {len(files)} photos. Maximum 5 photos allowed. Current: {current_count}'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
+        uploaded_photos = []
+        errors = []
+        
+        for idx, file in enumerate(files):
+            serializer = PropertyPhotoSerializer(data={'photo': file, 'order': current_count + idx})
+            
+            if not serializer.is_valid():
+                errors.append({f'photo_{idx}': serializer.errors})
+                continue
+            
+            try:
+                # Generate filename
+                ext = os.path.splitext(file.name)[1].lower()
+                filename = f'property_photos/{property_obj.listing_id}_{current_count + idx}{ext}'
+                
+                # Save file
+                path = default_storage.save(filename, file)
+                photo_url = settings.MEDIA_URL + path
+                
+                # Create PropertyPhoto record
+                photo = PropertyPhoto.objects.create(
+                    property=property_obj,
+                    photo_url=photo_url,
+                    order=current_count + idx
+                )
+                
+                uploaded_photos.append({
+                    'id': photo.id,
+                    'url': photo.photo_url,
+                    'order': photo.order
+                })
+            except Exception as e:
+                errors.append({f'photo_{idx}': str(e)})
+        
+        response_data = {
+            'message': f'Uploaded {len(uploaded_photos)} photo(s)',
+            'photos': uploaded_photos
+        }
+        
+        if errors:
+            response_data['errors'] = errors
+        
+        return Response(response_data, status=status.HTTP_200_OK if uploaded_photos else status.HTTP_400_BAD_REQUEST)
+    
+    @action(detail=True, methods=['delete'])
+    def delete_photo(self, request, pk=None):
+        """Delete a specific photo"""
+        property_obj = self.get_object()
+        
+        # Check if user owns this property
+        if property_obj.realtor != request.user:
+            return Response(
+                {'error': 'You do not have permission to delete photos for this property'},
+                status=status.HTTP_403_FORBIDDEN
+            )
+        
+        photo_id = request.data.get('photo_id')
+        if not photo_id:
+            return Response({'error': 'photo_id is required'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        try:
+            photo = PropertyPhoto.objects.get(id=photo_id, property=property_obj)
+            
+            # Delete file from storage
+            photo_path = photo.photo_url.replace(settings.MEDIA_URL, '')
+            if default_storage.exists(photo_path):
+                default_storage.delete(photo_path)
+            
+            photo.delete()
+            
+            return Response({'message': 'Photo deleted successfully'}, status=status.HTTP_200_OK)
+        except PropertyPhoto.DoesNotExist:
+            return Response({'error': 'Photo not found'}, status=status.HTTP_404_NOT_FOUND)

@@ -148,3 +148,90 @@ class PromoterProfile(BaseProfile):
         verbose_name = 'Promoter Profile'
         verbose_name_plural = 'Promoter Profiles'
 
+
+# Property Model
+class Property(models.Model):
+    PROPERTY_TYPE_CHOICES = [
+        ('single_family', 'Single Family'),
+        ('condo', 'Condo'),
+        ('townhouse', 'Townhouse'),
+        ('multi_family', 'Multi Family'),
+        ('land', 'Land'),
+        ('commercial', 'Commercial'),
+    ]
+    
+    STATUS_CHOICES = [
+        ('active', 'Active'),
+        ('pending', 'Pending'),
+        ('sold', 'Sold'),
+        ('off_market', 'Off Market'),
+    ]
+    
+    # Unique listing ID (6 characters alphanumeric)
+    listing_id = models.CharField(max_length=6, unique=True, db_index=True)
+    
+    # Owner/Realtor
+    realtor = models.ForeignKey(User, on_delete=models.CASCADE, related_name='properties')
+    
+    # Basic Info
+    property_type = models.CharField(max_length=20, choices=PROPERTY_TYPE_CHOICES, default='single_family')
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='active')
+    
+    # Address
+    street_address = models.CharField(max_length=255)
+    unit_apt = models.CharField(max_length=50, blank=True)
+    city = models.CharField(max_length=100)
+    state = models.CharField(max_length=50)
+    zip_code = models.CharField(max_length=20)
+    county = models.CharField(max_length=100, blank=True)
+    country = models.CharField(max_length=100, default='USA')
+    
+    # Property Details
+    bedrooms = models.DecimalField(max_digits=3, decimal_places=1, null=True, blank=True)
+    bathrooms = models.DecimalField(max_digits=3, decimal_places=1, null=True, blank=True)
+    garage = models.IntegerField(default=0)
+    sqft = models.IntegerField(null=True, blank=True)
+    lot_size = models.CharField(max_length=50, blank=True)
+    year_built = models.IntegerField(null=True, blank=True)
+    
+    # Features
+    floor_type = models.CharField(max_length=100, blank=True)
+    kitchen_type = models.CharField(max_length=100, blank=True)
+    foundation_type = models.CharField(max_length=100, blank=True)
+    exterior = models.CharField(max_length=100, blank=True)
+    roof = models.CharField(max_length=100, blank=True)
+    appliances = models.TextField(blank=True, help_text='Comma separated list')
+    
+    # Pricing
+    price = models.DecimalField(max_digits=12, decimal_places=2, null=True, blank=True)
+    
+    # Description
+    description = models.TextField(blank=True)
+    
+    # Timestamps
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    def __str__(self):
+        return f"{self.listing_id} - {self.street_address}, {self.city}"
+    
+    class Meta:
+        verbose_name = 'Property'
+        verbose_name_plural = 'Properties'
+        ordering = ['-created_at']
+
+
+# Property Photo Model (Max 5 photos per property)
+class PropertyPhoto(models.Model):
+    property = models.ForeignKey(Property, on_delete=models.CASCADE, related_name='photos')
+    photo_url = models.CharField(max_length=500)
+    order = models.IntegerField(default=0)
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return f"Photo {self.order} for {self.property.listing_id}"
+    
+    class Meta:
+        verbose_name = 'Property Photo'
+        verbose_name_plural = 'Property Photos'
+        ordering = ['order']

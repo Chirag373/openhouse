@@ -11,6 +11,7 @@ router.register(r'lender-profile', views.LenderProfileViewSet, basename='lender-
 router.register(r'broker-profile', views.BrokerProfileViewSet, basename='broker-profile')
 router.register(r'partner-profile', views.PartnerProfileViewSet, basename='partner-profile')
 router.register(r'promoter-profile', views.PromoterProfileViewSet, basename='promoter-profile')
+router.register(r'properties', views.PropertyViewSet, basename='property')
 
 urlpatterns = [
     path('', include(router.urls)),
