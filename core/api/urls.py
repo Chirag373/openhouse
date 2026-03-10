@@ -15,6 +15,7 @@ router.register(r'properties', views.PropertyViewSet, basename='property')
 router.register(r'open-houses', views.OpenHouseViewSet, basename='open-house')
 router.register(r'perks', views.PerkViewSet, basename='perk')
 router.register(r'notification-settings', views.NotificationSettingsViewSet, basename='notification-settings')
+router.register(r'promo-codes', views.PromoCodeViewSet, basename='promo-code')
 
 urlpatterns = [
     path('', include(router.urls)),

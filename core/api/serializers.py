@@ -7,7 +7,7 @@ from django.conf import settings
 from .models import (
     UserProfile, RealtorProfile, LenderProfile, BrokerProfile, 
     PartnerProfile, PromoterProfile, Property, PropertyPhoto,
-    OpenHouse, Perk, NotificationSettings
+    OpenHouse, Perk, NotificationSettings, PromoCode
 )
 import os
 
@@ -538,3 +538,13 @@ class ChangePasswordSerializer(serializers.Serializer):
         if attrs['new_password'] != attrs['confirm_password']:
             raise serializers.ValidationError({'confirm_password': "Password fields didn't match."})
         return attrs
+
+class PromoCodeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PromoCode
+        fields = [
+            'id', 'promoter', 'code', 'realtor_name', 'realtor_email',
+            'description', 'discount_value', 'expiration_date',
+            'property_link', 'is_active', 'created_at', 'updated_at'
+        ]
+        read_only_fields = ['id', 'promoter', 'created_at', 'updated_at']

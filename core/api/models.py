@@ -302,3 +302,26 @@ class NotificationSettings(models.Model):
     class Meta:
         verbose_name = 'Notification Settings'
         verbose_name_plural = 'Notification Settings'
+
+# Promo Code Model for Promoters
+class PromoCode(models.Model):
+    promoter = models.ForeignKey(User, on_delete=models.CASCADE, related_name='promo_codes')
+    code = models.CharField(max_length=50, unique=True)
+    realtor_name = models.CharField(max_length=255)
+    realtor_email = models.EmailField()
+    description = models.TextField()
+    discount_value = models.CharField(max_length=100)
+    expiration_date = models.DateField(null=True, blank=True)
+    property_link = models.CharField(max_length=500, blank=True)
+    is_active = models.BooleanField(default=True)
+    
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    def __str__(self):
+        return f"{self.code} - {self.promoter.username}"
+    
+    class Meta:
+        verbose_name = 'Promo Code'
+        verbose_name_plural = 'Promo Codes'
+        ordering = ['-created_at']

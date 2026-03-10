@@ -21,6 +21,7 @@ from .serializers import (
     PerkSerializer,
     NotificationSettingsSerializer,
     ChangePasswordSerializer,
+    PromoCodeSerializer,
 )
 from .models import (
     UserProfile,
@@ -34,6 +35,7 @@ from .models import (
     OpenHouse,
     Perk,
     NotificationSettings,
+    PromoCode,
 )
 
 
@@ -802,6 +804,9 @@ class NotificationSettingsViewSet(viewsets.ViewSet):
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
+        serializer.save(promoter=self.request.user)
+
     @action(detail=False, methods=['post'])
     def change_password(self, request):
         serializer = ChangePasswordSerializer(data=request.data)
@@ -821,3 +826,17 @@ class NotificationSettingsViewSet(viewsets.ViewSet):
             {'message': 'Password updated successfully.', 'token': token.key},
             status=status.HTTP_200_OK
         )
+
+
+class PromoCodeViewSet(viewsets.ModelViewSet):
+    """
+    ViewSet for managing Promo Codes for Promoters
+    """
+    serializer_class = PromoCodeSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return PromoCode.objects.filter(promoter=self.request.user).order_by('-created_at')
+
+    def perform_create(self, serializer):
+        serializer.save(promoter=self.request.user)
