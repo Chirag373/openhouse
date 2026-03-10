@@ -332,451 +332,589 @@
                         <div class="mt-2 space-y-1">
                             <div class="flex items-center gap-2">
                                 <span class="text-xs text-gray-500">Front:</span>
-                                <span id="display_card_front"
-                                    class="text-xs text-blue-600 hover:underline cursor-pointer">—</span>
-                            </div>
-                            <div class="flex items-center gap-2">
-                                <span class="text-xs text-gray-500">Back:</span>
-                                <span id="display_card_back"
-                                    class="text-xs text-blue-600 hover:underline cursor-pointer">—</span>
+                                <div class="flex items-center gap-2">
+                                    <span class="text-xs text-gray-500">Front:</span>
+                                    <a id="display_card_front"
+                                        class="text-xs text-blue-600 hover:underline cursor-pointer">—</a>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <span class="text-xs text-gray-500">Back:</span>
+                                    <a id="display_card_back"
+                                        class="text-xs text-blue-600 hover:underline cursor-pointer">—</a>
+                                </div>
                             </div>
                         </div>
                     </div>
+                    <button onclick="document.getElementById('edit-business-modal').showModal()"
+                        class="mt-4 w-full text-sm bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 rounded-lg transition">
+                        Edit Business Info
+                    </button>
                 </div>
-                <button onclick="document.getElementById('edit-business-modal').showModal()"
-                    class="mt-4 w-full text-sm bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 rounded-lg transition">
-                    Edit Business Info
-                </button>
             </div>
         </div>
     </div>
-</div>
 
-<!-- Edit Business Info Modal -->
-<dialog id="edit-business-modal"
-    class="p-0 rounded-2xl shadow-2xl backdrop:bg-black/60 w-full max-w-2xl m-auto open:animate-scale-in relative overflow-hidden">
-    <div class="bg-white p-8">
-        <div class="flex justify-between items-center mb-6">
-            <h3 class="text-2xl font-bold text-gray-900">Edit Business Information</h3>
-            <button onclick="document.getElementById('edit-business-modal').close()"
-                class="text-gray-400 hover:text-gray-600 transition">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
-                    </path>
-                </svg>
-            </button>
-        </div>
-
-        <form class="space-y-4 max-h-[70vh] overflow-y-auto pr-2" onsubmit="event.preventDefault(); saveProfile();">
-            <div class="mb-4 flex items-center gap-6">
-                <div id="photo-preview-container"
-                    class="relative w-24 h-24 rounded-full bg-gray-100 border-2 border-dashed border-gray-300 flex items-center justify-center text-gray-400 hover:bg-gray-50 cursor-pointer overflow-hidden group">
-                    <img id="photo-preview" src="" alt="Profile"
-                        class="hidden w-full h-full object-cover">
-                    <svg id="photo-icon" class="w-8 h-8 group-hover:hidden" fill="none"
-                        stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z">
+    <!-- Edit Business Info Modal -->
+    <dialog id="edit-business-modal"
+        class="p-0 rounded-2xl shadow-2xl backdrop:bg-black/60 w-full max-w-2xl m-auto open:animate-scale-in relative overflow-hidden">
+        <div class="bg-white p-8">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold text-gray-900">Edit Business Information</h3>
+                <button onclick="document.getElementById('edit-business-modal').close()"
+                    class="text-gray-400 hover:text-gray-600 transition">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
                         </path>
                     </svg>
-                    <span id="photo-text"
-                        class="text-xs absolute bottom-4 group-hover:hidden">Upload</span>
-                    <input type="file" id="profile-photo-input"
-                        accept="image/jpeg,image/jpg,image/png,image/webp"
-                        class="absolute inset-0 opacity-0 cursor-pointer">
-                </div>
-                <div class="text-sm text-gray-500">
-                    <p class="font-medium text-gray-700">Profile Photo</p>
-                    <p>Allowed *.jpeg, *.jpg, *.png, *.webp</p>
-                    <p>Max size of 3 MB</p>
-                    <p id="upload-status" class="text-xs mt-1"></p>
-                </div>
+                </button>
             </div>
 
-            <div>
-                <label class="block text-sm font-semibold text-gray-700 mb-2">Business Name *</label>
-                <input type="text" id="company_name"
-                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent" />
-            </div>
-
-            <div>
-                <label class="block text-sm font-semibold text-gray-700 mb-2">Business Type *</label>
-                <select id="business_type"
-                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
-                    <option value="">Select Type...</option>
-                    <option value="photography">Photography</option>
-                    <option value="marketing_agency">Marketing Agency</option>
-                    <option value="social_media">Social Media Management</option>
-                    <option value="videography">Videography</option>
-                    <option value="staging">Staging Services</option>
-                    <option value="virtual_tour">Virtual Tour Provider</option>
-                    <option value="other">Other</option>
-                </select>
-            </div>
-
-            <div class="grid grid-cols-2 gap-4">
-                <div>
-                    <label class="block text-sm font-semibold text-gray-700 mb-2">First Name *</label>
-                    <input type="text" id="first_name"
-                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent" />
-                </div>
-                <div>
-                    <label class="block text-sm font-semibold text-gray-700 mb-2">Last Name *</label>
-                    <input type="text" id="last_name"
-                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent" />
-                </div>
-            </div>
-
-            <div class="grid grid-cols-2 gap-4">
-                <div>
-                    <label class="block text-sm font-semibold text-gray-700 mb-2">Phone Number *</label>
-                    <input type="tel" id="phone_number_1"
-                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent" />
-                </div>
-                <div>
-                    <label class="block text-sm font-semibold text-gray-700 mb-2">Email *</label>
-                    <input type="email" id="email"
-                        class="w-full px-4 py-2 border border-gray-200 rounded-lg bg-gray-50 text-gray-500 cursor-not-allowed"
-                        readonly />
-                </div>
-            </div>
-
-            <div>
-                <label class="block text-sm font-semibold text-gray-700 mb-2">Website</label>
-                <input type="url" id="business_website"
-                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                    placeholder="https://yourwebsite.com" />
-            </div>
-
-            <div>
-                <label class="block text-sm font-semibold text-gray-700 mb-2">Service States *</label>
-                <input type="text" id="serving_states"
-                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                    placeholder="e.g., TX, CA, FL" />
-                <p class="text-xs text-gray-500 mt-1">Separate multiple states with commas</p>
-            </div>
-
-            <div>
-                <label class="block text-sm font-semibold text-gray-700 mb-2">Service Cities *</label>
-                <input type="text" id="serving_cities"
-                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                    placeholder="e.g., Dallas, Houston, Austin" />
-                <p class="text-xs text-gray-500 mt-1">Separate multiple cities with commas</p>
-            </div>
-
-            <div>
-                <label class="block text-sm font-semibold text-gray-700 mb-2">Business Description *</label>
-                <textarea rows="3" id="biography"
-                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                    placeholder="Describe your services"></textarea>
-                <p class="text-xs text-gray-500 mt-1">This will be displayed on your public listing</p>
-            </div>
-
-            <div>
-                <label class="block text-sm font-semibold text-gray-700 mb-2">Business Card - Front *</label>
-                <div
-                    class="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center hover:border-purple-400 transition cursor-pointer">
-                    <input type="file" accept="image/*" class="hidden" id="card-front" />
-                    <label for="card-front" class="cursor-pointer">
-                        <svg class="w-8 h-8 mx-auto text-gray-400 mb-2" fill="none" stroke="currentColor"
+            <form class="space-y-4 max-h-[70vh] overflow-y-auto pr-2" onsubmit="event.preventDefault(); saveProfile();">
+                <div class="mb-4 flex items-center gap-6">
+                    <div id="photo-preview-container"
+                        class="relative w-24 h-24 rounded-full bg-gray-100 border-2 border-dashed border-gray-300 flex items-center justify-center text-gray-400 hover:bg-gray-50 cursor-pointer overflow-hidden group">
+                        <img id="photo-preview" src="" alt="Profile" class="hidden w-full h-full object-cover">
+                        <svg id="photo-icon" class="w-8 h-8 group-hover:hidden" fill="none" stroke="currentColor"
                             viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z">
                             </path>
                         </svg>
-                        <span class="text-sm text-gray-600">Click to upload front of business card</span>
-                        <p class="text-xs text-gray-400 mt-1">PNG, JPG up to 5MB</p>
-                    </label>
+                        <span id="photo-text" class="text-xs absolute bottom-4 group-hover:hidden">Upload</span>
+                        <input type="file" id="profile-photo-input" accept="image/jpeg,image/jpg,image/png,image/webp"
+                            class="absolute inset-0 opacity-0 cursor-pointer">
+                    </div>
+                    <div class="text-sm text-gray-500">
+                        <p class="font-medium text-gray-700">Profile Photo</p>
+                        <p>Allowed *.jpeg, *.jpg, *.png, *.webp</p>
+                        <p>Max size of 3 MB</p>
+                        <p id="upload-status" class="text-xs mt-1"></p>
+                    </div>
                 </div>
-            </div>
 
-            <div>
-                <label class="block text-sm font-semibold text-gray-700 mb-2">Business Card - Back *</label>
-                <div
-                    class="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center hover:border-purple-400 transition cursor-pointer">
-                    <input type="file" accept="image/*" class="hidden" id="card-back" />
-                    <label for="card-back" class="cursor-pointer">
-                        <svg class="w-8 h-8 mx-auto text-gray-400 mb-2" fill="none" stroke="currentColor"
-                            viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z">
-                            </path>
-                        </svg>
-                        <span class="text-sm text-gray-600">Click to upload back of business card</span>
-                        <p class="text-xs text-gray-400 mt-1">PNG, JPG up to 5MB</p>
-                    </label>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Business Name *</label>
+                    <input type="text" id="company_name"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent" />
                 </div>
-            </div>
 
-            <div class="flex gap-3 pt-4">
-                <button type="button" onclick="document.getElementById('edit-business-modal').close()"
-                    class="flex-1 px-6 py-3 border border-gray-300 text-gray-700 font-semibold rounded-lg hover:bg-gray-50 transition">
-                    Cancel
-                </button>
-                <button type="submit"
-                    class="flex-1 px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-lg transition shadow-md hover:shadow-lg">
-                    Save Changes
-                </button>
-            </div>
-        </form>
-    </div>
-</dialog>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Business Type *</label>
+                    <select id="business_type"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+                        <option value="">Select Type...</option>
+                        <option value="photography">Photography</option>
+                        <option value="marketing_agency">Marketing Agency</option>
+                        <option value="social_media">Social Media Management</option>
+                        <option value="videography">Videography</option>
+                        <option value="staging">Staging Services</option>
+                        <option value="virtual_tour">Virtual Tour Provider</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
 
-<script>
-    const API_BASE_URL = '/api';
-    const AUTH_TOKEN = localStorage.getItem('authToken') || localStorage.getItem('auth_token');
-    const FETCH_TIMEOUT = 5000;
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">First Name *</label>
+                        <input type="text" id="first_name"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent" />
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Last Name *</label>
+                        <input type="text" id="last_name"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent" />
+                    </div>
+                </div>
 
-    const BUSINESS_TYPE_LABELS = {
-        'photography': 'Photography',
-        'marketing_agency': 'Marketing Agency',
-        'social_media': 'Social Media Management',
-        'videography': 'Videography',
-        'staging': 'Staging Services',
-        'virtual_tour': 'Virtual Tour Provider',
-        'other': 'Other'
-    };
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Phone Number *</label>
+                        <input type="tel" id="phone_number_1"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent" />
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Email *</label>
+                        <input type="email" id="email"
+                            class="w-full px-4 py-2 border border-gray-200 rounded-lg bg-gray-50 text-gray-500 cursor-not-allowed"
+                            readonly />
+                    </div>
+                </div>
 
-    function generateRandomCode() {
-        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-        let code = '';
-        for (let i = 0; i < 8; i++) {
-            code += chars.charAt(Math.floor(Math.random() * chars.length));
-        }
-        document.getElementById('promoCode').value = code;
-    }
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Website</label>
+                    <input type="url" id="business_website"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                        placeholder="https://yourwebsite.com" />
+                </div>
 
-    function copyToClipboard(text) {
-        navigator.clipboard.writeText(text).then(() => {
-            alert('Promo code copied to clipboard!');
-        });
-    }
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Service States *</label>
+                    <input type="text" id="serving_states"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                        placeholder="e.g., TX, CA, FL" />
+                    <p class="text-xs text-gray-500 mt-1">Separate multiple states with commas</p>
+                </div>
 
-    async function fetchWithTimeout(url, options, timeout = FETCH_TIMEOUT) {
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), timeout);
-        try {
-            const response = await fetch(url, { ...options, signal: controller.signal });
-            clearTimeout(timeoutId);
-            return response;
-        } catch (error) { clearTimeout(timeoutId); throw error; }
-    }
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Service Cities *</label>
+                    <input type="text" id="serving_cities"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                        placeholder="e.g., Dallas, Houston, Austin" />
+                    <p class="text-xs text-gray-500 mt-1">Separate multiple cities with commas</p>
+                </div>
 
-    function checkAuth() {
-        if (!AUTH_TOKEN) { setTimeout(() => { window.location.href = '/login/'; }, 1000); return false; }
-        return true;
-    }
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Business Description *</label>
+                    <textarea rows="3" id="biography"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                        placeholder="Describe your services"></textarea>
+                    <p class="text-xs text-gray-500 mt-1">This will be displayed on your public listing</p>
+                </div>
 
-    async function fetchProfile() {
-        if (!checkAuth()) return;
-        try {
-            const response = await fetchWithTimeout(`${API_BASE_URL}/promoter-profile/me/`, {
-                method: 'GET',
-                headers: { 'Authorization': `Token ${AUTH_TOKEN}`, 'Content-Type': 'application/json' }
-            });
-            if (response.status === 401 || response.status === 403) {
-                localStorage.removeItem('authToken'); localStorage.removeItem('auth_token'); localStorage.removeItem('user');
-                window.location.href = '/login/'; return;
-            }
-            if (!response.ok) return;
-            const data = await response.json();
-            populateProfileForm(data);
-            updateDisplayPanel(data);
-        } catch (error) { console.warn('Error fetching profile:', error); }
-    }
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Business Card - Front *</label>
+                    <div onclick="document.getElementById('business-card-front-input').click()"
+                        class="border-2 border-dashed border-gray-300 rounded-lg h-40 flex flex-col items-center justify-center text-gray-400 hover:bg-gray-50 cursor-pointer transition relative overflow-hidden group">
+                        <img id="front-card-preview" src="" alt="Front Card"
+                            class="hidden w-full h-full object-contain p-2">
+                        <div id="front-card-placeholder"
+                            class="flex flex-col items-center justify-center w-full h-full absolute inset-0 group-hover:bg-black/5 transition-colors">
+                            <svg id="front-card-icon" class="w-8 h-8 mx-auto text-gray-400 mb-2" fill="none"
+                                stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z">
+                                </path>
+                            </svg>
+                            <span id="front-card-text" class="text-sm text-gray-600">Click to upload front of business
+                                card</span>
+                            <p class="text-xs text-gray-400 mt-1">PNG, JPG up to 5MB</p>
+                        </div>
+                        <p id="upload-status-front" class="text-xs font-semibold mt-1 absolute bottom-2 z-10"></p>
+                        <input type="file" id="business-card-front-input" class="hidden"
+                            accept="image/jpeg,image/jpg,image/png,image/webp">
+                    </div>
+                </div>
 
-    function populateProfileForm(data) {
-        const fields = {
-            'first_name': data.first_name, 'last_name': data.last_name, 'email': data.email,
-            'phone_number_1': data.phone_number_1, 'company_name': data.company_name,
-            'business_website': data.business_website,
-            'serving_states': data.serving_states, 'serving_cities': data.serving_cities,
-            'biography': data.biography
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Business Card - Back *</label>
+                    <div onclick="document.getElementById('business-card-back-input').click()"
+                        class="border-2 border-dashed border-gray-300 rounded-lg h-40 flex flex-col items-center justify-center text-gray-400 hover:bg-gray-50 cursor-pointer transition relative overflow-hidden group">
+                        <img id="back-card-preview" src="" alt="Back Card"
+                            class="hidden w-full h-full object-contain p-2">
+                        <div id="back-card-placeholder"
+                            class="flex flex-col items-center justify-center w-full h-full absolute inset-0 group-hover:bg-black/5 transition-colors">
+                            <svg id="back-card-icon" class="w-8 h-8 mx-auto text-gray-400 mb-2" fill="none"
+                                stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z">
+                                </path>
+                            </svg>
+                            <span id="back-card-text" class="text-sm text-gray-600">Click to upload back of business
+                                card</span>
+                            <p class="text-xs text-gray-400 mt-1">PNG, JPG up to 5MB</p>
+                        </div>
+                        <p id="upload-status-back" class="text-xs font-semibold mt-1 absolute bottom-2 z-10"></p>
+                        <input type="file" id="business-card-back-input" class="hidden"
+                            accept="image/jpeg,image/jpg,image/png,image/webp">
+                    </div>
+                </div>
+
+                <div class="flex gap-3 pt-4">
+                    <button type="button" onclick="document.getElementById('edit-business-modal').close()"
+                        class="flex-1 px-6 py-3 border border-gray-300 text-gray-700 font-semibold rounded-lg hover:bg-gray-50 transition">
+                        Cancel
+                    </button>
+                    <button type="submit"
+                        class="flex-1 px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-lg transition shadow-md hover:shadow-lg">
+                        Save Changes
+                    </button>
+                </div>
+            </form>
+        </div>
+    </dialog>
+
+    <script>
+        const API_BASE_URL = '/api';
+        const AUTH_TOKEN = localStorage.getItem('authToken') || localStorage.getItem('auth_token');
+        const FETCH_TIMEOUT = 5000;
+
+        const BUSINESS_TYPE_LABELS = {
+            'photography': 'Photography',
+            'marketing_agency': 'Marketing Agency',
+            'social_media': 'Social Media Management',
+            'videography': 'Videography',
+            'staging': 'Staging Services',
+            'virtual_tour': 'Virtual Tour Provider',
+            'other': 'Other'
         };
-        Object.keys(fields).forEach(key => {
-            const el = document.getElementById(key);
-            if (el) el.value = fields[key] || '';
-        });
-        const btSelect = document.getElementById('business_type');
-        if (btSelect) btSelect.value = data.business_type || '';
 
-        // Update profile photo preview if exists
-        if (data.profile_photo) {
-            displayProfilePhoto(data.profile_photo);
-        }
-    }
-
-    // Display profile photo
-    function displayProfilePhoto(photoUrl) {
-        const preview = document.getElementById('photo-preview');
-        const icon = document.getElementById('photo-icon');
-        const text = document.getElementById('photo-text');
-
-        if (preview && photoUrl) {
-            preview.src = photoUrl;
-            preview.classList.remove('hidden');
-            if (icon) icon.classList.add('hidden');
-            if (text) text.classList.add('hidden');
-        }
-    }
-
-    // Handle photo upload
-    async function uploadProfilePhoto(file) {
-        if (!checkAuth()) return;
-
-        const uploadStatus = document.getElementById('upload-status');
-
-        // Validate file size
-        if (file.size > 3 * 1024 * 1024) {
-            if (uploadStatus) {
-                uploadStatus.textContent = 'Error: File size exceeds 3MB';
-                uploadStatus.className = 'text-xs mt-1 text-red-600';
+        function generateRandomCode() {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            let code = '';
+            for (let i = 0; i < 8; i++) {
+                code += chars.charAt(Math.floor(Math.random() * chars.length));
             }
-            return;
+            document.getElementById('promoCode').value = code;
         }
 
-        // Validate file type
-        const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
-        if (!allowedTypes.includes(file.type)) {
-            if (uploadStatus) {
-                uploadStatus.textContent = 'Error: Invalid file type';
-                uploadStatus.className = 'text-xs mt-1 text-red-600';
-            }
-            return;
-        }
-
-        // Show uploading status
-        if (uploadStatus) {
-            uploadStatus.textContent = 'Uploading...';
-            uploadStatus.className = 'text-xs mt-1 text-blue-600';
-        }
-
-        const formData = new FormData();
-        formData.append('photo', file);
-
-        try {
-            const response = await fetchWithTimeout(`${API_BASE_URL}/promoter-profile/upload_photo/`, {
-                method: 'POST',
-                headers: {
-                    'Authorization': `Token ${AUTH_TOKEN}`
-                },
-                body: formData
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert('Promo code copied to clipboard!');
             });
+        }
 
-            if (response.status === 401 || response.status === 403) {
-                alert('Session expired. Please login again.');
-                window.location.href = '/login/';
+        async function fetchWithTimeout(url, options, timeout = FETCH_TIMEOUT) {
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), timeout);
+            try {
+                const response = await fetch(url, { ...options, signal: controller.signal });
+                clearTimeout(timeoutId);
+                return response;
+            } catch (error) { clearTimeout(timeoutId); throw error; }
+        }
+
+        function checkAuth() {
+            if (!AUTH_TOKEN) { setTimeout(() => { window.location.href = '/login/'; }, 1000); return false; }
+            return true;
+        }
+
+        async function fetchProfile() {
+            if (!checkAuth()) return;
+            try {
+                const response = await fetchWithTimeout(`${API_BASE_URL}/promoter-profile/me/`, {
+                    method: 'GET',
+                    headers: { 'Authorization': `Token ${AUTH_TOKEN}`, 'Content-Type': 'application/json' }
+                });
+                if (response.status === 401 || response.status === 403) {
+                    localStorage.removeItem('authToken'); localStorage.removeItem('auth_token'); localStorage.removeItem('user');
+                    window.location.href = '/login/'; return;
+                }
+                if (!response.ok) return;
+                const data = await response.json();
+                populateProfileForm(data);
+                updateDisplayPanel(data);
+            } catch (error) { console.warn('Error fetching profile:', error); }
+        }
+
+        function populateProfileForm(data) {
+            const fields = {
+                'first_name': data.first_name, 'last_name': data.last_name, 'email': data.email,
+                'phone_number_1': data.phone_number_1, 'company_name': data.company_name,
+                'business_website': data.business_website,
+                'serving_states': data.serving_states, 'serving_cities': data.serving_cities,
+                'biography': data.biography
+            };
+            Object.keys(fields).forEach(key => {
+                const el = document.getElementById(key);
+                if (el) el.value = fields[key] || '';
+            });
+            const btSelect = document.getElementById('business_type');
+            if (btSelect) btSelect.value = data.business_type || '';
+
+            // Update profile photo preview if exists
+            if (data.profile_photo) {
+                displayProfilePhoto(data.profile_photo);
+            }
+            if (data.business_card_front) {
+                displayBusinessCard(data.business_card_front, 'front');
+            }
+            if (data.business_card_back) {
+                displayBusinessCard(data.business_card_back, 'back');
+            }
+        }
+
+        // Display profile photo
+        function displayProfilePhoto(photoUrl) {
+            const preview = document.getElementById('photo-preview');
+            const icon = document.getElementById('photo-icon');
+            const text = document.getElementById('photo-text');
+
+            if (preview && photoUrl) {
+                preview.src = photoUrl;
+                preview.classList.remove('hidden');
+                if (icon) icon.classList.add('hidden');
+                if (text) text.classList.add('hidden');
+            }
+        }
+
+        function displayBusinessCard(cardUrl, side) {
+            const preview = document.getElementById(`${side}-card-preview`);
+            const icon = document.getElementById(`${side}-card-icon`);
+            const text = document.getElementById(`${side}-card-text`);
+
+            if (preview && cardUrl) {
+                preview.src = cardUrl;
+                preview.classList.remove('hidden');
+                if (icon) icon.classList.add('hidden');
+                if (text) text.classList.add('hidden');
+                preview.parentElement.classList.remove('border-dashed', 'border-gray-300');
+                preview.parentElement.classList.add('border-solid', 'border-purple-200');
+            }
+        }
+
+        async function uploadBusinessCard(file, side) {
+            if (!checkAuth()) return;
+
+            const uploadStatus = document.getElementById(`upload-status-${side}`);
+
+            if (file.size > 3 * 1024 * 1024) {
+                if (uploadStatus) {
+                    uploadStatus.textContent = 'Error: File size exceeds 3MB';
+                    uploadStatus.className = 'text-xs mt-1 absolute bottom-2 z-10 text-red-600 bg-white/90 px-2 py-1 rounded shadow-sm';
+                    setTimeout(() => uploadStatus.textContent = '', 3000);
+                }
                 return;
             }
 
-            if (!response.ok) {
-                const error = await response.json();
-                throw new Error(error.error || 'Upload failed');
+            const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+            if (!allowedTypes.includes(file.type)) {
+                if (uploadStatus) {
+                    uploadStatus.textContent = 'Error: Invalid file type';
+                    uploadStatus.className = 'text-xs mt-1 absolute bottom-2 z-10 text-red-600 bg-white/90 px-2 py-1 rounded shadow-sm';
+                    setTimeout(() => uploadStatus.textContent = '', 3000);
+                }
+                return;
             }
-
-            const result = await response.json();
-
-            // Display uploaded photo
-            displayProfilePhoto(result.photo_url);
 
             if (uploadStatus) {
-                uploadStatus.textContent = 'Photo uploaded successfully!';
-                uploadStatus.className = 'text-xs mt-1 text-green-600';
-                setTimeout(() => {
-                    uploadStatus.textContent = '';
-                }, 3000);
+                uploadStatus.textContent = 'Uploading...';
+                uploadStatus.className = 'text-xs mt-1 absolute bottom-2 z-10 text-blue-600 bg-white/90 px-2 py-1 rounded shadow-sm';
             }
-        } catch (error) {
-            console.error('Error uploading photo:', error);
+
+            const formData = new FormData();
+            formData.append('card', file);
+            formData.append('side', side);
+
+            try {
+                const response = await fetchWithTimeout(`${API_BASE_URL}/promoter-profile/upload_business_card/`, {
+                    method: 'POST',
+                    headers: { 'Authorization': `Token ${AUTH_TOKEN}` },
+                    body: formData
+                });
+
+                if (response.status === 401 || response.status === 403) {
+                    alert('Session expired. Please login again.');
+                    window.location.href = '/login/';
+                    return;
+                }
+
+                if (!response.ok) {
+                    const error = await response.json();
+                    throw new Error(error.error || 'Upload failed');
+                }
+
+                const result = await response.json();
+                displayBusinessCard(result.card_url, side);
+
+                if (uploadStatus) {
+                    uploadStatus.textContent = 'Uploaded successfully!';
+                    uploadStatus.className = 'text-xs mt-1 absolute bottom-2 z-10 text-green-600 bg-white/90 px-2 py-1 rounded shadow-sm';
+                    setTimeout(() => uploadStatus.textContent = '', 3000);
+                }
+                // Update display links too
+                const linkId = side === 'front' ? 'display_card_front' : 'display_card_back';
+                const el = document.getElementById(linkId);
+                if (el) { el.textContent = 'View Card'; el.href = result.card_url; el.target = '_blank'; }
+            } catch (error) {
+                console.error(`Error uploading ${side} business card:`, error);
+                if (uploadStatus) {
+                    uploadStatus.textContent = `Error: ${error.message}`;
+                    uploadStatus.className = 'text-xs mt-1 absolute bottom-2 z-10 text-red-600 bg-white/90 px-2 py-1 rounded shadow-sm';
+                    setTimeout(() => uploadStatus.textContent = '', 3000);
+                }
+            }
+        }
+
+        // Handle photo upload
+        async function uploadProfilePhoto(file) {
+            if (!checkAuth()) return;
+
+            const uploadStatus = document.getElementById('upload-status');
+
+            // Validate file size
+            if (file.size > 3 * 1024 * 1024) {
+                if (uploadStatus) {
+                    uploadStatus.textContent = 'Error: File size exceeds 3MB';
+                    uploadStatus.className = 'text-xs mt-1 text-red-600';
+                }
+                return;
+            }
+
+            // Validate file type
+            const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+            if (!allowedTypes.includes(file.type)) {
+                if (uploadStatus) {
+                    uploadStatus.textContent = 'Error: Invalid file type';
+                    uploadStatus.className = 'text-xs mt-1 text-red-600';
+                }
+                return;
+            }
+
+            // Show uploading status
             if (uploadStatus) {
-                uploadStatus.textContent = `Error: ${error.message}`;
-                uploadStatus.className = 'text-xs mt-1 text-red-600';
+                uploadStatus.textContent = 'Uploading...';
+                uploadStatus.className = 'text-xs mt-1 text-blue-600';
+            }
+
+            const formData = new FormData();
+            formData.append('photo', file);
+
+            try {
+                const response = await fetchWithTimeout(`${API_BASE_URL}/promoter-profile/upload_photo/`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Token ${AUTH_TOKEN}`
+                    },
+                    body: formData
+                });
+
+                if (response.status === 401 || response.status === 403) {
+                    alert('Session expired. Please login again.');
+                    window.location.href = '/login/';
+                    return;
+                }
+
+                if (!response.ok) {
+                    const error = await response.json();
+                    throw new Error(error.error || 'Upload failed');
+                }
+
+                const result = await response.json();
+
+                // Display uploaded photo
+                displayProfilePhoto(result.photo_url);
+
+                if (uploadStatus) {
+                    uploadStatus.textContent = 'Photo uploaded successfully!';
+                    uploadStatus.className = 'text-xs mt-1 text-green-600';
+                    setTimeout(() => {
+                        uploadStatus.textContent = '';
+                    }, 3000);
+                }
+            } catch (error) {
+                console.error('Error uploading photo:', error);
+                if (uploadStatus) {
+                    uploadStatus.textContent = `Error: ${error.message}`;
+                    uploadStatus.className = 'text-xs mt-1 text-red-600';
+                }
             }
         }
-    }
 
-    function updateDisplayPanel(data) {
-        const fullName = `${data.first_name || ''} ${data.last_name || ''}`.trim();
-        const setText = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val || '—'; };
-        setText('display_company_name', data.company_name);
-        setText('display_business_type', BUSINESS_TYPE_LABELS[data.business_type] || data.business_type || '—');
-        setText('display_contact_person', fullName);
-        setText('display_phone', data.phone_number_1);
-        setText('display_email', data.email);
-        setText('display_website', data.business_website);
-        setText('display_states', data.serving_states);
-        setText('display_cities', data.serving_cities);
-        setText('display_bio', data.biography);
-        setText('display_card_front', data.business_card_front ? 'Uploaded' : 'Not uploaded');
-        setText('display_card_back', data.business_card_back ? 'Uploaded' : 'Not uploaded');
-    }
+        function updateDisplayPanel(data) {
+            const fullName = `${data.first_name || ''} ${data.last_name || ''}`.trim();
+            const setText = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val || '—'; };
+            setText('display_company_name', data.company_name);
+            setText('display_business_type', BUSINESS_TYPE_LABELS[data.business_type] || data.business_type || '—');
+            setText('display_contact_person', fullName);
+            setText('display_phone', data.phone_number_1);
+            setText('display_email', data.email);
+            setText('display_website', data.business_website);
+            setText('display_states', data.serving_states);
+            setText('display_cities', data.serving_cities);
+            setText('display_bio', data.biography);
 
-    async function saveProfile() {
-        if (!checkAuth()) return;
-        const profileData = {
-            first_name: document.getElementById('first_name').value,
-            last_name: document.getElementById('last_name').value,
-            phone_number_1: document.getElementById('phone_number_1').value,
-            company_name: document.getElementById('company_name').value,
-            business_type: document.getElementById('business_type').value,
-            business_website: document.getElementById('business_website').value,
-            serving_states: document.getElementById('serving_states').value,
-            serving_cities: document.getElementById('serving_cities').value,
-            biography: document.getElementById('biography').value
-        };
-        try {
-            const response = await fetchWithTimeout(`${API_BASE_URL}/promoter-profile/update_profile/`, {
-                method: 'PATCH',
-                headers: { 'Authorization': `Token ${AUTH_TOKEN}`, 'Content-Type': 'application/json' },
-                body: JSON.stringify(profileData)
-            });
-            if (response.status === 401 || response.status === 403) {
-                alert('Session expired. Please login again.'); window.location.href = '/login/'; return;
-            }
-            if (!response.ok) throw new Error('Failed to save profile');
-            const result = await response.json();
-            alert('Profile saved successfully!');
-            updateDisplayPanel(result);
-            document.getElementById('edit-business-modal').close();
-
-            const userStr = localStorage.getItem('user');
-            if (userStr) {
-                const user = JSON.parse(userStr);
-                user.first_name = result.first_name; user.last_name = result.last_name; user.full_name = result.full_name;
-                localStorage.setItem('user', JSON.stringify(user));
-            }
-        } catch (error) {
-            console.error('Error saving profile:', error);
-            alert('Failed to save profile. Please try again.');
-        }
-    }
-
-    document.addEventListener('DOMContentLoaded', function () {
-        if (AUTH_TOKEN) {
-            setTimeout(() => { fetchProfile(); }, 100);
-        } else {
-            console.warn('No authentication token. Redirecting to login...');
-            setTimeout(() => { window.location.href = '/login/'; }, 1000);
+            const setLink = (id, url) => {
+                const el = document.getElementById(id);
+                if (el) {
+                    if (url) {
+                        el.textContent = 'View Card';
+                        el.href = url;
+                        el.target = '_blank';
+                    } else {
+                        el.textContent = 'Not uploaded';
+                        el.removeAttribute('href');
+                        el.removeAttribute('target');
+                    }
+                }
+            };
+            setLink('display_card_front', data.business_card_front);
+            setLink('display_card_back', data.business_card_back);
         }
 
-        // Setup photo upload handler
-        const photoInput = document.getElementById('profile-photo-input');
-        if (photoInput) {
-            photoInput.addEventListener('change', function (e) {
-                const file = e.target.files[0];
-                if (file) {
-                    // Show preview immediately
-                    const reader = new FileReader();
-                    reader.onload = function (e) {
-                        displayProfilePhoto(e.target.result);
-                    };
-                    reader.readAsDataURL(file);
+        async function saveProfile() {
+            if (!checkAuth()) return;
+            const profileData = {
+                first_name: document.getElementById('first_name').value,
+                last_name: document.getElementById('last_name').value,
+                phone_number_1: document.getElementById('phone_number_1').value,
+                company_name: document.getElementById('company_name').value,
+                business_type: document.getElementById('business_type').value,
+                business_website: document.getElementById('business_website').value,
+                serving_states: document.getElementById('serving_states').value,
+                serving_cities: document.getElementById('serving_cities').value,
+                biography: document.getElementById('biography').value
+            };
+            try {
+                const response = await fetchWithTimeout(`${API_BASE_URL}/promoter-profile/update_profile/`, {
+                    method: 'PATCH',
+                    headers: { 'Authorization': `Token ${AUTH_TOKEN}`, 'Content-Type': 'application/json' },
+                    body: JSON.stringify(profileData)
+                });
+                if (response.status === 401 || response.status === 403) {
+                    alert('Session expired. Please login again.'); window.location.href = '/login/'; return;
+                }
+                if (!response.ok) throw new Error('Failed to save profile');
+                const result = await response.json();
+                alert('Profile saved successfully!');
+                updateDisplayPanel(result);
+                document.getElementById('edit-business-modal').close();
 
-                    // Upload to server
-                    uploadProfilePhoto(file);
+                const userStr = localStorage.getItem('user');
+                if (userStr) {
+                    const user = JSON.parse(userStr);
+                    user.first_name = result.first_name; user.last_name = result.last_name; user.full_name = result.full_name;
+                    localStorage.setItem('user', JSON.stringify(user));
+                }
+            } catch (error) {
+                console.error('Error saving profile:', error);
+                alert('Failed to save profile. Please try again.');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            if (AUTH_TOKEN) {
+                setTimeout(() => { fetchProfile(); }, 100);
+            } else {
+                console.warn('No authentication token. Redirecting to login...');
+                setTimeout(() => { window.location.href = '/login/'; }, 1000);
+            }
+
+            // Setup photo upload handler
+            const photoInput = document.getElementById('profile-photo-input');
+            if (photoInput) {
+                photoInput.addEventListener('change', function (e) {
+                    const file = e.target.files[0];
+                    if (file) {
+                        // Show preview immediately
+                        const reader = new FileReader();
+                        reader.onload = function (e) {
+                            displayProfilePhoto(e.target.result);
+                        };
+                        reader.readAsDataURL(file);
+
+                        // Upload to server
+                        uploadProfilePhoto(file);
+                    }
+                });
+            }
+
+            // Setup business card upload handlers
+            ['front', 'back'].forEach(side => {
+                const input = document.getElementById(`business-card-${side}-input`);
+                if (input) {
+                    input.addEventListener('change', function (e) {
+                        const file = e.target.files[0];
+                        if (file) {
+                            const reader = new FileReader();
+                            reader.onload = function (e) {
+                                displayBusinessCard(e.target.result, side);
+                            };
+                            reader.readAsDataURL(file);
+                            uploadBusinessCard(file, side);
+                        }
+                    });
                 }
             });
-        }
-    });
-</script>
-{% endblock %}
+        });
+    </script>
+    {% endblock %}

@@ -330,11 +330,14 @@
                             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                                 <!-- Basic Info -->
                                 <div class="md:col-span-3">
-                                    <h4 class="font-semibold text-gray-900 mb-3 text-sm uppercase tracking-wide">Basic Info</h4>
+                                    <h4 class="font-semibold text-gray-900 mb-3 text-sm uppercase tracking-wide">Basic
+                                        Info</h4>
                                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                                         <div>
-                                            <label class="block text-xs font-medium text-gray-500 mb-1">Property Type *</label>
-                                            <select id="prop_property_type" required class="w-full px-3 py-2 border rounded-md">
+                                            <label class="block text-xs font-medium text-gray-500 mb-1">Property Type
+                                                *</label>
+                                            <select id="prop_property_type" required
+                                                class="w-full px-3 py-2 border rounded-md">
                                                 <option value="single_family">Single Family</option>
                                                 <option value="condo">Condo</option>
                                                 <option value="townhouse">Townhouse</option>
@@ -345,7 +348,8 @@
                                         </div>
                                         <div>
                                             <label class="block text-xs font-medium text-gray-500 mb-1">Status *</label>
-                                            <select id="prop_status" required class="w-full px-3 py-2 border rounded-md">
+                                            <select id="prop_status" required
+                                                class="w-full px-3 py-2 border rounded-md">
                                                 <option value="active">Active</option>
                                                 <option value="pending">Pending</option>
                                                 <option value="sold">Sold</option>
@@ -353,58 +357,75 @@
                                             </select>
                                         </div>
                                         <div>
-                                            <label class="block text-xs font-medium text-gray-500 mb-1">Price ($)</label>
-                                            <input type="number" id="prop_price" step="0.01" class="w-full px-3 py-2 border rounded-md" placeholder="350000">
+                                            <label class="block text-xs font-medium text-gray-500 mb-1">Price
+                                                ($)</label>
+                                            <input type="number" id="prop_price" step="0.01"
+                                                class="w-full px-3 py-2 border rounded-md" placeholder="350000">
                                         </div>
                                     </div>
                                 </div>
 
                                 <!-- Address -->
                                 <div class="md:col-span-3 pt-4 border-t border-gray-100">
-                                    <h4 class="font-semibold text-gray-900 mb-3 text-sm uppercase tracking-wide">Location</h4>
+                                    <h4 class="font-semibold text-gray-900 mb-3 text-sm uppercase tracking-wide">
+                                        Location</h4>
                                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                                         <div class="md:col-span-2">
-                                            <label class="block text-xs font-medium text-gray-500 mb-1">Street Address *</label>
-                                            <input type="text" id="prop_street_address" required class="w-full px-3 py-2 border rounded-md">
+                                            <label class="block text-xs font-medium text-gray-500 mb-1">Street Address
+                                                *</label>
+                                            <input type="text" id="prop_street_address" required
+                                                class="w-full px-3 py-2 border rounded-md">
                                         </div>
                                         <div>
-                                            <label class="block text-xs font-medium text-gray-500 mb-1">Unit / Apt</label>
-                                            <input type="text" id="prop_unit_apt" class="w-full px-3 py-2 border rounded-md">
+                                            <label class="block text-xs font-medium text-gray-500 mb-1">Unit /
+                                                Apt</label>
+                                            <input type="text" id="prop_unit_apt"
+                                                class="w-full px-3 py-2 border rounded-md">
                                         </div>
                                         <div>
                                             <label class="block text-xs font-medium text-gray-500 mb-1">City *</label>
-                                            <input type="text" id="prop_city" required class="w-full px-3 py-2 border rounded-md">
+                                            <input type="text" id="prop_city" required
+                                                class="w-full px-3 py-2 border rounded-md">
                                         </div>
                                         <div>
                                             <label class="block text-xs font-medium text-gray-500 mb-1">State *</label>
-                                            <input type="text" id="prop_state" required class="w-full px-3 py-2 border rounded-md" placeholder="TX">
+                                            <input type="text" id="prop_state" required
+                                                class="w-full px-3 py-2 border rounded-md" placeholder="TX">
                                         </div>
                                         <div>
-                                            <label class="block text-xs font-medium text-gray-500 mb-1">Zip Code *</label>
-                                            <input type="text" id="prop_zip_code" required class="w-full px-3 py-2 border rounded-md">
+                                            <label class="block text-xs font-medium text-gray-500 mb-1">Zip Code
+                                                *</label>
+                                            <input type="text" id="prop_zip_code" required
+                                                class="w-full px-3 py-2 border rounded-md">
                                         </div>
                                         <div>
                                             <label class="block text-xs font-medium text-gray-500 mb-1">County</label>
-                                            <input type="text" id="prop_county" class="w-full px-3 py-2 border rounded-md">
+                                            <input type="text" id="prop_county"
+                                                class="w-full px-3 py-2 border rounded-md">
                                         </div>
                                         <div>
                                             <label class="block text-xs font-medium text-gray-500 mb-1">Country</label>
-                                            <input type="text" id="prop_country" class="w-full px-3 py-2 border rounded-md" value="USA">
+                                            <input type="text" id="prop_country"
+                                                class="w-full px-3 py-2 border rounded-md" value="USA">
                                         </div>
                                     </div>
                                 </div>
 
                                 <!-- Property Details -->
                                 <div class="md:col-span-3 pt-4 border-t border-gray-100">
-                                    <h4 class="font-semibold text-gray-900 mb-3 text-sm uppercase tracking-wide">Property Details</h4>
+                                    <h4 class="font-semibold text-gray-900 mb-3 text-sm uppercase tracking-wide">
+                                        Property Details</h4>
                                     <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
                                         <div>
                                             <label class="block text-xs font-medium text-gray-500 mb-1">Bedrooms</label>
-                                            <input type="number" id="prop_bedrooms" step="0.5" class="w-full px-3 py-2 border rounded-md">
+                                            <input type="number" id="prop_bedrooms" step="0.5"
+                                                class="w-full px-3 py-2 border rounded-md">
                                         </div>
                                         <div>
-                                            <label class="block text-xs font-medium text-gray-500 mb-1">Bathrooms</label>
-                                            <input type="number" id="prop_bathrooms" step="0.5" class="w-full px-3 py-2 border rounded-md">
+                                            <label
+                                                class="block text-xs font-medium text-gray-500 mb-1">Bathrooms</label>
+                                            <input type="number" id="prop_bathrooms" step="0.5"
+                                                class="w-full px-3 py-2 border rounded-md">
                                         </div>
                                         <div>
                                             <label class="block text-xs font-medium text-gray-500 mb-1">Garage</label>
@@ -418,41 +439,64 @@
                                         </div>
                                         <div>
                                             <label class="block text-xs font-medium text-gray-500 mb-1">SqFt</label>
-                                            <input type="number" id="prop_sqft" class="w-full px-3 py-2 border rounded-md">
+                                            <input type="number" id="prop_sqft"
+                                                class="w-full px-3 py-2 border rounded-md">
                                         </div>
                                         <div>
                                             <label class="block text-xs font-medium text-gray-500 mb-1">Lot Size</label>
-                                            <input type="text" id="prop_lot_size" class="w-full px-3 py-2 border rounded-md" placeholder="0.25 acres">
+                                            <input type="text" id="prop_lot_size"
+                                                class="w-full px-3 py-2 border rounded-md" placeholder="0.25 acres">
                                         </div>
                                         <div>
-                                            <label class="block text-xs font-medium text-gray-500 mb-1">Year Built</label>
-                                            <input type="number" id="prop_year_built" class="w-full px-3 py-2 border rounded-md" placeholder="2020">
+                                            <label class="block text-xs font-medium text-gray-500 mb-1">Year
+                                                Built</label>
+                                            <input type="number" id="prop_year_built"
+                                                class="w-full px-3 py-2 border rounded-md" placeholder="2020">
                                         </div>
                                     </div>
                                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-                                        <input type="text" id="prop_floor_type" placeholder="Floor Type (e.g., Hardwood, Tile)" class="w-full px-3 py-2 border rounded-md text-sm">
-                                        <input type="text" id="prop_kitchen_type" placeholder="Kitchen Type (e.g., Modern, Granite)" class="w-full px-3 py-2 border rounded-md text-sm">
-                                        <input type="text" id="prop_foundation_type" placeholder="Foundation Type (e.g., Slab, Pier)" class="w-full px-3 py-2 border rounded-md text-sm">
-                                        <input type="text" id="prop_exterior" placeholder="Exterior (e.g., Brick, Vinyl)" class="w-full px-3 py-2 border rounded-md text-sm">
-                                        <input type="text" id="prop_roof" placeholder="Roof (e.g., Shingle, Metal)" class="w-full px-3 py-2 border rounded-md text-sm">
+                                        <input type="text" id="prop_floor_type"
+                                            placeholder="Floor Type (e.g., Hardwood, Tile)"
+                                            class="w-full px-3 py-2 border rounded-md text-sm">
+                                        <input type="text" id="prop_kitchen_type"
+                                            placeholder="Kitchen Type (e.g., Modern, Granite)"
+                                            class="w-full px-3 py-2 border rounded-md text-sm">
+                                        <input type="text" id="prop_foundation_type"
+                                            placeholder="Foundation Type (e.g., Slab, Pier)"
+                                            class="w-full px-3 py-2 border rounded-md text-sm">
+                                        <input type="text" id="prop_exterior"
+                                            placeholder="Exterior (e.g., Brick, Vinyl)"
+                                            class="w-full px-3 py-2 border rounded-md text-sm">
+                                        <input type="text" id="prop_roof" placeholder="Roof (e.g., Shingle, Metal)"
+                                            class="w-full px-3 py-2 border rounded-md text-sm">
                                     </div>
                                     <div class="mt-4">
                                         <label class="block text-xs font-medium text-gray-500 mb-2">Appliances</label>
                                         <div class="flex flex-wrap gap-3">
-                                            <label class="flex items-center gap-1.5 text-sm text-gray-700 cursor-pointer">
-                                                <input type="checkbox" name="appliances" value="Refrigerator" class="rounded text-indigo-600"> Refrigerator
+                                            <label
+                                                class="flex items-center gap-1.5 text-sm text-gray-700 cursor-pointer">
+                                                <input type="checkbox" name="appliances" value="Refrigerator"
+                                                    class="rounded text-indigo-600"> Refrigerator
                                             </label>
-                                            <label class="flex items-center gap-1.5 text-sm text-gray-700 cursor-pointer">
-                                                <input type="checkbox" name="appliances" value="Oven" class="rounded text-indigo-600"> Oven
+                                            <label
+                                                class="flex items-center gap-1.5 text-sm text-gray-700 cursor-pointer">
+                                                <input type="checkbox" name="appliances" value="Oven"
+                                                    class="rounded text-indigo-600"> Oven
                                             </label>
-                                            <label class="flex items-center gap-1.5 text-sm text-gray-700 cursor-pointer">
-                                                <input type="checkbox" name="appliances" value="Dishwasher" class="rounded text-indigo-600"> Dishwasher
+                                            <label
+                                                class="flex items-center gap-1.5 text-sm text-gray-700 cursor-pointer">
+                                                <input type="checkbox" name="appliances" value="Dishwasher"
+                                                    class="rounded text-indigo-600"> Dishwasher
                                             </label>
-                                            <label class="flex items-center gap-1.5 text-sm text-gray-700 cursor-pointer">
-                                                <input type="checkbox" name="appliances" value="Microwave" class="rounded text-indigo-600"> Microwave
+                                            <label
+                                                class="flex items-center gap-1.5 text-sm text-gray-700 cursor-pointer">
+                                                <input type="checkbox" name="appliances" value="Microwave"
+                                                    class="rounded text-indigo-600"> Microwave
                                             </label>
-                                            <label class="flex items-center gap-1.5 text-sm text-gray-700 cursor-pointer">
-                                                <input type="checkbox" name="appliances" value="Washer/Dryer" class="rounded text-indigo-600"> Washer/Dryer
+                                            <label
+                                                class="flex items-center gap-1.5 text-sm text-gray-700 cursor-pointer">
+                                                <input type="checkbox" name="appliances" value="Washer/Dryer"
+                                                    class="rounded text-indigo-600"> Washer/Dryer
                                             </label>
                                         </div>
                                     </div>
@@ -460,14 +504,18 @@
 
                                 <!-- Description -->
                                 <div class="md:col-span-3 pt-4 border-t border-gray-100">
-                                    <h4 class="font-semibold text-gray-900 mb-3 text-sm uppercase tracking-wide">Description</h4>
-                                    <textarea id="prop_description" rows="4" class="w-full px-3 py-2 border rounded-md" placeholder="Describe the property..."></textarea>
+                                    <h4 class="font-semibold text-gray-900 mb-3 text-sm uppercase tracking-wide">
+                                        Description</h4>
+                                    <textarea id="prop_description" rows="4" class="w-full px-3 py-2 border rounded-md"
+                                        placeholder="Describe the property..."></textarea>
                                 </div>
 
                                 <!-- Images -->
                                 <div class="md:col-span-3 pt-4 border-t border-gray-100">
-                                    <h4 class="font-semibold text-gray-900 mb-3 text-sm uppercase tracking-wide">Images (Max 5)</h4>
-                                    <input type="file" id="prop_photos" multiple accept="image/*" max="5" class="w-full px-3 py-2 border rounded-md">
+                                    <h4 class="font-semibold text-gray-900 mb-3 text-sm uppercase tracking-wide">Images
+                                        (Max 5)</h4>
+                                    <input type="file" id="prop_photos" multiple accept="image/*" max="5"
+                                        class="w-full px-3 py-2 border rounded-md">
                                     <p class="text-xs text-gray-500 mt-1">Select up to 5 images</p>
                                 </div>
                             </div>
@@ -476,7 +524,8 @@
                             <button type="button" onclick="document.getElementById('property-form-modal').close()"
                                 class="px-5 py-2 text-gray-600 font-medium hover:bg-gray-200 rounded-lg transition">Cancel</button>
                             <button type="submit"
-                                class="bg-indigo-600 text-white px-5 py-2 rounded-lg font-medium hover:bg-indigo-700 shadow-sm transition">Save Listing</button>
+                                class="bg-indigo-600 text-white px-5 py-2 rounded-lg font-medium hover:bg-indigo-700 shadow-sm transition">Save
+                                Listing</button>
                         </div>
                     </form>
                 </dialog>
@@ -484,18 +533,26 @@
 
             <!-- --- OPEN HOUSE SECTION --- -->
             <div id="section-open-house" class="dashboard-section hidden space-y-6">
-                <h2 class="text-2xl font-bold text-gray-900 mb-6">Manage Open Houses</h2>
+                <div class="flex flex-wrap justify-between items-center gap-3">
+                    <h2 class="text-2xl font-bold text-gray-900">Manage Open Houses</h2>
+                    <div class="w-full md:w-72">
+                        <label for="openhouse-property-select"
+                            class="block text-sm font-medium text-gray-700 mb-1">Property</label>
+                        <select id="openhouse-property-select" class="w-full px-3 py-2 border rounded-md"></select>
+                    </div>
+                </div>
 
                 <!-- Property 1 Open House Settings -->
                 <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 md:p-8">
                     <div class="flex justify-between items-start mb-6">
                         <div>
-                            <h3 class="font-bold text-lg text-gray-900">123 Main Street</h3>
-                            <p class="text-gray-500 text-sm">Allen, TX 75002</p>
+                            <h3 id="openhouse-property-title" class="font-bold text-lg text-gray-900">Select a property
+                            </h3>
+                            <p id="openhouse-property-subtitle" class="text-gray-500 text-sm">No property selected</p>
                         </div>
                         <div class="flex items-center mb-4">
                             <label for="toggle-oh-1" class="flex items-center cursor-pointer relative">
-                                <input type="checkbox" id="toggle-oh-1" class="sr-only toggle-checkbox" checked>
+                                <input type="checkbox" id="toggle-oh-1" class="sr-only toggle-checkbox">
                                 <div
                                     class="toggle-label block bg-gray-300 w-12 h-7 rounded-full transition-colors duration-200">
                                 </div>
@@ -529,34 +586,50 @@
                                 <tr>
                                     <td class="px-6 py-4 border-r align-top space-y-3">
                                         <div><label class="block text-xs text-gray-400 mb-1">Date</label><input
-                                                type="date" class="w-full border rounded px-2 py-1.5 text-sm"></div>
+                                                id="oh-sat-date" type="date"
+                                                class="w-full border rounded px-2 py-1.5 text-sm"></div>
                                         <div class="flex gap-2">
                                             <div class="flex-1"><label
                                                     class="block text-xs text-gray-400 mb-1">Start</label><input
-                                                    type="time" class="w-full border rounded px-2 py-1.5 text-sm"></div>
+                                                    id="oh-sat-start" type="time"
+                                                    class="w-full border rounded px-2 py-1.5 text-sm"></div>
                                             <div class="flex-1"><label
                                                     class="block text-xs text-gray-400 mb-1">End</label><input
-                                                    type="time" class="w-full border rounded px-2 py-1.5 text-sm"></div>
+                                                    id="oh-sat-end" type="time"
+                                                    class="w-full border rounded px-2 py-1.5 text-sm"></div>
                                         </div>
                                     </td>
                                     <td class="px-6 py-4 align-top space-y-3">
                                         <div><label class="block text-xs text-gray-400 mb-1">Date</label><input
-                                                type="date" class="w-full border rounded px-2 py-1.5 text-sm"></div>
+                                                id="oh-sun-date" type="date"
+                                                class="w-full border rounded px-2 py-1.5 text-sm"></div>
                                         <div class="flex gap-2">
                                             <div class="flex-1"><label
                                                     class="block text-xs text-gray-400 mb-1">Start</label><input
-                                                    type="time" class="w-full border rounded px-2 py-1.5 text-sm"></div>
+                                                    id="oh-sun-start" type="time"
+                                                    class="w-full border rounded px-2 py-1.5 text-sm"></div>
                                             <div class="flex-1"><label
                                                     class="block text-xs text-gray-400 mb-1">End</label><input
-                                                    type="time" class="w-full border rounded px-2 py-1.5 text-sm"></div>
+                                                    id="oh-sun-end" type="time"
+                                                    class="w-full border rounded px-2 py-1.5 text-sm"></div>
                                         </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" class="px-6 py-4 border-t border-gray-100">
+                                        <label class="block text-xs text-gray-400 mb-1">Virtual Tour URL
+                                            (Optional)</label>
+                                        <input id="oh-virtual-tour-url" type="url"
+                                            class="w-full border rounded px-2 py-1.5 text-sm"
+                                            placeholder="https://example.com/virtual-tour">
                                     </td>
                                 </tr>
                                 <tr class="bg-blue-50/50">
                                     <td colspan="2" class="px-6 py-3 text-right">
-                                        <button class="text-indigo-600 font-medium text-xs hover:underline">Clear
+                                        <button id="clear-open-house-btn"
+                                            class="text-indigo-600 font-medium text-xs hover:underline">Clear
                                             Schedule</button>
-                                        <button
+                                        <button id="save-open-house-btn"
                                             class="bg-indigo-600 text-white text-xs px-3 py-1.5 rounded ml-3 transition hover:bg-indigo-700">Save
                                             Schedule</button>
                                     </td>
@@ -564,6 +637,7 @@
                             </tbody>
                         </table>
                     </div>
+                    <p id="open-house-status" class="text-sm text-gray-500 mt-3"></p>
                 </div>
             </div>
 
@@ -571,66 +645,46 @@
             <div id="section-perks" class="dashboard-section hidden space-y-6">
                 <div class="flex justify-between items-center mb-2">
                     <h2 class="text-2xl font-bold text-gray-900">Manage Perks</h2>
-                    <span class="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full">2 / 5 Used</span>
+                    <span id="perks-count-badge" class="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full">0 / 5
+                        Used</span>
                 </div>
 
                 <!-- Add Perk Form -->
                 <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
                     <h3 class="font-semibold text-gray-800 mb-4">Add New Perk</h3>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                        <div class="md:col-span-3">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Property</label>
+                            <select id="perks-property-select" class="w-full px-3 py-2 border rounded-md"></select>
+                        </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">Promoter</label>
-                            <select class="w-full px-3 py-2 border rounded-md">
-                                <option>Select Promoter...</option>
-                                <option>Secure Title Services</option>
-                                <option>Eagle Eye Inspections</option>
-                            </select>
+                            <input id="perk-promoter-name" type="text" class="w-full px-3 py-2 border rounded-md"
+                                placeholder="e.g. Secure Title Services">
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">Promo Code</label>
-                            <select class="w-full px-3 py-2 border rounded-md">
-                                <option>Select Code...</option>
-                                <option>SAVE10</option>
-                                <option>FREE_REPORT</option>
-                            </select>
+                            <input id="perk-promo-code" type="text" class="w-full px-3 py-2 border rounded-md"
+                                placeholder="e.g. SAVE500">
                         </div>
                         <div class="md:col-span-3">
                             <label class="block text-sm font-medium text-gray-700 mb-1">Perk Description</label>
-                            <input type="text" class="w-full px-3 py-2 border rounded-md"
+                            <input id="perk-description" type="text" class="w-full px-3 py-2 border rounded-md"
                                 placeholder="e.g. Get $500 off closing costs...">
                         </div>
                     </div>
                     <div class="flex justify-end">
-                        <button
+                        <button id="add-perk-btn"
                             class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition shadow-sm">Add
                             Next Perk</button>
                     </div>
+                    <p id="perks-status" class="text-sm text-gray-500 mt-3"></p>
                 </div>
 
                 <!-- Existing Perks List -->
                 <div class="space-y-4">
                     <h3 class="font-semibold text-gray-700">Active Perks</h3>
-                    <!-- Perk Card -->
-                    <div
-                        class="bg-white p-4 rounded-xl border border-gray-200 flex justify-between items-center shadow-sm">
-                        <div class="flex items-center gap-4">
-                            <div
-                                class="bg-orange-100 text-orange-600 w-10 h-10 rounded-full flex items-center justify-center font-bold">
-                                ST</div>
-                            <div>
-                                <p class="font-bold text-gray-900">Secure Title Services</p>
-                                <p class="text-sm text-gray-500">Code: <span
-                                        class="font-mono bg-gray-100 px-1 rounded">SAVE500</span> • <span
-                                        class="text-gray-600">Get $500 off closing costs</span></p>
-                            </div>
-                        </div>
-                        <button class="text-red-500 hover:text-red-700 p-2"><svg class="w-5 h-5" fill="none"
-                                stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
-                                </path>
-                            </svg></button>
-                    </div>
+                    <div id="perks-list" class="space-y-3"></div>
                 </div>
             </div>
 
@@ -645,19 +699,23 @@
                         <div class="max-w-md space-y-4">
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-1">Current Password</label>
-                                <input type="password" class="w-full px-3 py-2 border rounded-md">
+                                <input id="settings-current-password" type="password"
+                                    class="w-full px-3 py-2 border rounded-md">
                             </div>
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-1">New Password</label>
-                                <input type="password" class="w-full px-3 py-2 border rounded-md">
+                                <input id="settings-new-password" type="password"
+                                    class="w-full px-3 py-2 border rounded-md">
                             </div>
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-1">Confirm New Password</label>
-                                <input type="password" class="w-full px-3 py-2 border rounded-md">
+                                <input id="settings-confirm-password" type="password"
+                                    class="w-full px-3 py-2 border rounded-md">
                             </div>
-                            <button
+                            <button id="update-password-btn"
                                 class="bg-gray-800 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-black transition">Update
                                 Password</button>
+                            <p id="password-status" class="text-sm text-gray-500"></p>
                         </div>
                     </div>
 
@@ -665,13 +723,22 @@
                         <h3 class="font-semibold text-gray-900 mb-4">Notifications</h3>
                         <div class="space-y-3">
                             <label class="flex items-center gap-3 cursor-pointer">
-                                <input type="checkbox" checked class="rounded text-indigo-600 focus:ring-indigo-500">
+                                <input id="settings-email-open-house" type="checkbox" checked
+                                    class="rounded text-indigo-600 focus:ring-indigo-500">
                                 <span class="text-sm text-gray-700">Email me when an Open House is upcoming</span>
                             </label>
                             <label class="flex items-center gap-3 cursor-pointer">
-                                <input type="checkbox" class="rounded text-indigo-600 focus:ring-indigo-500">
+                                <input id="settings-email-new-perks" type="checkbox"
+                                    class="rounded text-indigo-600 focus:ring-indigo-500">
                                 <span class="text-sm text-gray-700">Email me about new Perk providers</span>
                             </label>
+                        </div>
+                        <div class="mt-4">
+                            <button id="save-notifications-btn"
+                                class="bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-indigo-700 transition">
+                                Save Notification Preferences
+                            </button>
+                            <p id="settings-status" class="text-sm text-gray-500 mt-2"></p>
                         </div>
                     </div>
                 </div>
@@ -683,11 +750,15 @@
     <script>
         // API Configuration
         const API_BASE_URL = '/api';
-        const AUTH_TOKEN = localStorage.getItem('authToken') || localStorage.getItem('auth_token'); // Check both keys
+        let AUTH_TOKEN = localStorage.getItem('authToken') || localStorage.getItem('auth_token'); // Check both keys
         const FETCH_TIMEOUT = 5000; // 5 second timeout
     </script>
-    
+
     <script>
+        let realtorPropertiesForTabs = [];
+        let selectedOpenHousePropertyId = null;
+        let selectedPerksPropertyId = null;
+
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
             sidebar.classList.toggle('-translate-x-full');
@@ -703,6 +774,14 @@
             const url = new URL(window.location);
             url.searchParams.set('tab', tabId);
             window.history.pushState({}, '', url);
+
+            if (tabId === 'open-house') {
+                initializeOpenHouseSection();
+            } else if (tabId === 'perks') {
+                initializePerksSection();
+            } else if (tabId === 'settings') {
+                initializeSettingsSection();
+            }
 
             if (window.innerWidth < 768) {
                 toggleSidebar();
@@ -1017,6 +1096,371 @@
             }
         }
 
+        function setStatusText(elementId, message, type = 'info') {
+            const element = document.getElementById(elementId);
+            if (!element) return;
+            const colorMap = {
+                info: 'text-gray-500',
+                success: 'text-green-600',
+                error: 'text-red-600'
+            };
+            element.textContent = message;
+            element.className = `text-sm mt-2 ${colorMap[type] || colorMap.info}`;
+        }
+
+        async function fetchRealtorPropertiesForTabs() {
+            if (!checkAuth()) return [];
+            try {
+                const response = await fetchWithTimeout(`${API_BASE_URL}/properties/`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Token ${AUTH_TOKEN}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+                if (!response.ok) return [];
+                realtorPropertiesForTabs = await response.json();
+                populateTabPropertySelectors();
+                return realtorPropertiesForTabs;
+            } catch (error) {
+                console.error('Error loading properties for tabs:', error);
+                return [];
+            }
+        }
+
+        function populateTabPropertySelectors() {
+            const openHouseSelect = document.getElementById('openhouse-property-select');
+            const perksSelect = document.getElementById('perks-property-select');
+            const optionsHtml = realtorPropertiesForTabs.length
+                ? realtorPropertiesForTabs.map(property => `
+                    <option value="${property.id}">${property.street_address}, ${property.city} (${property.listing_id})</option>
+                  `).join('')
+                : '<option value="">No properties found</option>';
+
+            if (openHouseSelect) {
+                openHouseSelect.innerHTML = optionsHtml;
+                if (realtorPropertiesForTabs.length && !selectedOpenHousePropertyId) {
+                    selectedOpenHousePropertyId = String(realtorPropertiesForTabs[0].id);
+                }
+                if (selectedOpenHousePropertyId) openHouseSelect.value = selectedOpenHousePropertyId;
+            }
+
+            if (perksSelect) {
+                perksSelect.innerHTML = optionsHtml;
+                if (realtorPropertiesForTabs.length && !selectedPerksPropertyId) {
+                    selectedPerksPropertyId = String(realtorPropertiesForTabs[0].id);
+                }
+                if (selectedPerksPropertyId) perksSelect.value = selectedPerksPropertyId;
+            }
+        }
+
+        function updateOpenHousePropertyHeader() {
+            const property = realtorPropertiesForTabs.find(item => String(item.id) === String(selectedOpenHousePropertyId));
+            const title = document.getElementById('openhouse-property-title');
+            const subtitle = document.getElementById('openhouse-property-subtitle');
+            if (!property) {
+                if (title) title.textContent = 'Select a property';
+                if (subtitle) subtitle.textContent = 'No property selected';
+                return;
+            }
+            if (title) title.textContent = property.street_address;
+            if (subtitle) subtitle.textContent = `${property.city}, ${property.state} ${property.zip_code}`;
+        }
+
+        function fillOpenHouseForm(data) {
+            document.getElementById('toggle-oh-1').checked = Boolean(data?.is_active);
+            document.getElementById('oh-sat-date').value = data?.saturday_date || '';
+            document.getElementById('oh-sat-start').value = data?.saturday_start_time || '';
+            document.getElementById('oh-sat-end').value = data?.saturday_end_time || '';
+            document.getElementById('oh-sun-date').value = data?.sunday_date || '';
+            document.getElementById('oh-sun-start').value = data?.sunday_start_time || '';
+            document.getElementById('oh-sun-end').value = data?.sunday_end_time || '';
+            document.getElementById('oh-virtual-tour-url').value = data?.virtual_tour_url || '';
+        }
+
+        async function loadOpenHouseForSelectedProperty() {
+            if (!selectedOpenHousePropertyId) return;
+            updateOpenHousePropertyHeader();
+            try {
+                const response = await fetchWithTimeout(
+                    `${API_BASE_URL}/open-houses/by_property/${selectedOpenHousePropertyId}/`,
+                    {
+                        method: 'GET',
+                        headers: {
+                            'Authorization': `Token ${AUTH_TOKEN}`,
+                            'Content-Type': 'application/json'
+                        }
+                    }
+                );
+                if (!response.ok) throw new Error('Failed to load open house data');
+                const data = await response.json();
+                if (data.exists === false) {
+                    fillOpenHouseForm({});
+                    setStatusText('open-house-status', 'No schedule saved yet for this property.', 'info');
+                    return;
+                }
+                fillOpenHouseForm(data);
+                setStatusText('open-house-status', 'Open house schedule loaded.', 'info');
+            } catch (error) {
+                console.error('Error loading open house:', error);
+                setStatusText('open-house-status', 'Failed to load open house schedule.', 'error');
+            }
+        }
+
+        async function saveOpenHouse(clearSchedule = false) {
+            if (!selectedOpenHousePropertyId) {
+                setStatusText('open-house-status', 'Please select a property first.', 'error');
+                return;
+            }
+            const payload = {
+                property: Number(selectedOpenHousePropertyId),
+                is_active: document.getElementById('toggle-oh-1').checked,
+                saturday_date: clearSchedule ? null : (document.getElementById('oh-sat-date').value || null),
+                saturday_start_time: clearSchedule ? null : (document.getElementById('oh-sat-start').value || null),
+                saturday_end_time: clearSchedule ? null : (document.getElementById('oh-sat-end').value || null),
+                sunday_date: clearSchedule ? null : (document.getElementById('oh-sun-date').value || null),
+                sunday_start_time: clearSchedule ? null : (document.getElementById('oh-sun-start').value || null),
+                sunday_end_time: clearSchedule ? null : (document.getElementById('oh-sun-end').value || null),
+                virtual_tour_url: clearSchedule ? '' : (document.getElementById('oh-virtual-tour-url').value || '')
+            };
+
+            try {
+                const response = await fetchWithTimeout(`${API_BASE_URL}/open-houses/`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Token ${AUTH_TOKEN}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+                if (!response.ok) throw new Error('Failed to save open house');
+                const data = await response.json();
+                fillOpenHouseForm(data);
+                setStatusText('open-house-status', clearSchedule ? 'Open house schedule cleared.' : 'Open house schedule saved.', 'success');
+            } catch (error) {
+                console.error('Error saving open house:', error);
+                setStatusText('open-house-status', 'Failed to save open house schedule.', 'error');
+            }
+        }
+
+        function renderPerks(perks) {
+            const container = document.getElementById('perks-list');
+            const badge = document.getElementById('perks-count-badge');
+            if (badge) badge.textContent = `${perks.length} / 5 Used`;
+            if (!container) return;
+
+            if (!perks.length) {
+                container.innerHTML = `
+                    <div class="bg-white p-6 rounded-xl border border-gray-200 text-center text-gray-500">
+                        No perks added yet for this property.
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = perks.map(perk => `
+                <div class="bg-white p-4 rounded-xl border border-gray-200 flex justify-between items-center shadow-sm">
+                    <div>
+                        <p class="font-bold text-gray-900">${perk.promoter_name}</p>
+                        <p class="text-sm text-gray-500">
+                            Code: <span class="font-mono bg-gray-100 px-1 rounded">${perk.promo_code}</span>
+                            <span class="text-gray-600"> • ${perk.description}</span>
+                        </p>
+                    </div>
+                    <button data-perk-id="${perk.id}" class="delete-perk-btn text-red-500 hover:text-red-700 p-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
+                            </path>
+                        </svg>
+                    </button>
+                </div>
+            `).join('');
+
+            container.querySelectorAll('.delete-perk-btn').forEach(btn => {
+                btn.addEventListener('click', () => deletePerk(btn.dataset.perkId));
+            });
+        }
+
+        async function loadPerksForSelectedProperty() {
+            if (!selectedPerksPropertyId) return;
+            try {
+                const response = await fetchWithTimeout(`${API_BASE_URL}/perks/by_property/${selectedPerksPropertyId}/`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Token ${AUTH_TOKEN}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+                if (!response.ok) throw new Error('Failed to load perks');
+                const perks = await response.json();
+                renderPerks(perks);
+                setStatusText('perks-status', 'Perks loaded.', 'info');
+            } catch (error) {
+                console.error('Error loading perks:', error);
+                setStatusText('perks-status', 'Failed to load perks.', 'error');
+            }
+        }
+
+        async function addPerk() {
+            if (!selectedPerksPropertyId) {
+                setStatusText('perks-status', 'Please select a property first.', 'error');
+                return;
+            }
+            const promoter_name = document.getElementById('perk-promoter-name').value.trim();
+            const promo_code = document.getElementById('perk-promo-code').value.trim();
+            const description = document.getElementById('perk-description').value.trim();
+
+            if (!promoter_name || !promo_code || !description) {
+                setStatusText('perks-status', 'Promoter, code, and description are required.', 'error');
+                return;
+            }
+
+            try {
+                const response = await fetchWithTimeout(`${API_BASE_URL}/perks/`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Token ${AUTH_TOKEN}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        property: Number(selectedPerksPropertyId),
+                        promoter_name,
+                        promo_code,
+                        description,
+                        is_active: true
+                    })
+                });
+                const data = await response.json();
+                if (!response.ok) throw new Error(data.error || 'Failed to add perk');
+
+                document.getElementById('perk-promoter-name').value = '';
+                document.getElementById('perk-promo-code').value = '';
+                document.getElementById('perk-description').value = '';
+                setStatusText('perks-status', 'Perk added successfully.', 'success');
+                await loadPerksForSelectedProperty();
+            } catch (error) {
+                console.error('Error adding perk:', error);
+                setStatusText('perks-status', error.message || 'Failed to add perk.', 'error');
+            }
+        }
+
+        async function deletePerk(perkId) {
+            try {
+                const response = await fetchWithTimeout(`${API_BASE_URL}/perks/${perkId}/`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Token ${AUTH_TOKEN}`
+                    }
+                });
+                if (!response.ok) throw new Error('Failed to delete perk');
+                setStatusText('perks-status', 'Perk deleted.', 'success');
+                await loadPerksForSelectedProperty();
+            } catch (error) {
+                console.error('Error deleting perk:', error);
+                setStatusText('perks-status', 'Failed to delete perk.', 'error');
+            }
+        }
+
+        async function loadSettings() {
+            try {
+                const response = await fetchWithTimeout(`${API_BASE_URL}/notification-settings/me/`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Token ${AUTH_TOKEN}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+                if (!response.ok) throw new Error('Failed to load settings');
+                const data = await response.json();
+                document.getElementById('settings-email-open-house').checked = Boolean(data.email_open_house);
+                document.getElementById('settings-email-new-perks').checked = Boolean(data.email_new_perks);
+                setStatusText('settings-status', 'Settings loaded.', 'info');
+            } catch (error) {
+                console.error('Error loading settings:', error);
+                setStatusText('settings-status', 'Failed to load settings.', 'error');
+            }
+        }
+
+        async function saveNotificationSettings() {
+            try {
+                const response = await fetchWithTimeout(`${API_BASE_URL}/notification-settings/update_settings/`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Authorization': `Token ${AUTH_TOKEN}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        email_open_house: document.getElementById('settings-email-open-house').checked,
+                        email_new_perks: document.getElementById('settings-email-new-perks').checked
+                    })
+                });
+                if (!response.ok) throw new Error('Failed to save notification settings');
+                setStatusText('settings-status', 'Notification settings saved.', 'success');
+            } catch (error) {
+                console.error('Error saving notification settings:', error);
+                setStatusText('settings-status', 'Failed to save notification settings.', 'error');
+            }
+        }
+
+        async function updatePassword() {
+            const current_password = document.getElementById('settings-current-password').value;
+            const new_password = document.getElementById('settings-new-password').value;
+            const confirm_password = document.getElementById('settings-confirm-password').value;
+
+            if (!current_password || !new_password || !confirm_password) {
+                setStatusText('password-status', 'All password fields are required.', 'error');
+                return;
+            }
+
+            try {
+                const response = await fetchWithTimeout(`${API_BASE_URL}/notification-settings/change_password/`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Token ${AUTH_TOKEN}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ current_password, new_password, confirm_password })
+                });
+                const data = await response.json();
+                if (!response.ok) {
+                    throw new Error(data.current_password?.[0] || data.confirm_password?.[0] || 'Failed to update password');
+                }
+                AUTH_TOKEN = data.token;
+                localStorage.setItem('authToken', data.token);
+                localStorage.setItem('auth_token', data.token);
+                document.getElementById('settings-current-password').value = '';
+                document.getElementById('settings-new-password').value = '';
+                document.getElementById('settings-confirm-password').value = '';
+                setStatusText('password-status', 'Password updated successfully.', 'success');
+            } catch (error) {
+                console.error('Error updating password:', error);
+                setStatusText('password-status', error.message || 'Failed to update password.', 'error');
+            }
+        }
+
+        async function initializeOpenHouseSection() {
+            if (!realtorPropertiesForTabs.length) await fetchRealtorPropertiesForTabs();
+            if (!selectedOpenHousePropertyId && realtorPropertiesForTabs.length) {
+                selectedOpenHousePropertyId = String(realtorPropertiesForTabs[0].id);
+            }
+            populateTabPropertySelectors();
+            await loadOpenHouseForSelectedProperty();
+        }
+
+        async function initializePerksSection() {
+            if (!realtorPropertiesForTabs.length) await fetchRealtorPropertiesForTabs();
+            if (!selectedPerksPropertyId && realtorPropertiesForTabs.length) {
+                selectedPerksPropertyId = String(realtorPropertiesForTabs[0].id);
+            }
+            populateTabPropertySelectors();
+            await loadPerksForSelectedProperty();
+        }
+
+        async function initializeSettingsSection() {
+            await loadSettings();
+        }
+
         // Run on page load
         document.addEventListener('DOMContentLoaded', function () {
             // Initialize tab immediately - don't wait for API
@@ -1057,11 +1501,42 @@
                     }
                 });
             }
-            
+
             // Initialize property management
             if (typeof initializePropertiesSection === 'function') {
                 initializePropertiesSection();
             }
+
+            const openHouseSelect = document.getElementById('openhouse-property-select');
+            if (openHouseSelect) {
+                openHouseSelect.addEventListener('change', function () {
+                    selectedOpenHousePropertyId = openHouseSelect.value;
+                    loadOpenHouseForSelectedProperty();
+                });
+            }
+
+            const perksSelect = document.getElementById('perks-property-select');
+            if (perksSelect) {
+                perksSelect.addEventListener('change', function () {
+                    selectedPerksPropertyId = perksSelect.value;
+                    loadPerksForSelectedProperty();
+                });
+            }
+
+            const saveOpenHouseBtn = document.getElementById('save-open-house-btn');
+            if (saveOpenHouseBtn) saveOpenHouseBtn.addEventListener('click', () => saveOpenHouse(false));
+
+            const clearOpenHouseBtn = document.getElementById('clear-open-house-btn');
+            if (clearOpenHouseBtn) clearOpenHouseBtn.addEventListener('click', () => saveOpenHouse(true));
+
+            const addPerkBtn = document.getElementById('add-perk-btn');
+            if (addPerkBtn) addPerkBtn.addEventListener('click', addPerk);
+
+            const saveNotificationsBtn = document.getElementById('save-notifications-btn');
+            if (saveNotificationsBtn) saveNotificationsBtn.addEventListener('click', saveNotificationSettings);
+
+            const updatePasswordBtn = document.getElementById('update-password-btn');
+            if (updatePasswordBtn) updatePasswordBtn.addEventListener('click', updatePassword);
         });
 
         // Handle browser back/forward navigation
@@ -1070,7 +1545,7 @@
         });
 
         // ===== PROPERTY MANAGEMENT FUNCTIONS =====
-        
+
         // Fetch and display properties
         async function fetchProperties() {
             if (!checkAuth()) return;
@@ -1119,12 +1594,12 @@
             }
 
             grid.innerHTML = properties.map(property => {
-                const firstPhoto = property.photos && property.photos.length > 0 
-                    ? property.photos[0].url 
+                const firstPhoto = property.photos && property.photos.length > 0
+                    ? property.photos[0].url
                     : "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Crect fill='%23e5e7eb' width='400' height='300'/%3E%3Ctext fill='%239ca3af' font-family='sans-serif' font-size='24' x='50%25' y='50%25' text-anchor='middle' dominant-baseline='middle'%3ENo Image%3C/text%3E%3C/svg%3E";
-                
+
                 const price = property.price ? `$${Number(property.price).toLocaleString()}` : 'Price TBD';
-                
+
                 return `
                     <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition">
                         <div class="h-48 bg-gray-200 relative">
@@ -1194,8 +1669,8 @@
 
             const propertyId = document.getElementById('property-form-modal').dataset.propertyId;
             const isEdit = !!propertyId;
-            const url = isEdit 
-                ? `${API_BASE_URL}/properties/${propertyId}/` 
+            const url = isEdit
+                ? `${API_BASE_URL}/properties/${propertyId}/`
                 : `${API_BASE_URL}/properties/`;
             const method = isEdit ? 'PATCH' : 'POST';
 
@@ -1221,7 +1696,7 @@
                 }
 
                 const result = await response.json();
-                
+
                 // Handle photo uploads if any
                 const photoInput = document.getElementById('prop_photos');
                 if (photoInput && photoInput.files.length > 0) {
@@ -1232,6 +1707,7 @@
                 document.getElementById('property-form-modal').close();
                 resetPropertyForm();
                 fetchProperties();
+                fetchRealtorPropertiesForTabs();
             } catch (error) {
                 console.error('Error saving property:', error);
                 alert('Failed to save property. Please try again.');
@@ -1254,14 +1730,16 @@
                         'Authorization': `Token ${AUTH_TOKEN}`
                     },
                     body: formData
-                });
+                }, 60000); // 60 seconds timeout
 
                 if (!response.ok) {
                     const error = await response.json();
                     console.error('Photo upload error:', error);
+                    alert('Property saved, but photo upload failed. Please try again.');
                 }
             } catch (error) {
                 console.error('Error uploading photos:', error);
+                alert('Property saved, but there was a network error while uploading photos.');
             }
         }
 
@@ -1282,7 +1760,7 @@
         // Delete property
         async function deleteProperty(propertyId) {
             if (!checkAuth()) return;
-            
+
             if (!confirm('Are you sure you want to delete this property?')) {
                 return;
             }
@@ -1307,6 +1785,7 @@
 
                 alert('Property deleted successfully!');
                 fetchProperties();
+                fetchRealtorPropertiesForTabs();
             } catch (error) {
                 console.error('Error deleting property:', error);
                 alert('Failed to delete property. Please try again.');
@@ -1318,7 +1797,7 @@
             // Fetch properties when properties tab is opened
             const propertiesTab = document.getElementById('nav-properties');
             if (propertiesTab) {
-                propertiesTab.addEventListener('click', function() {
+                propertiesTab.addEventListener('click', function () {
                     fetchProperties();
                 });
             }

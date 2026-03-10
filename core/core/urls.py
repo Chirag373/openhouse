@@ -17,6 +17,15 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import TemplateView
+from api.models import LenderProfile
+
+class LendersView(TemplateView):
+    template_name = 'lenders.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['lender_profiles'] = LenderProfile.objects.all().order_by('-created_at')
+        return context
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -24,7 +33,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('api.urls')),
     path('', TemplateView.as_view(template_name='home.html'), name='home'),
-    path('lenders/', TemplateView.as_view(template_name='lenders.html'), name='lenders'),
+    path('lenders/', LendersView.as_view(), name='lenders'),
     path('brokers/', TemplateView.as_view(template_name='brokers.html'), name='brokers'),
     path('partners/', TemplateView.as_view(template_name='partners.html'), name='partners'),
     path('promoters/', TemplateView.as_view(template_name='promoters.html'), name='promoters'),

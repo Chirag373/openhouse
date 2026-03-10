@@ -1,45 +1,12 @@
-{% extends 'base.html' %}
-{% block title %}Trusted Lenders{% endblock %}
+import re
 
-{% block content %}
-<!-- Lenders Hero Banner -->
-<div class="relative bg-emerald-900 rounded-2xl overflow-hidden mb-10 shadow-xl">
-    <div class="absolute inset-0 opacity-20">
-        <img src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&q=80&w=2000"
-            class="w-full h-full object-cover grayscale" alt="Lender Banner">
-    </div>
-    <div class="relative z-10 px-6 py-12 md:py-16 text-center">
-        <h1 class="text-3xl md:text-5xl font-bold text-white mb-4 tracking-tight">
-            Find a Trusted Lender
-        </h1>
-        <p class="text-emerald-50 text-lg md:text-xl max-w-2xl mx-auto font-medium">
-            Connect with top financing professionals. Browse business listings by city and state.
-        </p>
-    </div>
-</div>
+with open('core/templates/lenders.html', 'r') as f:
+    html = f.read()
 
-<!-- Search Section (City & State) -->
-<div class="max-w-3xl mx-auto mt-8 mb-12 relative z-20 px-4">
-    <div class="flex items-center gap-4">
-        <!-- Search Input -->
-        <div class="flex-grow bg-white p-2 rounded-full shadow-lg border border-gray-200">
-            <input type="text" placeholder="Search by City or State..."
-                class="w-full px-6 py-3 rounded-full outline-none text-gray-700 placeholder-gray-400" />
-        </div>
+# Pattern to replace everything from <!-- Lenders Grid --> to </script>
+pattern = re.compile(r'<!-- Lenders Grid -->.*?(?=<script>)', re.DOTALL)
 
-        <!-- Round Button -->
-        <button
-            class="flex-shrink-0 bg-emerald-600 hover:bg-emerald-700 text-white w-16 h-16 rounded-full shadow-lg flex items-center justify-center transition duration-200 transform hover:scale-105">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-            </svg>
-        </button>
-    </div>
-</div>
-
-<!-- Lenders Grid -->
+new_content = """<!-- Lenders Grid -->
 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
 
     {% for profile in lender_profiles %}
@@ -138,47 +105,7 @@
 
 </div>
 
-<script>
-    function moveSlide(btn, direction) {
-        const carousel = btn.closest('.card-carousel');
-        const slides = carousel.querySelectorAll('.carousel-slide');
-        const indicators = carousel.querySelectorAll('[data-indicator]');
-        let activeIndex = 0;
+"""
 
-        // Find current active slide (translate-x-0)
-        slides.forEach((slide, index) => {
-            if (slide.classList.contains('translate-x-0')) {
-                activeIndex = index;
-            }
-        });
-
-        // Calculate next index
-        let nextIndex = activeIndex + direction;
-        if (nextIndex < 0) nextIndex = slides.length - 1;
-        if (nextIndex >= slides.length) nextIndex = 0;
-
-        // Apply classes
-        slides.forEach((slide, index) => {
-            slide.classList.remove('translate-x-0', 'translate-x-full', '-translate-x-full');
-            if (index === nextIndex) {
-                slide.classList.add('translate-x-0');
-            } else if (index < nextIndex) {
-                slide.classList.add('-translate-x-full');
-            } else {
-                slide.classList.add('translate-x-full');
-            }
-        });
-
-        // Update indicators
-        indicators.forEach((ind, index) => {
-            if (index === nextIndex) {
-                ind.classList.remove('bg-gray-300');
-                ind.classList.add('bg-emerald-600');
-            } else {
-                ind.classList.add('bg-gray-300');
-                ind.classList.remove('bg-emerald-600');
-            }
-        });
-    }
-</script>
-{% endblock %}
+with open('core/templates/lenders.html', 'w') as f:
+    f.write(pattern.sub(new_content, html))

@@ -48,12 +48,12 @@ function displayProperties(properties) {
     }
 
     grid.innerHTML = properties.map(property => {
-        const firstPhoto = property.photos && property.photos.length > 0 
-            ? property.photos[0].url 
+        const firstPhoto = property.photos && property.photos.length > 0
+            ? property.photos[0].url
             : "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Crect fill='%23e5e7eb' width='400' height='300'/%3E%3Ctext fill='%239ca3af' font-family='sans-serif' font-size='24' x='50%25' y='50%25' text-anchor='middle' dominant-baseline='middle'%3ENo Image%3C/text%3E%3C/svg%3E";
-        
+
         const price = property.price ? `$${Number(property.price).toLocaleString()}` : 'Price TBD';
-        
+
         return `
             <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition">
                 <div class="h-48 bg-gray-200 relative">
@@ -123,8 +123,8 @@ async function saveProperty(event) {
 
     const propertyId = document.getElementById('property-form-modal').dataset.propertyId;
     const isEdit = !!propertyId;
-    const url = isEdit 
-        ? `${API_BASE_URL}/properties/${propertyId}/` 
+    const url = isEdit
+        ? `${API_BASE_URL}/properties/${propertyId}/`
         : `${API_BASE_URL}/properties/`;
     const method = isEdit ? 'PATCH' : 'POST';
 
@@ -150,7 +150,7 @@ async function saveProperty(event) {
         }
 
         const result = await response.json();
-        
+
         // Handle photo uploads if any
         const photoInput = document.getElementById('prop_photos');
         if (photoInput && photoInput.files.length > 0) {
@@ -182,15 +182,18 @@ async function uploadPropertyPhotos(propertyId, files) {
             headers: {
                 'Authorization': `Token ${AUTH_TOKEN}`
             },
-            body: formData
+            body: formData,
+            timeout: 60000 // 60 seconds timeout for photo uploads
         });
 
         if (!response.ok) {
             const error = await response.json();
             console.error('Photo upload error:', error);
+            alert('Property was saved, but photo upload failed. Please try again.');
         }
     } catch (error) {
         console.error('Error uploading photos:', error);
+        alert('Property was saved, but there was a network error while uploading photos.');
     }
 }
 
@@ -252,7 +255,7 @@ function populatePropertyForm(property) {
     document.getElementById('prop_roof').value = property.roof || '';
     document.getElementById('prop_price').value = property.price || '';
     document.getElementById('prop_description').value = property.description || '';
-    
+
     // Set appliances checkboxes
     if (property.appliances) {
         const appliances = property.appliances.split(',').map(a => a.trim());
@@ -273,7 +276,7 @@ function resetPropertyForm() {
 // Delete property
 async function deleteProperty(propertyId) {
     if (!checkAuth()) return;
-    
+
     if (!confirm('Are you sure you want to delete this property?')) {
         return;
     }
@@ -309,7 +312,7 @@ function initializePropertiesSection() {
     // Fetch properties when properties tab is opened
     const propertiesTab = document.getElementById('nav-properties');
     if (propertiesTab) {
-        propertiesTab.addEventListener('click', function() {
+        propertiesTab.addEventListener('click', function () {
             fetchProperties();
         });
     }

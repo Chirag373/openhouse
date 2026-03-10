@@ -235,3 +235,70 @@ class PropertyPhoto(models.Model):
         verbose_name = 'Property Photo'
         verbose_name_plural = 'Property Photos'
         ordering = ['order']
+
+
+# Open House Model - Schedule for property open houses
+class OpenHouse(models.Model):
+    property = models.ForeignKey(Property, on_delete=models.CASCADE, related_name='open_houses')
+    is_active = models.BooleanField(default=True, help_text='Whether open house is currently running')
+    
+    # Saturday schedule
+    saturday_date = models.DateField(null=True, blank=True)
+    saturday_start_time = models.TimeField(null=True, blank=True)
+    saturday_end_time = models.TimeField(null=True, blank=True)
+    
+    # Sunday schedule
+    sunday_date = models.DateField(null=True, blank=True)
+    sunday_start_time = models.TimeField(null=True, blank=True)
+    sunday_end_time = models.TimeField(null=True, blank=True)
+    
+    # Virtual tour link
+    virtual_tour_url = models.URLField(blank=True)
+    
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    def __str__(self):
+        return f"Open House for {self.property.listing_id}"
+    
+    class Meta:
+        verbose_name = 'Open House'
+        verbose_name_plural = 'Open Houses'
+        ordering = ['-created_at']
+
+
+# Perk Model - Promotions/discounts tied to properties (max 5 per property)
+class Perk(models.Model):
+    property = models.ForeignKey(Property, on_delete=models.CASCADE, related_name='perks')
+    promoter_name = models.CharField(max_length=255, help_text='Name of the promoter/company')
+    promo_code = models.CharField(max_length=50, help_text='Promotional code')
+    description = models.TextField(help_text='Description of the perk')
+    is_active = models.BooleanField(default=True)
+    
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    def __str__(self):
+        return f"{self.promo_code} - {self.promoter_name} for {self.property.listing_id}"
+    
+    class Meta:
+        verbose_name = 'Perk'
+        verbose_name_plural = 'Perks'
+        ordering = ['-created_at']
+
+
+# Notification Settings Model
+class NotificationSettings(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='notification_settings')
+    email_open_house = models.BooleanField(default=True, help_text='Email when an Open House is upcoming')
+    email_new_perks = models.BooleanField(default=False, help_text='Email about new Perk providers')
+    
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    def __str__(self):
+        return f"Notification Settings for {self.user.username}"
+    
+    class Meta:
+        verbose_name = 'Notification Settings'
+        verbose_name_plural = 'Notification Settings'

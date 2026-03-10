@@ -5,11 +5,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{% block title %}Property Listings{% endblock %}</title>
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🏠%3C/text%3E%3C/svg%3E">
+    <link rel="icon"
+        href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🏠%3C/text%3E%3C/svg%3E">
     <script src="https://cdn.tailwindcss.com"></script>
 
     <!-- Flash animation for Open House -->
-    </style>
 </head>
 
 <body class="bg-gray-100 text-gray-900 flex flex-col min-h-screen">
@@ -42,20 +42,29 @@
                 <div id="logged-out-state">
                     <button onclick="document.getElementById('auth-modal').showModal()"
                         class="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2.5 rounded-full font-medium transition-all duration-200 shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
-                        Join OpenHouse
+                        Log In / Sign Up
                     </button>
                 </div>
-                
+
                 <!-- Logged In State -->
-                <div id="logged-in-state" class="hidden flex items-center gap-4">
-                    <div class="text-right">
-                        <span class="text-sm text-gray-600">Welcome, <span id="user-name" class="font-semibold text-gray-900"></span></span>
-                        <span id="user-role-badge" class="hidden ml-2 px-2 py-1 text-xs font-medium rounded-full"></span>
-                    </div>
-                    <button onclick="logout()"
-                        class="bg-red-600 hover:bg-red-700 text-white px-5 py-2.5 rounded-full font-medium transition-all duration-200 shadow-md hover:shadow-lg">
-                        Logout
+                <div id="logged-in-state" class="hidden relative group">
+                    <button
+                        class="bg-white hover:bg-gray-50 border border-gray-200 text-gray-700 px-4 py-2.5 rounded-full font-medium transition-all duration-200 shadow-sm flex items-center gap-2">
+                        <span class="text-sm">Hi, <span id="user-name"
+                                class="font-semibold text-gray-900"></span></span>
+                        <span id="user-role-badge" class="hidden px-2 py-1 text-xs font-medium rounded-full"></span>
+                        <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7">
+                            </path>
+                        </svg>
                     </button>
+                    <div
+                        class="hidden group-hover:block group-focus-within:block absolute right-0 mt-2 w-44 bg-white border border-gray-200 rounded-xl shadow-lg overflow-hidden z-50">
+                        <a id="dashboard-link" href="/"
+                            class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-indigo-600">Dashboard</a>
+                        <button onclick="logout()"
+                            class="w-full text-left px-4 py-2.5 text-sm text-red-600 hover:bg-red-50">Logout</button>
+                    </div>
                 </div>
             </div>
 
@@ -137,19 +146,30 @@
         function checkAuth() {
             const token = localStorage.getItem('authToken');
             const user = localStorage.getItem('user');
-            
+
             if (token && user) {
                 const userData = JSON.parse(user);
                 document.getElementById('logged-out-state').classList.add('hidden');
                 document.getElementById('logged-in-state').classList.remove('hidden');
                 document.getElementById('user-name').textContent = userData.first_name || userData.username;
-                
+                const dashboardMap = {
+                    realtor: '/dashboard/realtor/',
+                    lender: '/dashboard/lender/',
+                    broker: '/dashboard/broker/',
+                    partner: '/dashboard/partner/',
+                    promoter: '/dashboard/promoter/'
+                };
+                const dashboardLink = document.getElementById('dashboard-link');
+                if (dashboardLink) {
+                    dashboardLink.href = dashboardMap[userData.role] || '/';
+                }
+
                 // Show role badge if role exists
                 if (userData.role) {
                     const roleBadge = document.getElementById('user-role-badge');
                     roleBadge.textContent = userData.role.charAt(0).toUpperCase() + userData.role.slice(1);
                     roleBadge.classList.remove('hidden');
-                    
+
                     // Set badge color based on role
                     const roleColors = {
                         'realtor': 'bg-blue-100 text-blue-800',
@@ -165,14 +185,15 @@
                 document.getElementById('logged-in-state').classList.add('hidden');
             }
         }
-        
+
         // Logout function
         function logout() {
             localStorage.removeItem('authToken');
+            localStorage.removeItem('auth_token');
             localStorage.removeItem('user');
             window.location.href = '/';
         }
-        
+
         // Check auth on page load
         document.addEventListener('DOMContentLoaded', checkAuth);
     </script>

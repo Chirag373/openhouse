@@ -6,7 +6,8 @@ from django.core.files.storage import default_storage
 from django.conf import settings
 from .models import (
     UserProfile, RealtorProfile, LenderProfile, BrokerProfile, 
-    PartnerProfile, PromoterProfile, Property, PropertyPhoto
+    PartnerProfile, PromoterProfile, Property, PropertyPhoto,
+    OpenHouse, Perk, NotificationSettings
 )
 import os
 
@@ -467,3 +468,73 @@ class PropertySerializer(serializers.ModelSerializer):
     
     def get_photo_count(self, obj):
         return PropertyPhoto.objects.filter(property=obj).count()
+
+
+class OpenHouseSerializer(serializers.ModelSerializer):
+    property_listing_id = serializers.CharField(source='property.listing_id', read_only=True)
+    property_address = serializers.CharField(source='property.street_address', read_only=True)
+
+    class Meta:
+        model = OpenHouse
+        fields = [
+            'id',
+            'property',
+            'property_listing_id',
+            'property_address',
+            'is_active',
+            'saturday_date',
+            'saturday_start_time',
+            'saturday_end_time',
+            'sunday_date',
+            'sunday_start_time',
+            'sunday_end_time',
+            'virtual_tour_url',
+            'created_at',
+            'updated_at',
+        ]
+        read_only_fields = ['id', 'created_at', 'updated_at', 'property_listing_id', 'property_address']
+
+
+class PerkSerializer(serializers.ModelSerializer):
+    property_listing_id = serializers.CharField(source='property.listing_id', read_only=True)
+    property_address = serializers.CharField(source='property.street_address', read_only=True)
+
+    class Meta:
+        model = Perk
+        fields = [
+            'id',
+            'property',
+            'property_listing_id',
+            'property_address',
+            'promoter_name',
+            'promo_code',
+            'description',
+            'is_active',
+            'created_at',
+            'updated_at',
+        ]
+        read_only_fields = ['id', 'created_at', 'updated_at', 'property_listing_id', 'property_address']
+
+
+class NotificationSettingsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = NotificationSettings
+        fields = [
+            'id',
+            'email_open_house',
+            'email_new_perks',
+            'created_at',
+            'updated_at',
+        ]
+        read_only_fields = ['id', 'created_at', 'updated_at']
+
+
+class ChangePasswordSerializer(serializers.Serializer):
+    current_password = serializers.CharField(required=True, write_only=True)
+    new_password = serializers.CharField(required=True, write_only=True, validators=[validate_password])
+    confirm_password = serializers.CharField(required=True, write_only=True)
+
+    def validate(self, attrs):
+        if attrs['new_password'] != attrs['confirm_password']:
+            raise serializers.ValidationError({'confirm_password': "Password fields didn't match."})
+        return attrs
