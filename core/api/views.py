@@ -15,6 +15,7 @@ from .serializers import (
     LenderProfileSerializer,
     BrokerProfileSerializer,
     PartnerProfileSerializer,
+    PartnerServiceSerializer,
     PromoterProfileSerializer,
     ProfilePhotoUploadSerializer,
     OpenHouseSerializer,
@@ -29,6 +30,7 @@ from .models import (
     LenderProfile,
     BrokerProfile,
     PartnerProfile,
+    PartnerService,
     PromoterProfile,
     Property,
     PropertyPhoto,
@@ -427,6 +429,22 @@ class PartnerProfileViewSet(viewsets.ModelViewSet):
             }, status=status.HTTP_200_OK)
         except Exception as e:
             return Response({'error': f'Failed to upload business card: {str(e)}'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+class PartnerServiceViewSet(viewsets.ModelViewSet):
+    serializer_class = PartnerServiceSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        try:
+            partner = PartnerProfile.objects.get(user=self.request.user)
+            return PartnerService.objects.filter(partner=partner)
+        except PartnerProfile.DoesNotExist:
+            return PartnerService.objects.none()
+
+    def perform_create(self, serializer):
+        partner, _ = PartnerProfile.objects.get_or_create(user=self.request.user)
+        serializer.save(partner=partner)
 
 
 class PromoterProfileViewSet(viewsets.ModelViewSet):

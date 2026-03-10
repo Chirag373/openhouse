@@ -6,7 +6,7 @@ from django.core.files.storage import default_storage
 from django.conf import settings
 from .models import (
     UserProfile, RealtorProfile, LenderProfile, BrokerProfile, 
-    PartnerProfile, PromoterProfile, Property, PropertyPhoto,
+    PartnerProfile, PartnerService, PromoterProfile, Property, PropertyPhoto,
     OpenHouse, Perk, NotificationSettings, PromoCode
 )
 import os
@@ -281,6 +281,19 @@ class PartnerProfileSerializer(serializers.ModelSerializer):
             setattr(instance, attr, value)
         instance.save()
         return instance
+
+
+class PartnerServiceSerializer(serializers.ModelSerializer):
+    service_type_display = serializers.CharField(source='get_service_type_display', read_only=True)
+    
+    class Meta:
+        model = PartnerService
+        fields = [
+            'id', 'service_type', 'service_type_display',
+            'service_area', 'serving_states', 'serving_cities',
+            'is_active', 'created_at',
+        ]
+        read_only_fields = ['id', 'service_type_display', 'created_at']
 
 
 class PromoterProfileSerializer(serializers.ModelSerializer):

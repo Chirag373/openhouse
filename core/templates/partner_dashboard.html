@@ -11,61 +11,43 @@
     <style>
         .sidebar-link.active {
             background-color: #fff7ed;
-            /* orange-50 */
             color: #ea580c;
-            /* orange-600 */
             border-right: 4px solid #ea580c;
         }
-
-        /* Hide scrollbar for Chrome, Safari and Opera */
-        .no-scrollbar::-webkit-scrollbar {
-            display: none;
-        }
-
-        /* Hide scrollbar for IE, Edge and Firefox */
-        .no-scrollbar {
-            -ms-overflow-style: none;
-            /* IE and Edge */
-            scrollbar-width: none;
-            /* Firefox */
-        }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
 
 <body class="bg-gray-100 font-sans text-gray-900 h-screen flex overflow-hidden">
 
     <!-- Mobile Header -->
-    <div
-        class="md:hidden fixed top-0 w-full bg-white z-50 border-b px-4 py-3 flex justify-between items-center shadow-sm">
+    <div class="md:hidden fixed top-0 w-full bg-white z-50 border-b px-4 py-3 flex justify-between items-center shadow-sm">
         <span class="font-bold text-lg text-orange-900">Partner Dashboard</span>
         <button id="mobile-menu-btn" onclick="toggleSidebar()" class="p-2 text-gray-600 rounded-lg hover:bg-gray-100">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16">
-                </path>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
             </svg>
         </button>
     </div>
 
     <!-- Sidebar -->
-    <aside id="sidebar"
-        class="bg-white w-64 flex-shrink-0 border-r border-gray-200 hidden md:flex flex-col fixed md:relative h-full z-40 pt-16 md:pt-0 transition-transform transform -translate-x-full md:translate-x-0">
+    <aside id="sidebar" class="bg-white w-64 flex-shrink-0 border-r border-gray-200 hidden md:flex flex-col fixed md:relative h-full z-40 pt-16 md:pt-0 transition-transform transform -translate-x-full md:translate-x-0">
         <div class="h-16 flex items-center px-6 border-b border-gray-100">
             <h1 class="text-xl font-bold text-orange-900 tracking-tight flex items-center gap-2">
-                <span
-                    class="bg-orange-600 text-white w-8 h-8 rounded-lg flex items-center justify-center text-sm">PT</span>
+                <span class="bg-orange-600 text-white w-8 h-8 rounded-lg flex items-center justify-center text-sm">PT</span>
                 Dashboard
             </h1>
         </div>
 
         <div class="p-6 pb-2">
             <div class="flex items-center gap-3 mb-6">
-                <div
-                    class="w-10 h-10 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center font-bold text-lg border border-orange-200">
-                    HI
+                <div id="sidebar-avatar" class="w-10 h-10 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center font-bold text-lg border border-orange-200">
+                    U
                 </div>
                 <div>
-                    <p class="font-semibold text-sm text-gray-900">Home Inspectors Inc</p>
-                    <p class="text-xs text-gray-500">Service Partner</p>
+                    <p id="sidebar-user-name" class="font-semibold text-sm text-gray-900">User</p>
+                    <p class="text-xs text-gray-500">Partner</p>
                 </div>
             </div>
         </div>
@@ -75,28 +57,22 @@
                 <li><button onclick="switchTab('profile')" id="nav-profile"
                         class="sidebar-link w-full text-left px-6 py-3 text-sm font-medium text-gray-600 hover:bg-orange-50 hover:text-orange-600 transition-colors flex items-center gap-3 active">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
                         </svg>
                         Profile
                     </button></li>
                 <li><button onclick="switchTab('services')" id="nav-services"
                         class="sidebar-link w-full text-left px-6 py-3 text-sm font-medium text-gray-600 hover:bg-orange-50 hover:text-orange-600 transition-colors flex items-center gap-3">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
-                            </path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
                         </svg>
                         Services
                     </button></li>
                 <li><button onclick="switchTab('settings')" id="nav-settings"
                         class="sidebar-link w-full text-left px-6 py-3 text-sm font-medium text-gray-600 hover:bg-orange-50 hover:text-orange-600 transition-colors flex items-center gap-3">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z">
-                            </path>
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
                         </svg>
                         Settings
                     </button></li>
@@ -104,12 +80,10 @@
         </nav>
 
         <div class="p-4 border-t border-gray-100">
-            <a href="/"
+            <a href="/" onclick="logout(); return false;"
                 class="flex items-center gap-2 text-sm text-gray-500 hover:text-red-600 transition hover:bg-red-50 p-2 rounded-lg">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1">
-                    </path>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path>
                 </svg>
                 Sign Out
             </a>
@@ -120,38 +94,27 @@
     <main class="flex-1 overflow-y-auto h-full pt-16 md:pt-0 bg-gray-50" id="main-content">
         <div class="max-w-7xl mx-auto p-4 md:p-8">
 
-            <!-- --- PROFILE SECTION --- -->
+            <!-- === PROFILE SECTION === -->
             <div id="section-profile" class="dashboard-section space-y-6">
                 <div class="flex justify-between items-center mb-2">
                     <h2 class="text-2xl font-bold text-gray-900">Partner Profile</h2>
-                    <button onclick="saveProfile()"
-                        class="bg-orange-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-orange-700 shadow-sm">Save
-                        Changes</button>
+                    <button onclick="saveProfile()" class="bg-orange-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-orange-700 shadow-sm">Save Changes</button>
                 </div>
 
                 <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
                     <div class="p-6 md:p-8 space-y-8">
                         <!-- Business Info -->
                         <div>
-                            <h3 class="text-lg font-semibold text-gray-800 mb-4 pb-2 border-b border-gray-100">Business
-                                Information</h3>
+                            <h3 class="text-lg font-semibold text-gray-800 mb-4 pb-2 border-b border-gray-100">Business Information</h3>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div class="md:col-span-2 mb-2 flex items-center gap-6">
-                                    <div id="photo-preview-container"
-                                        class="relative w-24 h-24 rounded-full bg-gray-100 border-2 border-dashed border-gray-300 flex items-center justify-center text-gray-400 hover:bg-gray-50 cursor-pointer overflow-hidden group">
-                                        <img id="photo-preview" src="" alt="Profile"
-                                            class="hidden w-full h-full object-cover">
-                                        <svg id="photo-icon" class="w-8 h-8 group-hover:hidden" fill="none"
-                                            stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z">
-                                            </path>
+                                    <div id="photo-preview-container" class="relative w-24 h-24 rounded-full bg-gray-100 border-2 border-dashed border-gray-300 flex items-center justify-center text-gray-400 hover:bg-gray-50 cursor-pointer overflow-hidden group">
+                                        <img id="photo-preview" src="" alt="Profile" class="hidden w-full h-full object-cover">
+                                        <svg id="photo-icon" class="w-8 h-8 group-hover:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
                                         </svg>
-                                        <span id="photo-text"
-                                            class="text-xs absolute bottom-4 group-hover:hidden">Upload</span>
-                                        <input type="file" id="profile-photo-input"
-                                            accept="image/jpeg,image/jpg,image/png,image/webp"
-                                            class="absolute inset-0 opacity-0 cursor-pointer">
+                                        <span id="photo-text" class="text-xs absolute bottom-4 group-hover:hidden">Upload</span>
+                                        <input type="file" id="profile-photo-input" accept="image/jpeg,image/jpg,image/png,image/webp" class="absolute inset-0 opacity-0 cursor-pointer">
                                     </div>
                                     <div class="text-sm text-gray-500">
                                         <p class="font-medium text-gray-700">Profile Photo</p>
@@ -160,156 +123,117 @@
                                         <p id="upload-status" class="text-xs mt-1"></p>
                                     </div>
                                 </div>
-
                                 <div class="md:col-span-2">
                                     <label class="block text-sm font-medium text-gray-700 mb-1">Business Name</label>
-                                    <input type="text" id="company_name"
-                                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-100 focus:border-orange-500 outline-none transition">
+                                    <input type="text" id="company_name" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-100 focus:border-orange-500 outline-none transition">
                                 </div>
                                 <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-1">Contact First
-                                        Name</label>
-                                    <input type="text" id="first_name"
-                                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-100 focus:border-orange-500 outline-none transition">
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Contact First Name</label>
+                                    <input type="text" id="first_name" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-100 focus:border-orange-500 outline-none transition">
                                 </div>
                                 <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-1">Contact Last
-                                        Name</label>
-                                    <input type="text" id="last_name"
-                                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-100 focus:border-orange-500 outline-none transition">
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Contact Last Name</label>
+                                    <input type="text" id="last_name" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-100 focus:border-orange-500 outline-none transition">
                                 </div>
                                 <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-1">Email <span
-                                            class="text-xs text-gray-400">(Read Only)</span></label>
-                                    <input type="email" id="email"
-                                        class="w-full px-3 py-2 border border-gray-200 rounded-lg bg-gray-50 text-gray-500 cursor-not-allowed"
-                                        readonly>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Email <span class="text-xs text-gray-400">(Read Only)</span></label>
+                                    <input type="email" id="email" class="w-full px-3 py-2 border border-gray-200 rounded-lg bg-gray-50 text-gray-500 cursor-not-allowed" readonly>
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 mb-1">Business Website</label>
-                                    <input type="url" id="business_website"
-                                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-100 focus:border-orange-500 outline-none transition"
-                                        placeholder="https://">
+                                    <input type="url" id="business_website" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-100 focus:border-orange-500 outline-none transition" placeholder="https://">
                                 </div>
                                 <div class="md:col-span-2">
                                     <label class="block text-sm font-medium text-gray-700 mb-1">Company Address</label>
                                     <div class="flex items-center gap-4 mb-2">
                                         <label class="inline-flex items-center cursor-pointer">
-                                            <input type="radio" name="addressType" value="actual"
-                                                id="address_type_actual" class="text-orange-600 focus:ring-orange-500"
-                                                checked>
+                                            <input type="radio" name="addressType" value="actual" id="address_type_actual" class="text-orange-600 focus:ring-orange-500" checked>
                                             <span class="ml-2 text-sm text-gray-700">Actual Address</span>
                                         </label>
                                         <label class="inline-flex items-center cursor-pointer">
-                                            <input type="radio" name="addressType" value="po_box"
-                                                id="address_type_po_box" class="text-orange-600 focus:ring-orange-500">
+                                            <input type="radio" name="addressType" value="po_box" id="address_type_po_box" class="text-orange-600 focus:ring-orange-500">
                                             <span class="ml-2 text-sm text-gray-700">PO Box</span>
                                         </label>
                                     </div>
-                                    <input type="text" id="company_address"
-                                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-100 focus:border-orange-500 outline-none transition"
-                                        placeholder="123 Service Rd">
+                                    <input type="text" id="company_address" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-100 focus:border-orange-500 outline-none transition" placeholder="123 Service Rd">
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 mb-1">Phone Number 1</label>
-                                    <input type="tel" id="phone_number_1"
-                                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-100 focus:border-orange-500 outline-none transition"
-                                        placeholder="(555) 000-0000">
+                                    <input type="tel" id="phone_number_1" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-100 focus:border-orange-500 outline-none transition" placeholder="(555) 000-0000">
                                 </div>
                                 <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-1">Phone Number 2 <span
-                                            class="text-gray-400 font-normal">(Optional)</span></label>
-                                    <input type="tel" id="phone_number_2"
-                                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-100 focus:border-orange-500 outline-none transition">
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Phone Number 2 <span class="text-gray-400 font-normal">(Optional)</span></label>
+                                    <input type="tel" id="phone_number_2" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-100 focus:border-orange-500 outline-none transition">
                                 </div>
                             </div>
                         </div>
 
                         <!-- Details & Bio -->
                         <div>
-                            <h3 class="text-lg font-semibold text-gray-800 mb-4 pb-2 border-b border-gray-100">Service
-                                Details</h3>
+                            <h3 class="text-lg font-semibold text-gray-800 mb-4 pb-2 border-b border-gray-100">Service Details</h3>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-1">License State <span
-                                            class="text-xs text-gray-400">(2-letter code)</span></label>
-                                    <input type="text" id="license_state"
-                                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-100 focus:border-orange-500 outline-none transition"
-                                        placeholder="TX">
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">License State <span class="text-xs text-gray-400">(2-letter code)</span></label>
+                                    <input type="text" id="license_state" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-100 focus:border-orange-500 outline-none transition" placeholder="TX">
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 mb-1">License Number</label>
-                                    <input type="text" id="license_number"
-                                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-100 focus:border-orange-500 outline-none transition"
-                                        placeholder="12345678">
+                                    <input type="text" id="license_number" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-100 focus:border-orange-500 outline-none transition" placeholder="12345678">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Serving States</label>
+                                    <input type="text" id="serving_states" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-100 focus:border-orange-500 outline-none transition" placeholder="TX, OK, CA">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Serving Cities</label>
+                                    <input type="text" id="serving_cities" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-100 focus:border-orange-500 outline-none transition" placeholder="Dallas, Plano, Austin">
                                 </div>
                                 <div class="md:col-span-2">
-                                    <label class="block text-sm font-medium text-gray-700 mb-1">Business Description /
-                                        Bio</label>
-                                    <textarea rows="5" id="biography"
-                                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-100 focus:border-orange-500 outline-none transition"
-                                        placeholder="Describe your services..."></textarea>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Business Description / Bio</label>
+                                    <textarea rows="5" id="biography" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-100 focus:border-orange-500 outline-none transition" placeholder="Describe your services..."></textarea>
                                 </div>
                             </div>
                         </div>
 
                         <!-- Business Card Upload -->
                         <div>
-                            <h3 class="text-lg font-semibold text-gray-800 mb-4 pb-2 border-b border-gray-100">Business
-                                Card</h3>
+                            <h3 class="text-lg font-semibold text-gray-800 mb-4 pb-2 border-b border-gray-100">Business Card</h3>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 mb-2">Front Side</label>
-                                    <div onclick="document.getElementById('business-card-front-input').click()"
-                                        class="border-2 border-dashed border-gray-300 rounded-lg h-48 flex flex-col items-center justify-center text-gray-400 hover:bg-gray-50 cursor-pointer transition relative overflow-hidden group">
-                                        <img id="front-card-preview" src="" alt="Front Card"
-                                            class="hidden w-full h-full object-contain p-2">
-                                        <div id="front-card-placeholder"
-                                            class="flex flex-col items-center justify-center w-full h-full absolute inset-0 group-hover:bg-black/5 transition-colors">
-                                            <svg id="front-card-icon" class="w-10 h-10 mb-2" fill="none"
-                                                stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z">
-                                                </path>
+                                    <div onclick="document.getElementById('business-card-front-input').click()" class="border-2 border-dashed border-gray-300 rounded-lg h-48 flex flex-col items-center justify-center text-gray-400 hover:bg-gray-50 cursor-pointer transition relative overflow-hidden group">
+                                        <img id="front-card-preview" src="" alt="Front Card" class="hidden w-full h-full object-contain p-2">
+                                        <div id="front-card-placeholder" class="flex flex-col items-center justify-center w-full h-full absolute inset-0 group-hover:bg-black/5 transition-colors">
+                                            <svg id="front-card-icon" class="w-10 h-10 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
                                             </svg>
                                             <span id="front-card-text" class="text-sm">Upload Front Image</span>
                                         </div>
-                                        <p id="upload-status-front"
-                                            class="text-xs font-semibold mt-1 absolute bottom-2 z-10"></p>
-                                        <input type="file" id="business-card-front-input" class="hidden"
-                                            accept="image/jpeg,image/jpg,image/png,image/webp">
+                                        <p id="upload-status-front" class="text-xs font-semibold mt-1 absolute bottom-2 z-10"></p>
+                                        <input type="file" id="business-card-front-input" class="hidden" accept="image/jpeg,image/jpg,image/png,image/webp">
                                     </div>
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 mb-2">Back Side</label>
-                                    <div onclick="document.getElementById('business-card-back-input').click()"
-                                        class="border-2 border-dashed border-gray-300 rounded-lg h-48 flex flex-col items-center justify-center text-gray-400 hover:bg-gray-50 cursor-pointer transition relative overflow-hidden group">
-                                        <img id="back-card-preview" src="" alt="Back Card"
-                                            class="hidden w-full h-full object-contain p-2">
-                                        <div id="back-card-placeholder"
-                                            class="flex flex-col items-center justify-center w-full h-full absolute inset-0 group-hover:bg-black/5 transition-colors">
-                                            <svg id="back-card-icon" class="w-10 h-10 mb-2" fill="none"
-                                                stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z">
-                                                </path>
+                                    <div onclick="document.getElementById('business-card-back-input').click()" class="border-2 border-dashed border-gray-300 rounded-lg h-48 flex flex-col items-center justify-center text-gray-400 hover:bg-gray-50 cursor-pointer transition relative overflow-hidden group">
+                                        <img id="back-card-preview" src="" alt="Back Card" class="hidden w-full h-full object-contain p-2">
+                                        <div id="back-card-placeholder" class="flex flex-col items-center justify-center w-full h-full absolute inset-0 group-hover:bg-black/5 transition-colors">
+                                            <svg id="back-card-icon" class="w-10 h-10 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
                                             </svg>
                                             <span id="back-card-text" class="text-sm">Upload Back Image</span>
                                         </div>
-                                        <p id="upload-status-back"
-                                            class="text-xs font-semibold mt-1 absolute bottom-2 z-10"></p>
-                                        <input type="file" id="business-card-back-input" class="hidden"
-                                            accept="image/jpeg,image/jpg,image/png,image/webp">
+                                        <p id="upload-status-back" class="text-xs font-semibold mt-1 absolute bottom-2 z-10"></p>
+                                        <input type="file" id="business-card-back-input" class="hidden" accept="image/jpeg,image/jpg,image/png,image/webp">
                                     </div>
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
 
-            <!-- --- SERVICES SECTION --- -->
+            <!-- === SERVICES SECTION === -->
             <div id="section-services" class="dashboard-section hidden space-y-6">
                 <div class="flex justify-between items-center mb-2">
                     <h2 class="text-2xl font-bold text-gray-900">Manage Services</h2>
@@ -321,78 +245,70 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">Service Type</label>
-                            <select class="w-full px-3 py-2 border rounded-md">
-                                <option>Select Type...</option>
-                                <option>Title Company</option>
-                                <option>Home Inspector</option>
-                                <option>Appraiser</option>
-                                <option>Handyman</option>
+                            <select id="new-service-type" class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-orange-100 focus:border-orange-500 outline-none">
+                                <option value="">Select Type...</option>
+                                <option value="title_company">Title Company</option>
+                                <option value="home_inspector">Home Inspector</option>
+                                <option value="appraiser">Appraiser</option>
+                                <option value="handyman">Handyman</option>
+                                <option value="contractor">Contractor</option>
+                                <option value="insurance">Insurance Agent</option>
+                                <option value="moving">Moving Company</option>
+                                <option value="cleaning">Cleaning Service</option>
+                                <option value="landscaping">Landscaping</option>
+                                <option value="other">Other</option>
                             </select>
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">Service Area Description</label>
-                            <input type="text" class="w-full px-3 py-2 border rounded-md"
-                                placeholder="e.g. Greater Dallas Area...">
+                            <input type="text" id="new-service-area" class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-orange-100 focus:border-orange-500 outline-none" placeholder="e.g. Greater Dallas Area...">
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">Service States</label>
-                            <input type="text" class="w-full px-3 py-2 border rounded-md" placeholder="TX, OK">
+                            <input type="text" id="new-service-states" class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-orange-100 focus:border-orange-500 outline-none" placeholder="TX, OK">
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">Service Cities</label>
-                            <input type="text" class="w-full px-3 py-2 border rounded-md" placeholder="Dallas, Plano">
+                            <input type="text" id="new-service-cities" class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-orange-100 focus:border-orange-500 outline-none" placeholder="Dallas, Plano">
                         </div>
                     </div>
                     <div class="flex justify-end">
-                        <button
-                            class="bg-orange-600 hover:bg-orange-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition shadow-sm">Add
-                            Service</button>
+                        <button onclick="addService()" class="bg-orange-600 hover:bg-orange-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition shadow-sm">Add Service</button>
                     </div>
                 </div>
 
                 <!-- Active Services List -->
                 <div class="space-y-4">
                     <h3 class="font-semibold text-gray-700">Active Services</h3>
-                    <div
-                        class="bg-white p-4 rounded-xl border border-gray-200 flex justify-between items-center shadow-sm">
-                        <div>
-                            <p class="font-bold text-gray-900">Home Inspector</p>
-                            <p class="text-sm text-gray-500">Serving Dallas, Plano (TX) • Greater Dallas Area</p>
+                    <div id="services-list">
+                        <div class="text-center py-8 text-gray-400">
+                            <p>Loading services...</p>
                         </div>
-                        <button class="text-red-500 hover:text-red-700 p-2"><svg class="w-5 h-5" fill="none"
-                                stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
-                                </path>
-                            </svg></button>
                     </div>
                 </div>
             </div>
 
-            <!-- --- SETTINGS SECTION --- -->
+            <!-- === SETTINGS SECTION === -->
             <div id="section-settings" class="dashboard-section hidden space-y-6">
                 <h2 class="text-2xl font-bold text-gray-900 mb-6">Account Settings</h2>
 
-                <div
-                    class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden divide-y divide-gray-100">
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden divide-y divide-gray-100">
                     <div class="p-6 md:p-8">
                         <h3 class="font-semibold text-gray-900 mb-4">Security</h3>
                         <div class="max-w-md space-y-4">
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-1">Current Password</label>
-                                <input type="password" class="w-full px-3 py-2 border rounded-md">
+                                <input type="password" id="current-password" class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-orange-100 focus:border-orange-500 outline-none">
                             </div>
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-1">New Password</label>
-                                <input type="password" class="w-full px-3 py-2 border rounded-md">
+                                <input type="password" id="new-password" class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-orange-100 focus:border-orange-500 outline-none">
                             </div>
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-1">Confirm New Password</label>
-                                <input type="password" class="w-full px-3 py-2 border rounded-md">
+                                <input type="password" id="confirm-password" class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-orange-100 focus:border-orange-500 outline-none">
                             </div>
-                            <button
-                                class="bg-gray-800 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-black transition">Update
-                                Password</button>
+                            <button onclick="changePassword()" class="bg-gray-800 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-black transition">Update Password</button>
                         </div>
                     </div>
 
@@ -400,10 +316,15 @@
                         <h3 class="font-semibold text-gray-900 mb-4">Notifications</h3>
                         <div class="space-y-3">
                             <label class="flex items-center gap-3 cursor-pointer">
-                                <input type="checkbox" checked class="rounded text-orange-600 focus:ring-orange-500">
-                                <span class="text-sm text-gray-700">Email me about new service requests</span>
+                                <input type="checkbox" id="notify-open-house" checked class="rounded text-orange-600 focus:ring-orange-500">
+                                <span class="text-sm text-gray-700">Email me when an Open House is upcoming</span>
+                            </label>
+                            <label class="flex items-center gap-3 cursor-pointer">
+                                <input type="checkbox" id="notify-new-perks" class="rounded text-orange-600 focus:ring-orange-500">
+                                <span class="text-sm text-gray-700">Email me about new Perk providers</span>
                             </label>
                         </div>
+                        <button onclick="saveNotificationPreferences()" class="mt-4 bg-orange-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-orange-700 transition shadow-sm">Save Notification Preferences</button>
                     </div>
                 </div>
             </div>
@@ -414,11 +335,13 @@
     <script>
         const API_BASE_URL = '/api';
         const AUTH_TOKEN = localStorage.getItem('authToken') || localStorage.getItem('auth_token');
-        const FETCH_TIMEOUT = 5000;
+        const FETCH_TIMEOUT = 8000;
 
+        // --- UTILITY ---
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
             sidebar.classList.toggle('-translate-x-full');
+            sidebar.classList.toggle('hidden');
         }
 
         function switchTab(tabId) {
@@ -430,6 +353,8 @@
             url.searchParams.set('tab', tabId);
             window.history.pushState({}, '', url);
             if (window.innerWidth < 768) toggleSidebar();
+            if (tabId === 'services') fetchServices();
+            if (tabId === 'settings') initializeSettingsSection();
         }
 
         function initializeTab() {
@@ -454,6 +379,14 @@
             return true;
         }
 
+        function logout() {
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('auth_token');
+            localStorage.removeItem('user');
+            window.location.href = '/';
+        }
+
+        // --- PROFILE TAB ---
         async function fetchProfile() {
             if (!checkAuth()) return;
             try {
@@ -469,7 +402,7 @@
                 const data = await response.json();
                 populateProfileForm(data);
                 updateUserInfo(data);
-            } catch (error) { loadUserFromStorage(); }
+            } catch (error) { console.error('Error fetching profile:', error); loadUserFromStorage(); }
         }
 
         function loadUserFromStorage() {
@@ -484,29 +417,18 @@
 
         function updateUserInfo(data) {
             const fullName = data.full_name || `${data.first_name || ''} ${data.last_name || ''}`.trim() || 'User';
-            const sidebarUserName = document.querySelector('.p-6.pb-2 .font-semibold');
-            const sidebarUserRole = document.querySelector('.p-6.pb-2 .text-xs.text-gray-500');
-            if (sidebarUserName) sidebarUserName.textContent = fullName;
-            if (sidebarUserRole) sidebarUserRole.textContent = 'Partner';
-
-            // Update profile photo preview if exists
-            if (data.profile_photo) {
-                displayProfilePhoto(data.profile_photo);
-            }
-            if (data.business_card_front) {
-                displayBusinessCard(data.business_card_front, 'front');
-            }
-            if (data.business_card_back) {
-                displayBusinessCard(data.business_card_back, 'back');
-            }
+            const initials = fullName.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+            document.getElementById('sidebar-user-name').textContent = fullName;
+            document.getElementById('sidebar-avatar').textContent = initials;
+            if (data.profile_photo) displayProfilePhoto(data.profile_photo);
+            if (data.business_card_front) displayBusinessCard(data.business_card_front, 'front');
+            if (data.business_card_back) displayBusinessCard(data.business_card_back, 'back');
         }
 
-        // Display profile photo
         function displayProfilePhoto(photoUrl) {
             const preview = document.getElementById('photo-preview');
             const icon = document.getElementById('photo-icon');
             const text = document.getElementById('photo-text');
-
             if (preview && photoUrl) {
                 preview.src = photoUrl;
                 preview.classList.remove('hidden');
@@ -519,7 +441,6 @@
             const preview = document.getElementById(`${side}-card-preview`);
             const icon = document.getElementById(`${side}-card-icon`);
             const text = document.getElementById(`${side}-card-text`);
-
             if (preview && cardUrl) {
                 preview.src = cardUrl;
                 preview.classList.remove('hidden');
@@ -530,148 +451,43 @@
             }
         }
 
+        async function uploadProfilePhoto(file) {
+            if (!checkAuth()) return;
+            const uploadStatus = document.getElementById('upload-status');
+            if (file.size > 3 * 1024 * 1024) { if (uploadStatus) { uploadStatus.textContent = 'Error: File size exceeds 3MB'; uploadStatus.className = 'text-xs mt-1 text-red-600'; } return; }
+            const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+            if (!allowedTypes.includes(file.type)) { if (uploadStatus) { uploadStatus.textContent = 'Error: Invalid file type'; uploadStatus.className = 'text-xs mt-1 text-red-600'; } return; }
+            if (uploadStatus) { uploadStatus.textContent = 'Uploading...'; uploadStatus.className = 'text-xs mt-1 text-blue-600'; }
+            const formData = new FormData();
+            formData.append('photo', file);
+            try {
+                const response = await fetchWithTimeout(`${API_BASE_URL}/partner-profile/upload_photo/`, { method: 'POST', headers: { 'Authorization': `Token ${AUTH_TOKEN}` }, body: formData });
+                if (response.status === 401 || response.status === 403) { alert('Session expired.'); window.location.href = '/login/'; return; }
+                if (!response.ok) { const error = await response.json(); throw new Error(error.error || 'Upload failed'); }
+                const result = await response.json();
+                displayProfilePhoto(result.photo_url);
+                if (uploadStatus) { uploadStatus.textContent = 'Uploaded!'; uploadStatus.className = 'text-xs mt-1 text-green-600'; setTimeout(() => uploadStatus.textContent = '', 3000); }
+            } catch (error) { console.error('Error uploading photo:', error); if (uploadStatus) { uploadStatus.textContent = `Error: ${error.message}`; uploadStatus.className = 'text-xs mt-1 text-red-600'; } }
+        }
+
         async function uploadBusinessCard(file, side) {
             if (!checkAuth()) return;
-
             const uploadStatus = document.getElementById(`upload-status-${side}`);
-
-            if (file.size > 3 * 1024 * 1024) {
-                if (uploadStatus) {
-                    uploadStatus.textContent = 'Error: File size exceeds 3MB';
-                    uploadStatus.className = 'text-xs mt-1 absolute bottom-2 z-10 text-red-600 bg-white/90 px-2 py-1 rounded shadow-sm';
-                    setTimeout(() => uploadStatus.textContent = '', 3000);
-                }
-                return;
-            }
-
+            if (file.size > 3 * 1024 * 1024) { if (uploadStatus) { uploadStatus.textContent = 'Error: File too large'; uploadStatus.className = 'text-xs mt-1 absolute bottom-2 z-10 text-red-600 bg-white/90 px-2 py-1 rounded shadow-sm'; setTimeout(() => uploadStatus.textContent = '', 3000); } return; }
             const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
-            if (!allowedTypes.includes(file.type)) {
-                if (uploadStatus) {
-                    uploadStatus.textContent = 'Error: Invalid file type';
-                    uploadStatus.className = 'text-xs mt-1 absolute bottom-2 z-10 text-red-600 bg-white/90 px-2 py-1 rounded shadow-sm';
-                    setTimeout(() => uploadStatus.textContent = '', 3000);
-                }
-                return;
-            }
-
-            if (uploadStatus) {
-                uploadStatus.textContent = 'Uploading...';
-                uploadStatus.className = 'text-xs mt-1 absolute bottom-2 z-10 text-blue-600 bg-white/90 px-2 py-1 rounded shadow-sm';
-            }
-
+            if (!allowedTypes.includes(file.type)) { if (uploadStatus) { uploadStatus.textContent = 'Error: Invalid type'; uploadStatus.className = 'text-xs mt-1 absolute bottom-2 z-10 text-red-600 bg-white/90 px-2 py-1 rounded shadow-sm'; setTimeout(() => uploadStatus.textContent = '', 3000); } return; }
+            if (uploadStatus) { uploadStatus.textContent = 'Uploading...'; uploadStatus.className = 'text-xs mt-1 absolute bottom-2 z-10 text-blue-600 bg-white/90 px-2 py-1 rounded shadow-sm'; }
             const formData = new FormData();
             formData.append('card', file);
             formData.append('side', side);
-
             try {
-                const response = await fetchWithTimeout(`${API_BASE_URL}/partner-profile/upload_business_card/`, {
-                    method: 'POST',
-                    headers: { 'Authorization': `Token ${AUTH_TOKEN}` },
-                    body: formData
-                });
-
-                if (response.status === 401 || response.status === 403) {
-                    alert('Session expired. Please login again.');
-                    window.location.href = '/login/';
-                    return;
-                }
-
-                if (!response.ok) {
-                    const error = await response.json();
-                    throw new Error(error.error || 'Upload failed');
-                }
-
+                const response = await fetchWithTimeout(`${API_BASE_URL}/partner-profile/upload_business_card/`, { method: 'POST', headers: { 'Authorization': `Token ${AUTH_TOKEN}` }, body: formData });
+                if (response.status === 401 || response.status === 403) { alert('Session expired.'); window.location.href = '/login/'; return; }
+                if (!response.ok) { const error = await response.json(); throw new Error(error.error || 'Upload failed'); }
                 const result = await response.json();
                 displayBusinessCard(result.card_url, side);
-
-                if (uploadStatus) {
-                    uploadStatus.textContent = 'Uploaded successfully!';
-                    uploadStatus.className = 'text-xs mt-1 absolute bottom-2 z-10 text-green-600 bg-white/90 px-2 py-1 rounded shadow-sm';
-                    setTimeout(() => uploadStatus.textContent = '', 3000);
-                }
-            } catch (error) {
-                console.error(`Error uploading ${side} business card:`, error);
-                if (uploadStatus) {
-                    uploadStatus.textContent = `Error: ${error.message}`;
-                    uploadStatus.className = 'text-xs mt-1 absolute bottom-2 z-10 text-red-600 bg-white/90 px-2 py-1 rounded shadow-sm';
-                    setTimeout(() => uploadStatus.textContent = '', 3000);
-                }
-            }
-        }
-
-        // Handle photo upload
-        async function uploadProfilePhoto(file) {
-            if (!checkAuth()) return;
-
-            const uploadStatus = document.getElementById('upload-status');
-
-            // Validate file size
-            if (file.size > 3 * 1024 * 1024) {
-                if (uploadStatus) {
-                    uploadStatus.textContent = 'Error: File size exceeds 3MB';
-                    uploadStatus.className = 'text-xs mt-1 text-red-600';
-                }
-                return;
-            }
-
-            // Validate file type
-            const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
-            if (!allowedTypes.includes(file.type)) {
-                if (uploadStatus) {
-                    uploadStatus.textContent = 'Error: Invalid file type';
-                    uploadStatus.className = 'text-xs mt-1 text-red-600';
-                }
-                return;
-            }
-
-            // Show uploading status
-            if (uploadStatus) {
-                uploadStatus.textContent = 'Uploading...';
-                uploadStatus.className = 'text-xs mt-1 text-blue-600';
-            }
-
-            const formData = new FormData();
-            formData.append('photo', file);
-
-            try {
-                const response = await fetchWithTimeout(`${API_BASE_URL}/partner-profile/upload_photo/`, {
-                    method: 'POST',
-                    headers: {
-                        'Authorization': `Token ${AUTH_TOKEN}`
-                    },
-                    body: formData
-                });
-
-                if (response.status === 401 || response.status === 403) {
-                    alert('Session expired. Please login again.');
-                    window.location.href = '/login/';
-                    return;
-                }
-
-                if (!response.ok) {
-                    const error = await response.json();
-                    throw new Error(error.error || 'Upload failed');
-                }
-
-                const result = await response.json();
-
-                // Display uploaded photo
-                displayProfilePhoto(result.photo_url);
-
-                if (uploadStatus) {
-                    uploadStatus.textContent = 'Photo uploaded successfully!';
-                    uploadStatus.className = 'text-xs mt-1 text-green-600';
-                    setTimeout(() => {
-                        uploadStatus.textContent = '';
-                    }, 3000);
-                }
-            } catch (error) {
-                console.error('Error uploading photo:', error);
-                if (uploadStatus) {
-                    uploadStatus.textContent = `Error: ${error.message}`;
-                    uploadStatus.className = 'text-xs mt-1 text-red-600';
-                }
-            }
+                if (uploadStatus) { uploadStatus.textContent = 'Uploaded!'; uploadStatus.className = 'text-xs mt-1 absolute bottom-2 z-10 text-green-600 bg-white/90 px-2 py-1 rounded shadow-sm'; setTimeout(() => uploadStatus.textContent = '', 3000); }
+            } catch (error) { console.error(`Error uploading ${side}:`, error); if (uploadStatus) { uploadStatus.textContent = `Error: ${error.message}`; uploadStatus.className = 'text-xs mt-1 absolute bottom-2 z-10 text-red-600 bg-white/90 px-2 py-1 rounded shadow-sm'; setTimeout(() => uploadStatus.textContent = '', 3000); } }
         }
 
         function populateProfileForm(data) {
@@ -681,6 +497,7 @@
                 'company_name': data.company_name, 'company_address': data.company_address,
                 'business_website': data.business_website,
                 'license_state': data.license_state, 'license_number': data.license_number,
+                'serving_states': data.serving_states, 'serving_cities': data.serving_cities,
                 'biography': data.biography
             };
             Object.keys(fields).forEach(key => {
@@ -709,6 +526,8 @@
                 business_website: document.getElementById('business_website').value,
                 license_state: document.getElementById('license_state').value,
                 license_number: document.getElementById('license_number').value,
+                serving_states: document.getElementById('serving_states').value,
+                serving_cities: document.getElementById('serving_cities').value,
                 biography: document.getElementById('biography').value
             };
             try {
@@ -717,9 +536,7 @@
                     headers: { 'Authorization': `Token ${AUTH_TOKEN}`, 'Content-Type': 'application/json' },
                     body: JSON.stringify(profileData)
                 });
-                if (response.status === 401 || response.status === 403) {
-                    alert('Session expired. Please login again.'); window.location.href = '/login/'; return;
-                }
+                if (response.status === 401 || response.status === 403) { alert('Session expired.'); window.location.href = '/login/'; return; }
                 if (!response.ok) throw new Error('Failed to save profile');
                 const result = await response.json();
                 alert('Profile saved successfully!');
@@ -730,38 +547,159 @@
                     user.first_name = result.first_name; user.last_name = result.last_name; user.full_name = result.full_name;
                     localStorage.setItem('user', JSON.stringify(user));
                 }
-            } catch (error) {
-                console.error('Error saving profile:', error);
-                alert('Failed to save profile. Please try again.');
-            }
+            } catch (error) { console.error('Error saving profile:', error); alert('Failed to save profile.'); }
         }
 
+        // --- SERVICES TAB ---
+        async function fetchServices() {
+            if (!checkAuth()) return;
+            try {
+                const response = await fetchWithTimeout(`${API_BASE_URL}/partner-services/`, {
+                    method: 'GET',
+                    headers: { 'Authorization': `Token ${AUTH_TOKEN}`, 'Content-Type': 'application/json' }
+                });
+                if (!response.ok) throw new Error('Failed to fetch services');
+                const services = await response.json();
+                renderServices(services);
+            } catch (error) { console.error('Error fetching services:', error); document.getElementById('services-list').innerHTML = '<p class="text-center py-8 text-red-400">Failed to load services.</p>'; }
+        }
+
+        function renderServices(services) {
+            const container = document.getElementById('services-list');
+            if (!services || services.length === 0) {
+                container.innerHTML = '<div class="text-center py-8 text-gray-400"><svg class="w-12 h-12 mx-auto mb-3 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg><p>No services added yet. Add your first service above.</p></div>';
+                return;
+            }
+            container.innerHTML = services.map(s => `
+                <div class="bg-white p-4 rounded-xl border border-gray-200 flex justify-between items-center shadow-sm">
+                    <div>
+                        <p class="font-bold text-gray-900">${s.service_type_display}</p>
+                        <p class="text-sm text-gray-500">
+                            ${s.serving_cities ? s.serving_cities : ''}${s.serving_states ? ' (' + s.serving_states + ')' : ''}${s.service_area ? ' • ' + s.service_area : ''}
+                        </p>
+                    </div>
+                    <button onclick="deleteService(${s.id})" class="text-red-500 hover:text-red-700 p-2" title="Delete">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        async function addService() {
+            if (!checkAuth()) return;
+            const serviceType = document.getElementById('new-service-type').value;
+            if (!serviceType) { alert('Please select a service type.'); return; }
+            const serviceData = {
+                service_type: serviceType,
+                service_area: document.getElementById('new-service-area').value,
+                serving_states: document.getElementById('new-service-states').value,
+                serving_cities: document.getElementById('new-service-cities').value,
+            };
+            try {
+                const response = await fetchWithTimeout(`${API_BASE_URL}/partner-services/`, {
+                    method: 'POST',
+                    headers: { 'Authorization': `Token ${AUTH_TOKEN}`, 'Content-Type': 'application/json' },
+                    body: JSON.stringify(serviceData)
+                });
+                if (!response.ok) { const err = await response.json(); throw new Error(JSON.stringify(err)); }
+                document.getElementById('new-service-type').value = '';
+                document.getElementById('new-service-area').value = '';
+                document.getElementById('new-service-states').value = '';
+                document.getElementById('new-service-cities').value = '';
+                fetchServices();
+            } catch (error) { console.error('Error adding service:', error); alert('Failed to add service.'); }
+        }
+
+        async function deleteService(id) {
+            if (!confirm('Delete this service?')) return;
+            try {
+                const response = await fetchWithTimeout(`${API_BASE_URL}/partner-services/${id}/`, {
+                    method: 'DELETE',
+                    headers: { 'Authorization': `Token ${AUTH_TOKEN}` }
+                });
+                if (!response.ok) throw new Error('Failed to delete service');
+                fetchServices();
+            } catch (error) { console.error('Error deleting service:', error); alert('Failed to delete service.'); }
+        }
+
+        // --- SETTINGS TAB ---
+        async function initializeSettingsSection() {
+            if (!checkAuth()) return;
+            try {
+                const response = await fetchWithTimeout(`${API_BASE_URL}/notification-settings/me/`, {
+                    method: 'GET',
+                    headers: { 'Authorization': `Token ${AUTH_TOKEN}`, 'Content-Type': 'application/json' }
+                });
+                if (response.ok) {
+                    const data = await response.json();
+                    document.getElementById('notify-open-house').checked = data.email_open_house || false;
+                    document.getElementById('notify-new-perks').checked = data.email_new_perks || false;
+                }
+            } catch (error) { console.error('Error loading settings:', error); }
+        }
+
+        async function changePassword() {
+            const currentPassword = document.getElementById('current-password').value;
+            const newPassword = document.getElementById('new-password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+            if (!currentPassword || !newPassword || !confirmPassword) { alert('Please fill in all password fields.'); return; }
+            if (newPassword !== confirmPassword) { alert('New passwords do not match.'); return; }
+            if (newPassword.length < 8) { alert('Password must be at least 8 characters.'); return; }
+            try {
+                const response = await fetchWithTimeout(`${API_BASE_URL}/notification-settings/change_password/`, {
+                    method: 'POST',
+                    headers: { 'Authorization': `Token ${AUTH_TOKEN}`, 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ current_password: currentPassword, new_password: newPassword })
+                });
+                if (!response.ok) { const err = await response.json(); throw new Error(err.current_password?.[0] || 'Password change failed'); }
+                const result = await response.json();
+                localStorage.setItem('authToken', result.token);
+                alert('Password updated successfully!');
+                document.getElementById('current-password').value = '';
+                document.getElementById('new-password').value = '';
+                document.getElementById('confirm-password').value = '';
+            } catch (error) { alert(`Error: ${error.message}`); }
+        }
+
+        async function saveNotificationPreferences() {
+            try {
+                const response = await fetchWithTimeout(`${API_BASE_URL}/notification-settings/update_settings/`, {
+                    method: 'PATCH',
+                    headers: { 'Authorization': `Token ${AUTH_TOKEN}`, 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        email_open_house: document.getElementById('notify-open-house').checked,
+                        email_new_perks: document.getElementById('notify-new-perks').checked,
+                    })
+                });
+                if (!response.ok) throw new Error('Failed to save');
+                alert('Notification preferences saved!');
+            } catch (error) { console.error('Error saving notifications:', error); alert('Failed to save preferences.'); }
+        }
+
+        // --- INIT ---
         document.addEventListener('DOMContentLoaded', function () {
             initializeTab();
             loadUserFromStorage();
             if (AUTH_TOKEN) { setTimeout(() => { fetchProfile(); }, 100); }
             else { setTimeout(() => { window.location.href = '/login/'; }, 1000); }
 
-            // Setup photo upload handler
+            // Photo upload handler
             const photoInput = document.getElementById('profile-photo-input');
             if (photoInput) {
                 photoInput.addEventListener('change', function (e) {
                     const file = e.target.files[0];
                     if (file) {
-                        // Show preview immediately
                         const reader = new FileReader();
-                        reader.onload = function (e) {
-                            displayProfilePhoto(e.target.result);
-                        };
+                        reader.onload = function (e) { displayProfilePhoto(e.target.result); };
                         reader.readAsDataURL(file);
-
-                        // Upload to server
                         uploadProfilePhoto(file);
                     }
                 });
             }
 
-            // Setup business card upload handlers
+            // Business card upload handlers
             ['front', 'back'].forEach(side => {
                 const input = document.getElementById(`business-card-${side}-input`);
                 if (input) {
@@ -769,9 +707,7 @@
                         const file = e.target.files[0];
                         if (file) {
                             const reader = new FileReader();
-                            reader.onload = function (e) {
-                                displayBusinessCard(e.target.result, side);
-                            };
+                            reader.onload = function (e) { displayBusinessCard(e.target.result, side); };
                             reader.readAsDataURL(file);
                             uploadBusinessCard(file, side);
                         }

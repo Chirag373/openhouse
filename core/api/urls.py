@@ -10,6 +10,7 @@ router.register(r'realtor-profile', views.RealtorProfileViewSet, basename='realt
 router.register(r'lender-profile', views.LenderProfileViewSet, basename='lender-profile')
 router.register(r'broker-profile', views.BrokerProfileViewSet, basename='broker-profile')
 router.register(r'partner-profile', views.PartnerProfileViewSet, basename='partner-profile')
+router.register(r'partner-services', views.PartnerServiceViewSet, basename='partner-service')
 router.register(r'promoter-profile', views.PromoterProfileViewSet, basename='promoter-profile')
 router.register(r'properties', views.PropertyViewSet, basename='property')
 router.register(r'open-houses', views.OpenHouseViewSet, basename='open-house')

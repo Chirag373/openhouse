@@ -122,6 +122,37 @@ class PartnerProfile(BaseProfile):
         verbose_name_plural = 'Partner Profiles'
 
 
+class PartnerService(models.Model):
+    SERVICE_TYPE_CHOICES = [
+        ('title_company', 'Title Company'),
+        ('home_inspector', 'Home Inspector'),
+        ('appraiser', 'Appraiser'),
+        ('handyman', 'Handyman'),
+        ('contractor', 'Contractor'),
+        ('insurance', 'Insurance Agent'),
+        ('moving', 'Moving Company'),
+        ('cleaning', 'Cleaning Service'),
+        ('landscaping', 'Landscaping'),
+        ('other', 'Other'),
+    ]
+    
+    partner = models.ForeignKey(PartnerProfile, on_delete=models.CASCADE, related_name='services')
+    service_type = models.CharField(max_length=50, choices=SERVICE_TYPE_CHOICES)
+    service_area = models.CharField(max_length=255, blank=True, help_text='Description of service area')
+    serving_states = models.CharField(max_length=255, blank=True, help_text='Comma separated state codes')
+    serving_cities = models.TextField(blank=True, help_text='Comma separated city names')
+    is_active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return f"{self.partner.user.get_full_name()} - {self.get_service_type_display()}"
+    
+    class Meta:
+        verbose_name = 'Partner Service'
+        verbose_name_plural = 'Partner Services'
+        ordering = ['-created_at']
+
+
 # Promoter Profile Model
 class PromoterProfile(BaseProfile):
     BUSINESS_TYPE_CHOICES = [

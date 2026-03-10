@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import TemplateView
-from api.models import LenderProfile
+from api.models import LenderProfile, PromoterProfile, PartnerProfile
 
 class LendersView(TemplateView):
     template_name = 'lenders.html'
@@ -26,6 +26,23 @@ class LendersView(TemplateView):
         context = super().get_context_data(**kwargs)
         context['lender_profiles'] = LenderProfile.objects.all().order_by('-created_at')
         return context
+
+class PromotersView(TemplateView):
+    template_name = 'promoters.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['promoter_profiles'] = PromoterProfile.objects.all().order_by('-created_at')
+        return context
+
+class PartnersView(TemplateView):
+    template_name = 'partners.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['partner_profiles'] = PartnerProfile.objects.all().order_by('-created_at')
+        return context
+
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -35,8 +52,8 @@ urlpatterns = [
     path('', TemplateView.as_view(template_name='home.html'), name='home'),
     path('lenders/', LendersView.as_view(), name='lenders'),
     path('brokers/', TemplateView.as_view(template_name='brokers.html'), name='brokers'),
-    path('partners/', TemplateView.as_view(template_name='partners.html'), name='partners'),
-    path('promoters/', TemplateView.as_view(template_name='promoters.html'), name='promoters'),
+    path('partners/', PartnersView.as_view(), name='partners'),
+    path('promoters/', PromotersView.as_view(), name='promoters'),
     path('login/', TemplateView.as_view(template_name='login.html'), name='login'),
     path('signup/', TemplateView.as_view(template_name='signup.html'), name='signup'),
     path('dashboard/realtor/', TemplateView.as_view(template_name='realtor_dashboard.html'), name='realtor_dashboard'),
