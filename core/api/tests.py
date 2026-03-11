@@ -195,3 +195,31 @@ class LenderDashboardFlowTests(APITestCase):
             'password': new_password,
         }, format='json')
         self.assertEqual(login_response.status_code, status.HTTP_200_OK)
+
+class BrokerDashboardFlowTests(APITestCase):
+    def setUp(self):
+        self.password = 'BrokerPass123!'
+        self.user = User.objects.create_user(
+            username='broker123',
+            email='broker@example.com',
+            password=self.password,
+            first_name='Brok',
+            last_name='Er'
+        )
+        UserProfile.objects.create(user=self.user, role='broker')
+        self.token = Token.objects.create(user=self.user)
+        self.client.credentials(HTTP_AUTHORIZATION=f'Token {self.token.key}')
+
+    def test_property_create_as_broker(self):
+        property_payload = {
+            'property_type': 'condo',
+            'status': 'active',
+            'street_address': '55 Broker Ave',
+            'city': 'Dallas',
+            'state': 'TX',
+            'zip_code': '75001',
+        }
+        create_response = self.client.post('/api/properties/', property_payload, format='json')
+        self.assertEqual(create_response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(create_response.data['street_address'], '55 Broker Ave')
+        self.assertEqual(create_response.data['realtor'], self.user.id)

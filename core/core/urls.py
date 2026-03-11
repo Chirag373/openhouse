@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import TemplateView
-from api.models import LenderProfile, PromoterProfile, PartnerProfile
+from api.models import LenderProfile, PromoterProfile, PartnerProfile, BrokerProfile
 
 class LendersView(TemplateView):
     template_name = 'lenders.html'
@@ -43,6 +43,15 @@ class PartnersView(TemplateView):
         context['partner_profiles'] = PartnerProfile.objects.all().order_by('-created_at')
         return context
 
+class BrokersView(TemplateView):
+    template_name = 'brokers.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Prefetch properties where realtor (which is User) is the broker's user
+        context['broker_profiles'] = BrokerProfile.objects.all().prefetch_related('user__properties').order_by('-created_at')
+        return context
+
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -51,7 +60,7 @@ urlpatterns = [
     path('api/', include('api.urls')),
     path('', TemplateView.as_view(template_name='home.html'), name='home'),
     path('lenders/', LendersView.as_view(), name='lenders'),
-    path('brokers/', TemplateView.as_view(template_name='brokers.html'), name='brokers'),
+    path('brokers/', BrokersView.as_view(), name='brokers'),
     path('partners/', PartnersView.as_view(), name='partners'),
     path('promoters/', PromotersView.as_view(), name='promoters'),
     path('login/', TemplateView.as_view(template_name='login.html'), name='login'),
