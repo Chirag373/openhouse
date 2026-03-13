@@ -1,0 +1,45 @@
+# Core Django Framework
+Django==6.0.1
+
+# Django REST Framework for API development
+djangorestframework==3.15.2
+
+# Image processing library (required for ImageField)
+Pillow==11.0.0
+
+# ASGI server for production deployment
+daphne==4.1.2
+
+# WSGI HTTP Server for production
+gunicorn==23.0.0
+
+# Python dotenv for environment variables
+python-dotenv==1.0.1
+
+# Database adapter for PostgreSQL (optional, for production)
+psycopg2-binary==2.9.10
+
+# Timezone support
+pytz==2024.2
+
+# CORS headers for cross-origin requests
+django-cors-headers==4.6.0
+
+# Django filter for API filtering
+django-filter==24.3
+
+# Markdown support for browsable API
+Markdown==3.7
+
+# Code formatting and linting (development)
+black==24.10.0
+flake8==7.1.1
+isort==5.13.2
+
+# Testing
+pytest==8.3.4
+pytest-django==4.9.0
+coverage==7.6.9
+
+# Security
+django-environ==0.11.2
