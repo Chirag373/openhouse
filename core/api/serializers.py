@@ -457,6 +457,14 @@ class PropertyPhotoSerializer(serializers.Serializer):
 class PropertySerializer(serializers.ModelSerializer):
     realtor_name = serializers.CharField(source='realtor.get_full_name', read_only=True)
     realtor_email = serializers.EmailField(source='realtor.email', read_only=True)
+    realtor_company = serializers.SerializerMethodField(read_only=True)
+    realtor_phone_1 = serializers.SerializerMethodField(read_only=True)
+    realtor_phone_2 = serializers.SerializerMethodField(read_only=True)
+    realtor_website = serializers.SerializerMethodField(read_only=True)
+    realtor_serving_states = serializers.SerializerMethodField(read_only=True)
+    realtor_serving_cities = serializers.SerializerMethodField(read_only=True)
+    realtor_biography = serializers.SerializerMethodField(read_only=True)
+    realtor_profile_photo = serializers.SerializerMethodField(read_only=True)
     photos = serializers.SerializerMethodField(read_only=True)
     photo_count = serializers.SerializerMethodField(read_only=True)
     
@@ -468,6 +476,14 @@ class PropertySerializer(serializers.ModelSerializer):
             'realtor',
             'realtor_name',
             'realtor_email',
+            'realtor_company',
+            'realtor_phone_1',
+            'realtor_phone_2',
+            'realtor_website',
+            'realtor_serving_states',
+            'realtor_serving_cities',
+            'realtor_biography',
+            'realtor_profile_photo',
             'property_type',
             'status',
             'street_address',
@@ -497,6 +513,41 @@ class PropertySerializer(serializers.ModelSerializer):
             'updated_at',
         ]
         read_only_fields = ['id', 'listing_id', 'realtor', 'realtor_name', 'realtor_email', 'created_at', 'updated_at']
+
+    def _get_realtor_profile(self, obj):
+        return getattr(obj.realtor, 'realtor_profile', None)
+
+    def get_realtor_company(self, obj):
+        profile = self._get_realtor_profile(obj)
+        return profile.company_name if profile else ''
+
+    def get_realtor_phone_1(self, obj):
+        profile = self._get_realtor_profile(obj)
+        return profile.phone_number_1 if profile else ''
+
+    def get_realtor_phone_2(self, obj):
+        profile = self._get_realtor_profile(obj)
+        return profile.phone_number_2 if profile else ''
+
+    def get_realtor_website(self, obj):
+        profile = self._get_realtor_profile(obj)
+        return profile.business_website if profile else ''
+
+    def get_realtor_serving_states(self, obj):
+        profile = self._get_realtor_profile(obj)
+        return profile.serving_states if profile else ''
+
+    def get_realtor_serving_cities(self, obj):
+        profile = self._get_realtor_profile(obj)
+        return profile.serving_cities if profile else ''
+
+    def get_realtor_biography(self, obj):
+        profile = self._get_realtor_profile(obj)
+        return profile.biography if profile else ''
+
+    def get_realtor_profile_photo(self, obj):
+        profile = self._get_realtor_profile(obj)
+        return profile.profile_photo if profile else ''
     
     def get_photos(self, obj):
         photos = PropertyPhoto.objects.filter(property=obj).order_by('order')
