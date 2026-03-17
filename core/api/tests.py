@@ -403,3 +403,47 @@ class SignupBillingFlowTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         pending_signup.refresh_from_db()
         self.assertEqual(pending_signup.status, 'cancelled')
+
+    def test_billing_summary_returns_starter_for_free_user(self):
+        user = User.objects.create_user(
+            username='free-user',
+            email='free@example.com',
+            password='FreePass123!',
+            first_name='Free',
+            last_name='User',
+        )
+        UserProfile.objects.create(user=user, role='partner')
+        token = Token.objects.create(user=user)
+        self.client.credentials(HTTP_AUTHORIZATION=f'Token {token.key}')
+
+        response = self.client.get('/api/billing/me/')
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['subscription']['plan'], 'starter')
+        self.assertFalse(response.data['subscription']['portal_available'])
+
+    @patch('api.views.stripe.billing_portal.Session.create')
+    def test_billing_portal_returns_url_for_paid_user(self, create_portal_mock):
+        user = User.objects.create_user(
+            username='paid-user',
+            email='paid@example.com',
+            password='PaidPass123!',
+            first_name='Paid',
+            last_name='User',
+        )
+        UserProfile.objects.create(user=user, role='broker')
+        UserSubscription.objects.create(
+            user=user,
+            plan='growth',
+            status='active',
+            stripe_customer_id='cus_paid_123',
+            stripe_subscription_id='sub_paid_123',
+        )
+        token = Token.objects.create(user=user)
+        self.client.credentials(HTTP_AUTHORIZATION=f'Token {token.key}')
+        create_portal_mock.return_value = type('PortalSession', (), {'url': 'https://billing.stripe.test/session'})()
+
+        response = self.client.post('/api/billing/create-portal-session/')
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['url'], 'https://billing.stripe.test/session')

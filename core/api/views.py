@@ -86,6 +86,26 @@ def _get_dashboard_path(role):
     return f'/dashboard/{role}/' if role else '/'
 
 
+def _get_user_subscription_summary(user):
+    subscription = UserSubscription.objects.filter(user=user).first()
+    if subscription:
+        return {
+            'plan': subscription.plan,
+            'status': subscription.status,
+            'current_period_end': subscription.current_period_end.isoformat() if subscription.current_period_end else None,
+            'portal_available': bool(subscription.stripe_customer_id),
+            'stripe_customer_id': subscription.stripe_customer_id,
+        }
+
+    return {
+        'plan': 'starter',
+        'status': 'active',
+        'current_period_end': None,
+        'portal_available': False,
+        'stripe_customer_id': '',
+    }
+
+
 def _finalize_pending_signup(pending_signup, session_payload=None):
     if pending_signup.status == 'completed' and pending_signup.user_id:
         user = pending_signup.user
@@ -186,6 +206,13 @@ class SignupViewSet(viewsets.ViewSet):
         if serializer.is_valid():
             user = serializer.save()
             token, created = Token.objects.get_or_create(user=user)
+            UserSubscription.objects.get_or_create(
+                user=user,
+                defaults={
+                    'plan': 'starter',
+                    'status': 'active',
+                },
+            )
             return Response({
                 'user': _build_user_payload(user),
                 'token': token.key,
@@ -1174,3 +1201,38 @@ def signup_cancel(request):
             pending_signup.save(update_fields=['status', 'updated_at'])
 
     return render(request, 'signup_cancel.html')
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def billing_summary(request):
+    summary = _get_user_subscription_summary(request.user)
+    return Response({
+        'user': _build_user_payload(request.user),
+        'subscription': summary,
+    }, status=status.HTTP_200_OK)
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def create_billing_portal_session(request):
+    summary = _get_user_subscription_summary(request.user)
+    if not summary['portal_available']:
+        return Response(
+            {'error': 'Billing portal is only available for paid subscriptions with an active Stripe customer.'},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+
+    try:
+        _configure_stripe()
+        session = stripe.billing_portal.Session.create(
+            customer=summary['stripe_customer_id'],
+            return_url=request.build_absolute_uri(f"{_get_dashboard_path(request.user.profile.role)}?tab=billing"),
+        )
+    except Exception:
+        return Response(
+            {'error': 'Unable to open billing portal right now. Please try again.'},
+            status=status.HTTP_502_BAD_GATEWAY,
+        )
+
+    return Response({'url': session.url}, status=status.HTTP_200_OK)
