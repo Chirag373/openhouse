@@ -17,6 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import TemplateView
+from api import views as api_views
 from api.models import LenderProfile, PromoterProfile, PartnerProfile, BrokerProfile
 
 class LendersView(TemplateView):
@@ -65,6 +66,8 @@ urlpatterns = [
     path('promoters/', PromotersView.as_view(), name='promoters'),
     path('login/', TemplateView.as_view(template_name='login.html'), name='login'),
     path('signup/', TemplateView.as_view(template_name='signup.html'), name='signup'),
+    path('signup/success/', api_views.signup_success, name='signup_success'),
+    path('signup/cancel/', api_views.signup_cancel, name='signup_cancel'),
     path('dashboard/realtor/', TemplateView.as_view(template_name='realtor_dashboard.html'), name='realtor_dashboard'),
     path('dashboard/lender/', TemplateView.as_view(template_name='lender_dashboard.html'), name='lender_dashboard'),
     path('dashboard/broker/', TemplateView.as_view(template_name='broker_dashboard.html'), name='broker_dashboard'),

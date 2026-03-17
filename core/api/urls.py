@@ -20,4 +20,5 @@ router.register(r'promo-codes', views.PromoCodeViewSet, basename='promo-code')
 
 urlpatterns = [
     path('', include(router.urls)),
+    path('signup/stripe-webhook/', views.stripe_webhook, name='stripe-webhook'),
 ]

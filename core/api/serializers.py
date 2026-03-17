@@ -2,12 +2,13 @@ from rest_framework import serializers
 from django.contrib.auth.models import User
 from django.contrib.auth.password_validation import validate_password
 from django.contrib.auth import authenticate
+from django.contrib.auth.hashers import make_password
 from django.core.files.storage import default_storage
 from django.conf import settings
 from .models import (
     UserProfile, RealtorProfile, LenderProfile, BrokerProfile, 
     PartnerProfile, PartnerService, PromoterProfile, Property, PropertyPhoto,
-    OpenHouse, Perk, NotificationSettings, PromoCode
+    OpenHouse, Perk, NotificationSettings, PromoCode, PendingSignup
 )
 import os
 
@@ -23,11 +24,12 @@ class UserSerializer(serializers.ModelSerializer):
     password2 = serializers.CharField(write_only=True, required=True)
     full_name = serializers.CharField(source='get_full_name', read_only=True)
     role = serializers.ChoiceField(choices=UserProfile.ROLE_CHOICES, write_only=True, required=True)
+    plan = serializers.ChoiceField(choices=[('starter', 'Starter'), ('growth', 'Growth'), ('premium', 'Premium')], write_only=True, required=False, default='starter')
     user_role = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = User
-        fields = ('id', 'username', 'email', 'password', 'password2', 'first_name', 'last_name', 'full_name', 'role', 'user_role')
+        fields = ('id', 'username', 'email', 'password', 'password2', 'first_name', 'last_name', 'full_name', 'role', 'plan', 'user_role')
         extra_kwargs = {
             'first_name': {'required': True, 'allow_blank': False},
             'last_name': {'required': True, 'allow_blank': False},
@@ -44,6 +46,8 @@ class UserSerializer(serializers.ModelSerializer):
     def validate_email(self, value):
         if not value or value.strip() == '':
             raise serializers.ValidationError("Email cannot be empty.")
+        if User.objects.filter(email__iexact=value.strip()).exists():
+            raise serializers.ValidationError("An account with this email already exists.")
         return value
 
     def validate_first_name(self, value):
@@ -61,6 +65,8 @@ class UserSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("Username cannot exceed 150 characters.")
         if len(value) > 30:
             raise serializers.ValidationError("Username is too long. Maximum 30 characters allowed.")
+        if User.objects.filter(username__iexact=value).exists():
+            raise serializers.ValidationError("A user with that username already exists.")
         return value
 
     def validate_password(self, value):
@@ -84,6 +90,7 @@ class UserSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         validated_data.pop('password2')
         role = validated_data.pop('role')
+        validated_data.pop('plan', 'starter')
         
         user = User.objects.create_user(
             username=validated_data['username'],
@@ -98,6 +105,22 @@ class UserSerializer(serializers.ModelSerializer):
         UserProfile.objects.create(user=user, role=role)
         
         return user
+
+
+class PaidSignupSerializer(UserSerializer):
+    plan = serializers.ChoiceField(choices=PendingSignup.PLAN_CHOICES, write_only=True, required=True)
+
+    class Meta(UserSerializer.Meta):
+        fields = UserSerializer.Meta.fields
+
+    def create(self, validated_data):
+        raise NotImplementedError("PaidSignupSerializer does not create users directly.")
+
+    def build_pending_signup_data(self):
+        data = self.validated_data.copy()
+        data.pop('password2')
+        data['password_hash'] = make_password(data.pop('password'))
+        return data
 
 
 class LoginSerializer(serializers.Serializer):

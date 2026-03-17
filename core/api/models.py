@@ -356,3 +356,68 @@ class PromoCode(models.Model):
         verbose_name = 'Promo Code'
         verbose_name_plural = 'Promo Codes'
         ordering = ['-created_at']
+
+
+class PendingSignup(models.Model):
+    PLAN_CHOICES = [
+        ('growth', 'Growth'),
+        ('premium', 'Premium'),
+    ]
+    STATUS_CHOICES = [
+        ('pending', 'Pending'),
+        ('completed', 'Completed'),
+        ('cancelled', 'Cancelled'),
+        ('expired', 'Expired'),
+        ('failed', 'Failed'),
+    ]
+
+    username = models.CharField(max_length=150)
+    email = models.EmailField()
+    first_name = models.CharField(max_length=150)
+    last_name = models.CharField(max_length=150)
+    role = models.CharField(max_length=20, choices=UserProfile.ROLE_CHOICES)
+    plan = models.CharField(max_length=20, choices=PLAN_CHOICES)
+    password_hash = models.CharField(max_length=255)
+    stripe_checkout_session_id = models.CharField(max_length=255, unique=True, null=True, blank=True)
+    stripe_customer_id = models.CharField(max_length=255, blank=True)
+    stripe_subscription_id = models.CharField(max_length=255, blank=True)
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
+    failure_reason = models.TextField(blank=True)
+    completed_at = models.DateTimeField(null=True, blank=True)
+    user = models.OneToOneField(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='pending_signup_record')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"{self.username} - {self.plan} ({self.status})"
+
+    class Meta:
+        verbose_name = 'Pending Signup'
+        verbose_name_plural = 'Pending Signups'
+        ordering = ['-created_at']
+
+
+class UserSubscription(models.Model):
+    PLAN_CHOICES = [
+        ('starter', 'Starter'),
+        ('growth', 'Growth'),
+        ('premium', 'Premium'),
+    ]
+
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='subscription')
+    plan = models.CharField(max_length=20, choices=PLAN_CHOICES)
+    status = models.CharField(max_length=50, default='active')
+    stripe_customer_id = models.CharField(max_length=255, blank=True)
+    stripe_subscription_id = models.CharField(max_length=255, unique=True, null=True, blank=True)
+    stripe_checkout_session_id = models.CharField(max_length=255, blank=True)
+    current_period_end = models.DateTimeField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"{self.user.username} - {self.plan} ({self.status})"
+
+    class Meta:
+        verbose_name = 'User Subscription'
+        verbose_name_plural = 'User Subscriptions'
+        ordering = ['-created_at']

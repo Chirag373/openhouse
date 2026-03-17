@@ -1,10 +1,13 @@
+from unittest.mock import patch
+
+from django.test import override_settings
 from django.contrib.auth.models import User
 from django.core.files.uploadedfile import SimpleUploadedFile
 from rest_framework import status
 from rest_framework.authtoken.models import Token
 from rest_framework.test import APITestCase
 
-from .models import UserProfile
+from .models import PendingSignup, UserProfile, UserSubscription
 
 
 class RealtorDashboardFlowTests(APITestCase):
@@ -223,3 +226,180 @@ class BrokerDashboardFlowTests(APITestCase):
         self.assertEqual(create_response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(create_response.data['street_address'], '55 Broker Ave')
         self.assertEqual(create_response.data['realtor'], self.user.id)
+
+
+@override_settings(
+    STRIPE_SECRET_KEY='sk_test_example',
+    STRIPE_PUBLISHABLE_KEY='pk_test_example',
+    STRIPE_WEBHOOK_SECRET='whsec_example',
+)
+class SignupBillingFlowTests(APITestCase):
+    def test_starter_signup_creates_user_immediately(self):
+        response = self.client.post('/api/signup/', {
+            'username': 'starter-user',
+            'email': 'starter@example.com',
+            'password': 'StarterPass123!',
+            'password2': 'StarterPass123!',
+            'first_name': 'Start',
+            'last_name': 'Er',
+            'role': 'realtor',
+            'plan': 'starter',
+        }, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertTrue(User.objects.filter(username='starter-user').exists())
+        self.assertEqual(response.data['user']['role'], 'realtor')
+
+    def test_paid_signup_requires_checkout_endpoint(self):
+        response = self.client.post('/api/signup/', {
+            'username': 'growth-user',
+            'email': 'growth@example.com',
+            'password': 'GrowthPass123!',
+            'password2': 'GrowthPass123!',
+            'first_name': 'Grow',
+            'last_name': 'Th',
+            'role': 'broker',
+            'plan': 'growth',
+        }, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertFalse(User.objects.filter(username='growth-user').exists())
+
+    @patch('api.views.stripe.checkout.Session.create')
+    def test_create_checkout_session_for_paid_plan(self, create_session_mock):
+        create_session_mock.return_value = type('Session', (), {
+            'id': 'cs_test_123',
+            'url': 'https://checkout.stripe.test/session/cs_test_123',
+        })()
+
+        response = self.client.post('/api/signup/create-checkout-session/', {
+            'username': 'growth-user',
+            'email': 'growth@example.com',
+            'password': 'GrowthPass123!',
+            'password2': 'GrowthPass123!',
+            'first_name': 'Grow',
+            'last_name': 'Th',
+            'role': 'broker',
+            'plan': 'growth',
+        }, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertIn('checkout_url', response.data)
+        pending_signup = PendingSignup.objects.get(username='growth-user')
+        self.assertEqual(pending_signup.status, 'pending')
+        self.assertEqual(pending_signup.plan, 'growth')
+        self.assertFalse(User.objects.filter(username='growth-user').exists())
+
+    @patch('api.views.stripe.checkout.Session.retrieve')
+    def test_checkout_status_completes_user_and_subscription(self, retrieve_session_mock):
+        pending_signup = PendingSignup.objects.create(
+            username='premium-user',
+            email='premium@example.com',
+            first_name='Pre',
+            last_name='Mium',
+            role='lender',
+            plan='premium',
+            password_hash='pbkdf2_sha256$1000000$abc$hash',
+            stripe_checkout_session_id='cs_test_complete',
+        )
+        retrieve_session_mock.return_value = {
+            'id': 'cs_test_complete',
+            'status': 'complete',
+            'payment_status': 'paid',
+            'customer': 'cus_123',
+            'subscription': {
+                'id': 'sub_123',
+                'current_period_end': 1794614400,
+            },
+        }
+
+        with patch('api.views._finalize_pending_signup') as finalize_mock:
+            user = User.objects.create_user(
+                username='premium-user',
+                email='premium@example.com',
+                password='PremiumPass123!',
+                first_name='Pre',
+                last_name='Mium',
+            )
+            UserProfile.objects.create(user=user, role='lender')
+            token = Token.objects.create(user=user)
+            pending_signup.user = user
+            pending_signup.status = 'completed'
+            pending_signup.save(update_fields=['user', 'status'])
+            UserSubscription.objects.create(
+                user=user,
+                plan='premium',
+                status='active',
+                stripe_customer_id='cus_123',
+                stripe_subscription_id='sub_123',
+            )
+            finalize_mock.return_value = (user, token, False)
+
+            response = self.client.get('/api/signup/checkout-status/', {'session_id': 'cs_test_complete'})
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['status'], 'completed')
+        self.assertEqual(response.data['user']['role'], 'lender')
+        self.assertEqual(response.data['redirect_url'], '/dashboard/lender/')
+
+    @patch('api.views.stripe.checkout.Session.retrieve')
+    def test_checkout_status_falls_back_to_pending_signup_when_session_placeholder_is_literal(self, retrieve_session_mock):
+        pending_signup = PendingSignup.objects.create(
+            username='fallback-user',
+            email='fallback@example.com',
+            first_name='Fall',
+            last_name='Back',
+            role='realtor',
+            plan='growth',
+            password_hash='pbkdf2_sha256$1000000$abc$hash',
+            stripe_checkout_session_id='cs_test_fallback',
+        )
+        retrieve_session_mock.return_value = {
+            'id': 'cs_test_fallback',
+            'status': 'complete',
+            'payment_status': 'paid',
+            'customer': 'cus_fallback',
+            'subscription': {
+                'id': 'sub_fallback',
+                'current_period_end': 1794614400,
+            },
+        }
+
+        with patch('api.views._finalize_pending_signup') as finalize_mock:
+            user = User.objects.create_user(
+                username='fallback-user',
+                email='fallback@example.com',
+                password='FallbackPass123!',
+                first_name='Fall',
+                last_name='Back',
+            )
+            UserProfile.objects.create(user=user, role='realtor')
+            token = Token.objects.create(user=user)
+            finalize_mock.return_value = (user, token, True)
+
+            response = self.client.get('/api/signup/checkout-status/', {
+                'session_id': '{CHECKOUT_SESSION_ID}',
+                'pending_signup': pending_signup.id,
+            })
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['status'], 'completed')
+        self.assertEqual(response.data['redirect_url'], '/dashboard/realtor/')
+
+    def test_signup_cancel_marks_pending_signup_cancelled(self):
+        pending_signup = PendingSignup.objects.create(
+            username='cancel-user',
+            email='cancel@example.com',
+            first_name='Can',
+            last_name='Cel',
+            role='partner',
+            plan='growth',
+            password_hash='pbkdf2_sha256$1000000$abc$hash',
+            stripe_checkout_session_id='cs_test_cancel',
+        )
+
+        response = self.client.get(f'/signup/cancel/?pending_signup={pending_signup.id}')
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        pending_signup.refresh_from_db()
+        self.assertEqual(pending_signup.status, 'cancelled')

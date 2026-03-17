@@ -1,15 +1,24 @@
+import json
 import os
+from datetime import datetime, timezone as dt_timezone
+
+import stripe
+from django.db import transaction
 from django.shortcuts import render
 from django.core.files.storage import default_storage
 from django.conf import settings
+from django.http import HttpResponseBadRequest
+from django.utils import timezone
+from django.views.decorators.csrf import csrf_exempt
 from rest_framework import viewsets, status
-from rest_framework.decorators import action
+from rest_framework.decorators import action, api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.authtoken.models import Token
 from django.contrib.auth.models import User
 from .serializers import (
     UserSerializer,
+    PaidSignupSerializer,
     LoginSerializer,
     RealtorProfileSerializer,
     LenderProfileSerializer,
@@ -38,7 +47,126 @@ from .models import (
     Perk,
     NotificationSettings,
     PromoCode,
+    PendingSignup,
+    UserSubscription,
 )
+
+
+PLAN_CONFIG = {
+    'starter': {'amount': 0, 'label': 'Starter'},
+    'growth': {'amount': 4900, 'label': 'Growth'},
+    'premium': {'amount': 9900, 'label': 'Premium'},
+}
+
+
+def _configure_stripe():
+    if not settings.STRIPE_SECRET_KEY:
+        raise ValueError('Stripe is not configured. Set STRIPE_SECRET_KEY.')
+    stripe.api_key = settings.STRIPE_SECRET_KEY
+
+
+def _build_user_payload(user):
+    try:
+        user_role = user.profile.role
+    except UserProfile.DoesNotExist:
+        user_role = None
+
+    return {
+        'id': user.id,
+        'username': user.username,
+        'email': user.email,
+        'first_name': user.first_name,
+        'last_name': user.last_name,
+        'full_name': user.get_full_name(),
+        'role': user_role,
+    }
+
+
+def _get_dashboard_path(role):
+    return f'/dashboard/{role}/' if role else '/'
+
+
+def _finalize_pending_signup(pending_signup, session_payload=None):
+    if pending_signup.status == 'completed' and pending_signup.user_id:
+        user = pending_signup.user
+        token, _ = Token.objects.get_or_create(user=user)
+        return user, token, False
+
+    with transaction.atomic():
+        pending_signup = PendingSignup.objects.select_for_update().get(pk=pending_signup.pk)
+
+        if pending_signup.status == 'completed' and pending_signup.user_id:
+            user = pending_signup.user
+            token, _ = Token.objects.get_or_create(user=user)
+            return user, token, False
+
+        if pending_signup.status not in ['pending', 'cancelled']:
+            raise ValueError(f'Pending signup is not payable in its current state: {pending_signup.status}')
+
+        if User.objects.filter(username__iexact=pending_signup.username).exists():
+            pending_signup.status = 'failed'
+            pending_signup.failure_reason = 'Username is no longer available.'
+            pending_signup.save(update_fields=['status', 'failure_reason', 'updated_at'])
+            raise ValueError(pending_signup.failure_reason)
+
+        if User.objects.filter(email__iexact=pending_signup.email).exists():
+            pending_signup.status = 'failed'
+            pending_signup.failure_reason = 'Email is already associated with another account.'
+            pending_signup.save(update_fields=['status', 'failure_reason', 'updated_at'])
+            raise ValueError(pending_signup.failure_reason)
+
+        user = User(
+            username=pending_signup.username,
+            email=pending_signup.email,
+            first_name=pending_signup.first_name,
+            last_name=pending_signup.last_name,
+            password=pending_signup.password_hash,
+        )
+        user.save()
+        UserProfile.objects.create(user=user, role=pending_signup.role)
+        token, _ = Token.objects.get_or_create(user=user)
+
+        session_payload = session_payload or {}
+        stripe_customer_id = (
+            session_payload.get('customer')
+            or pending_signup.stripe_customer_id
+            or ''
+        )
+        stripe_subscription_id = (
+            session_payload.get('subscription')
+            or pending_signup.stripe_subscription_id
+            or None
+        )
+        current_period_end = None
+        subscription_obj = session_payload.get('subscription_object')
+        if subscription_obj and subscription_obj.get('current_period_end'):
+            current_period_end = datetime.fromtimestamp(
+                subscription_obj['current_period_end'],
+                tz=dt_timezone.utc,
+            )
+
+        UserSubscription.objects.update_or_create(
+            user=user,
+            defaults={
+                'plan': pending_signup.plan,
+                'status': 'active',
+                'stripe_customer_id': stripe_customer_id,
+                'stripe_subscription_id': stripe_subscription_id,
+                'stripe_checkout_session_id': pending_signup.stripe_checkout_session_id or '',
+                'current_period_end': current_period_end,
+            },
+        )
+
+        pending_signup.user = user
+        pending_signup.status = 'completed'
+        pending_signup.completed_at = timezone.now()
+        pending_signup.failure_reason = ''
+        if stripe_customer_id:
+            pending_signup.stripe_customer_id = stripe_customer_id
+        if stripe_subscription_id:
+            pending_signup.stripe_subscription_id = stripe_subscription_id
+        pending_signup.save()
+        return user, token, True
 
 
 class SignupViewSet(viewsets.ViewSet):
@@ -48,32 +176,145 @@ class SignupViewSet(viewsets.ViewSet):
     permission_classes = [AllowAny]
     
     def create(self, request):
+        if request.data.get('plan', 'starter') != 'starter':
+            return Response(
+                {'plan': ['Paid plans must use checkout before account creation.']},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
             user = serializer.save()
             token, created = Token.objects.get_or_create(user=user)
-            
-            # Get user role
-            user_role = None
-            try:
-                user_role = user.profile.role
-            except UserProfile.DoesNotExist:
-                pass
-            
             return Response({
-                'user': {
-                    'id': user.id,
-                    'username': user.username,
-                    'email': user.email,
-                    'first_name': user.first_name,
-                    'last_name': user.last_name,
-                    'full_name': user.get_full_name(),
-                    'role': user_role
-                },
+                'user': _build_user_payload(user),
                 'token': token.key,
                 'message': 'User created successfully'
             }, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    @action(detail=False, methods=['post'], url_path='create-checkout-session')
+    def create_checkout_session(self, request):
+        serializer = PaidSignupSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        plan = serializer.validated_data['plan']
+        if plan not in ['growth', 'premium']:
+            return Response(
+                {'plan': ['Only paid plans use Stripe checkout.']},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        try:
+            _configure_stripe()
+        except ValueError as exc:
+            return Response({'error': str(exc)}, status=status.HTTP_503_SERVICE_UNAVAILABLE)
+
+        pending_signup = PendingSignup.objects.create(**serializer.build_pending_signup_data())
+        success_url = request.build_absolute_uri(
+            f'/signup/success/?session_id={{CHECKOUT_SESSION_ID}}&pending_signup={pending_signup.id}'
+        )
+        cancel_url = request.build_absolute_uri(f'/signup/cancel/?pending_signup={pending_signup.id}')
+
+        try:
+            checkout_session = stripe.checkout.Session.create(
+                mode='subscription',
+                customer_email=pending_signup.email,
+                line_items=[{
+                    'price_data': {
+                        'currency': 'usd',
+                        'product_data': {
+                            'name': f"{PLAN_CONFIG[plan]['label']} Plan",
+                            'description': f"{PLAN_CONFIG[plan]['label']} membership for OpenHouse",
+                        },
+                        'unit_amount': PLAN_CONFIG[plan]['amount'],
+                        'recurring': {'interval': 'month'},
+                    },
+                    'quantity': 1,
+                }],
+                metadata={
+                    'pending_signup_id': str(pending_signup.id),
+                    'plan': pending_signup.plan,
+                    'role': pending_signup.role,
+                },
+                success_url=success_url,
+                cancel_url=cancel_url,
+            )
+        except Exception as exc:
+            pending_signup.status = 'failed'
+            pending_signup.failure_reason = str(exc)
+            pending_signup.save(update_fields=['status', 'failure_reason', 'updated_at'])
+            return Response(
+                {'error': 'Unable to start checkout right now. Please try again.'},
+                status=status.HTTP_502_BAD_GATEWAY,
+            )
+
+        pending_signup.stripe_checkout_session_id = checkout_session.id
+        pending_signup.save(update_fields=['stripe_checkout_session_id', 'updated_at'])
+        return Response({'checkout_url': checkout_session.url}, status=status.HTTP_200_OK)
+
+    @action(detail=False, methods=['get'], url_path='checkout-status')
+    def checkout_status(self, request):
+        session_id = request.query_params.get('session_id')
+        pending_signup_id = request.query_params.get('pending_signup')
+        pending_signup = None
+
+        if pending_signup_id:
+            pending_signup = PendingSignup.objects.filter(pk=pending_signup_id).select_related('user').first()
+
+        if session_id == '{CHECKOUT_SESSION_ID}':
+            session_id = None
+
+        if not session_id and pending_signup:
+            session_id = pending_signup.stripe_checkout_session_id
+
+        if not session_id:
+            return Response({'error': 'session_id is required.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            _configure_stripe()
+            session = stripe.checkout.Session.retrieve(session_id, expand=['subscription'])
+        except Exception:
+            return Response({'error': 'Unable to verify checkout session.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        if not pending_signup:
+            pending_signup = PendingSignup.objects.filter(stripe_checkout_session_id=session_id).select_related('user').first()
+        if not pending_signup:
+            return Response({'status': 'not_found'}, status=status.HTTP_404_NOT_FOUND)
+
+        if pending_signup.status == 'completed' and pending_signup.user_id:
+            token, _ = Token.objects.get_or_create(user=pending_signup.user)
+            return Response({
+                'status': 'completed',
+                'token': token.key,
+                'user': _build_user_payload(pending_signup.user),
+                'redirect_url': _get_dashboard_path(pending_signup.role),
+            }, status=status.HTTP_200_OK)
+
+        if session.get('status') == 'expired':
+            pending_signup.status = 'expired'
+            pending_signup.save(update_fields=['status', 'updated_at'])
+            return Response({'status': 'expired'}, status=status.HTTP_200_OK)
+
+        if session.get('payment_status') in ['paid', 'no_payment_required'] and session.get('status') == 'complete':
+            payload = {
+                'customer': session.get('customer'),
+                'subscription': session.get('subscription').get('id') if isinstance(session.get('subscription'), dict) else session.get('subscription'),
+                'subscription_object': session.get('subscription') if isinstance(session.get('subscription'), dict) else None,
+            }
+            try:
+                user, token, _ = _finalize_pending_signup(pending_signup, payload)
+            except ValueError as exc:
+                return Response({'status': 'failed', 'error': str(exc)}, status=status.HTTP_409_CONFLICT)
+
+            return Response({
+                'status': 'completed',
+                'token': token.key,
+                'user': _build_user_payload(user),
+                'redirect_url': _get_dashboard_path(user.profile.role),
+            }, status=status.HTTP_200_OK)
+
+        return Response({'status': pending_signup.status}, status=status.HTTP_200_OK)
 
 
 class LoginViewSet(viewsets.ViewSet):
@@ -858,3 +1099,78 @@ class PromoCodeViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(promoter=self.request.user)
+
+
+@csrf_exempt
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def stripe_webhook(request):
+    if not settings.STRIPE_WEBHOOK_SECRET:
+        return Response({'error': 'Stripe webhook is not configured.'}, status=status.HTTP_503_SERVICE_UNAVAILABLE)
+
+    payload = request.body
+    signature = request.META.get('HTTP_STRIPE_SIGNATURE')
+    if not signature:
+        return Response({'error': 'Missing Stripe signature.'}, status=status.HTTP_400_BAD_REQUEST)
+
+    try:
+        event = stripe.Webhook.construct_event(
+            payload=payload,
+            sig_header=signature,
+            secret=settings.STRIPE_WEBHOOK_SECRET,
+        )
+    except ValueError:
+        return Response({'error': 'Invalid payload.'}, status=status.HTTP_400_BAD_REQUEST)
+    except stripe.error.SignatureVerificationError:
+        return Response({'error': 'Invalid signature.'}, status=status.HTTP_400_BAD_REQUEST)
+
+    if event['type'] == 'checkout.session.completed':
+        session = event['data']['object']
+        pending_signup_id = session.get('metadata', {}).get('pending_signup_id')
+        pending_signup = PendingSignup.objects.filter(pk=pending_signup_id).select_related('user').first()
+        if pending_signup:
+            subscription_data = None
+            subscription_id = session.get('subscription')
+            if subscription_id:
+                try:
+                    _configure_stripe()
+                    subscription_data = stripe.Subscription.retrieve(subscription_id)
+                except Exception:
+                    subscription_data = None
+            payload_data = {
+                'customer': session.get('customer'),
+                'subscription': subscription_id,
+                'subscription_object': subscription_data,
+            }
+            try:
+                _finalize_pending_signup(pending_signup, payload_data)
+            except ValueError:
+                pass
+
+    return Response({'received': True}, status=status.HTTP_200_OK)
+
+
+def signup_success(request):
+    session_id = request.GET.get('session_id')
+    pending_signup_id = request.GET.get('pending_signup')
+    if session_id == '{CHECKOUT_SESSION_ID}':
+        session_id = ''
+
+    if not session_id and not pending_signup_id:
+        return HttpResponseBadRequest('Missing session_id.')
+
+    return render(request, 'signup_success.html', {
+        'session_id': session_id,
+        'pending_signup_id': pending_signup_id or '',
+    })
+
+
+def signup_cancel(request):
+    pending_signup_id = request.GET.get('pending_signup')
+    if pending_signup_id:
+        pending_signup = PendingSignup.objects.filter(pk=pending_signup_id, status='pending').first()
+        if pending_signup:
+            pending_signup.status = 'cancelled'
+            pending_signup.save(update_fields=['status', 'updated_at'])
+
+    return render(request, 'signup_cancel.html')

@@ -3,20 +3,64 @@
 
 {% block content %}
 <div class="flex items-center justify-center min-h-[60vh]">
-    <div class="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md border border-gray-100">
-        <h2 class="text-3xl font-bold text-gray-900 mb-6 text-center">Create Account</h2>
-        
+    <div class="bg-white p-8 rounded-2xl shadow-xl w-full max-w-3xl border border-gray-100">
+        <div class="text-center mb-8">
+            <h2 class="text-3xl font-bold text-gray-900">Create Account</h2>
+            <p class="text-gray-500 mt-2">Choose a plan and create your profile.</p>
+        </div>
+
         <!-- Success Message -->
         <div id="success-message" class="hidden mb-4 p-4 bg-green-50 border border-green-200 text-green-700 rounded-lg">
             <p class="font-medium">Account created successfully! Redirecting...</p>
         </div>
-        
+
         <!-- Error Message -->
         <div id="error-message" class="hidden mb-4 p-4 bg-red-50 border border-red-200 text-red-700 rounded-lg">
             <p class="font-medium" id="error-text"></p>
         </div>
-        
-        <form id="signup-form" class="space-y-4">
+
+        <div id="info-message" class="hidden mb-4 p-4 bg-indigo-50 border border-indigo-200 text-indigo-700 rounded-lg">
+            <p class="font-medium" id="info-text"></p>
+        </div>
+
+        <form id="signup-form" class="space-y-5">
+            <div>
+                <div class="flex items-center justify-between mb-2">
+                    <label class="block text-sm font-medium text-gray-700">Choose a Plan</label>
+                    <span id="selected-plan-label" class="text-sm font-semibold text-indigo-600">Growth</span>
+                </div>
+                <input type="hidden" id="selected-plan" value="growth">
+                <div class="grid gap-3 md:grid-cols-3">
+                    <button type="button" data-plan-card data-plan="starter"
+                        class="plan-card rounded-xl border border-gray-200 bg-gray-50 p-4 text-left transition hover:border-indigo-300 hover:bg-indigo-50">
+                        <div class="flex items-center justify-between gap-2">
+                            <p class="font-semibold text-gray-900">Starter</p>
+                            <span class="text-xs font-medium text-gray-500">Free</span>
+                        </div>
+                        <p class="text-2xl font-bold text-gray-900 mt-3">$0<span class="text-sm text-gray-500">/mo</span></p>
+                        <p class="text-sm text-gray-600 mt-2">Basic profile and dashboard access.</p>
+                    </button>
+                    <button type="button" data-plan-card data-plan="growth"
+                        class="plan-card rounded-xl border border-indigo-500 bg-indigo-50 p-4 text-left transition shadow-sm">
+                        <div class="flex items-center justify-between gap-2">
+                            <p class="font-semibold text-gray-900">Growth</p>
+                            <span class="text-xs font-medium text-indigo-600">Popular</span>
+                        </div>
+                        <p class="text-2xl font-bold text-gray-900 mt-3">$49<span class="text-sm text-gray-500">/mo</span></p>
+                        <p class="text-sm text-gray-600 mt-2">More visibility and better profile placement.</p>
+                    </button>
+                    <button type="button" data-plan-card data-plan="premium"
+                        class="plan-card rounded-xl border border-gray-200 bg-gray-50 p-4 text-left transition hover:border-indigo-300 hover:bg-indigo-50">
+                        <div class="flex items-center justify-between gap-2">
+                            <p class="font-semibold text-gray-900">Premium</p>
+                            <span class="text-xs font-medium text-gray-500">Advanced</span>
+                        </div>
+                        <p class="text-2xl font-bold text-gray-900 mt-3">$99<span class="text-sm text-gray-500">/mo</span></p>
+                        <p class="text-sm text-gray-600 mt-2">Featured exposure and premium onboarding.</p>
+                    </button>
+                </div>
+            </div>
+
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Username</label>
                 <input type="text" id="username" name="username" required
@@ -24,7 +68,7 @@
                     placeholder="johndoe">
                 <p class="text-xs text-gray-500 mt-1">Max 30 characters, no spaces</p>
             </div>
-            <div class="grid grid-cols-2 gap-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">First Name</label>
                     <input type="text" id="first_name" name="first_name" required
@@ -81,7 +125,89 @@
 </div>
 
 <script>
-document.getElementById('signup-form').addEventListener('submit', async (e) => {
+const planCards = document.querySelectorAll('[data-plan-card]');
+const selectedPlanLabel = document.getElementById('selected-plan-label');
+const selectedPlanInput = document.getElementById('selected-plan');
+const form = document.getElementById('signup-form');
+const infoMessage = document.getElementById('info-message');
+const infoText = document.getElementById('info-text');
+
+function showInfo(message) {
+    if (infoText && infoMessage) {
+        infoText.textContent = message;
+        infoMessage.classList.remove('hidden');
+    }
+}
+
+function hideInfo() {
+    if (infoMessage) {
+        infoMessage.classList.add('hidden');
+    }
+}
+
+function saveSignupDraft(formData) {
+    sessionStorage.setItem('signupDraft', JSON.stringify({
+        username: formData.username,
+        email: formData.email,
+        first_name: formData.first_name,
+        last_name: formData.last_name,
+        role: formData.role,
+        plan: formData.plan
+    }));
+}
+
+function restoreSignupDraft() {
+    const draft = sessionStorage.getItem('signupDraft');
+    if (!draft) return;
+
+    try {
+        const data = JSON.parse(draft);
+        ['username', 'email', 'first_name', 'last_name', 'role'].forEach((field) => {
+            const input = document.getElementById(field);
+            if (input && data[field]) {
+                input.value = data[field];
+            }
+        });
+        if (data.plan) {
+            setSelectedPlan(data.plan);
+        }
+    } catch (error) {
+        sessionStorage.removeItem('signupDraft');
+    }
+}
+
+function setSelectedPlan(plan) {
+    planCards.forEach((card) => {
+        const isSelected = card.dataset.plan === plan;
+        card.classList.toggle('border-indigo-500', isSelected);
+        card.classList.toggle('bg-indigo-50', isSelected);
+        card.classList.toggle('shadow-sm', isSelected);
+        card.classList.toggle('border-gray-200', !isSelected);
+        card.classList.toggle('bg-gray-50', !isSelected);
+    });
+
+    if (selectedPlanLabel) {
+        selectedPlanLabel.textContent = plan.charAt(0).toUpperCase() + plan.slice(1);
+    }
+
+    if (selectedPlanInput) {
+        selectedPlanInput.value = plan;
+    }
+}
+
+planCards.forEach((card) => {
+    card.addEventListener('click', () => setSelectedPlan(card.dataset.plan));
+});
+
+setSelectedPlan('growth');
+
+restoreSignupDraft();
+
+if (window.location.search.includes('checkout=cancelled')) {
+    showInfo('Checkout was cancelled. Your details are still here, so you can try again.');
+}
+
+form.addEventListener('submit', async (e) => {
     e.preventDefault();
     
     const submitBtn = document.getElementById('submit-btn');
@@ -92,10 +218,7 @@ document.getElementById('signup-form').addEventListener('submit', async (e) => {
     // Hide messages
     errorMessage.classList.add('hidden');
     successMessage.classList.add('hidden');
-    
-    // Disable button and show loading
-    submitBtn.disabled = true;
-    submitBtn.textContent = 'Creating Account...';
+    hideInfo();
     
     const formData = {
         username: document.getElementById('username').value,
@@ -104,11 +227,16 @@ document.getElementById('signup-form').addEventListener('submit', async (e) => {
         password2: document.getElementById('password2').value,
         first_name: document.getElementById('first_name').value,
         last_name: document.getElementById('last_name').value,
-        role: document.getElementById('role').value
+        role: document.getElementById('role').value,
+        plan: document.getElementById('selected-plan').value
     };
+
+    const isPaidPlan = formData.plan === 'growth' || formData.plan === 'premium';
+    submitBtn.disabled = true;
+    submitBtn.textContent = isPaidPlan ? 'Continue to Payment...' : 'Creating Account...';
     
     try {
-        const response = await fetch('/api/signup/', {
+        const response = await fetch(isPaidPlan ? '/api/signup/create-checkout-session/' : '/api/signup/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -119,8 +247,16 @@ document.getElementById('signup-form').addEventListener('submit', async (e) => {
         const data = await response.json();
         
         if (response.ok) {
+            if (isPaidPlan) {
+                saveSignupDraft(formData);
+                window.location.href = data.checkout_url;
+                return;
+            }
+
+            sessionStorage.removeItem('signupDraft');
             // Store token in localStorage
             localStorage.setItem('authToken', data.token);
+            localStorage.setItem('auth_token', data.token);
             localStorage.setItem('user', JSON.stringify(data.user));
             
             // Show success message
