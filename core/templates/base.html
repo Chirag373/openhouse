@@ -115,7 +115,10 @@
             </div>
 
             <p class="mt-6 text-xs text-gray-400">
-                By joining, you agree to our Terms of Service and Privacy Policy.
+                By joining, you agree to our
+                <a href="{% url 'terms_and_agreement' %}" class="text-indigo-600 hover:text-indigo-700">Terms &amp; Agreement</a>
+                and
+                <a href="{% url 'privacy_policy' %}" class="text-indigo-600 hover:text-indigo-700">Privacy Policy</a>.
             </p>
         </div>
     </dialog>
@@ -133,15 +136,60 @@
             <div>
                 © 2026 Open House Platform. All rights reserved.
             </div>
-            <div class="flex gap-6">
-                <a href="#" class="hover:text-indigo-600 transition">About Us</a>
-                <a href="#" class="hover:text-indigo-600 transition">Terms & Agreement</a>
-                <a href="#" class="hover:text-indigo-600 transition">Privacy Policy</a>
+            <div class="flex flex-wrap justify-center gap-6">
+                <a href="{% url 'about_us' %}" class="hover:text-indigo-600 transition">About Us</a>
+                <a href="{% url 'terms_and_agreement' %}" class="hover:text-indigo-600 transition">Terms &amp; Agreement</a>
+                <a href="{% url 'privacy_policy' %}" class="hover:text-indigo-600 transition">Privacy Policy</a>
             </div>
         </div>
     </footer>
 
     <script>
+        function initializeDirectorySearch(rootSelector = '[data-search-root]') {
+            document.querySelectorAll(rootSelector).forEach((root) => {
+                if (root.dataset.searchInitialized === 'true') return;
+                root.dataset.searchInitialized = 'true';
+
+                const input = root.querySelector('[data-search-input]');
+                const button = root.querySelector('[data-search-button]');
+                const items = Array.from(root.querySelectorAll('[data-search-item]'));
+                const emptyState = root.querySelector('[data-search-empty]');
+                const visibleDisplay = root.dataset.searchDisplay || '';
+
+                if (!input || !items.length) return;
+
+                const applyFilter = () => {
+                    const query = input.value.trim().toLowerCase();
+                    let visibleCount = 0;
+
+                    items.forEach((item) => {
+                        const haystack = (item.dataset.searchText || '').toLowerCase();
+                        const matches = !query || haystack.includes(query);
+                        item.style.display = matches ? visibleDisplay : 'none';
+                        if (matches) visibleCount += 1;
+                    });
+
+                    if (emptyState) {
+                        emptyState.classList.toggle('hidden', visibleCount !== 0);
+                    }
+                };
+
+                input.addEventListener('input', applyFilter);
+                input.addEventListener('keypress', (event) => {
+                    if (event.key === 'Enter') {
+                        event.preventDefault();
+                        applyFilter();
+                    }
+                });
+
+                if (button) {
+                    button.addEventListener('click', applyFilter);
+                }
+
+                applyFilter();
+            });
+        }
+
         // Check if user is logged in
         function checkAuth() {
             const token = localStorage.getItem('authToken');
@@ -195,7 +243,10 @@
         }
 
         // Check auth on page load
-        document.addEventListener('DOMContentLoaded', checkAuth);
+        document.addEventListener('DOMContentLoaded', () => {
+            checkAuth();
+            initializeDirectorySearch();
+        });
     </script>
 
 </body>
