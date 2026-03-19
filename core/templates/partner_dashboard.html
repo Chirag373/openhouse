@@ -371,20 +371,6 @@
                         </div>
                     </div>
 
-                    <div class="p-6 md:p-8">
-                        <h3 class="font-semibold text-gray-900 mb-4">Notifications</h3>
-                        <div class="space-y-3">
-                            <label class="flex items-center gap-3 cursor-pointer">
-                                <input type="checkbox" id="notify-open-house" checked class="rounded text-orange-600 focus:ring-orange-500">
-                                <span class="text-sm text-gray-700">Email me when an Open House is upcoming</span>
-                            </label>
-                            <label class="flex items-center gap-3 cursor-pointer">
-                                <input type="checkbox" id="notify-new-perks" class="rounded text-orange-600 focus:ring-orange-500">
-                                <span class="text-sm text-gray-700">Email me about new Perk providers</span>
-                            </label>
-                        </div>
-                        <button onclick="saveNotificationPreferences()" class="mt-4 bg-orange-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-orange-700 transition shadow-sm">Save Notification Preferences</button>
-                    </div>
                 </div>
             </div>
 
@@ -749,18 +735,7 @@
 
         // --- SETTINGS TAB ---
         async function initializeSettingsSection() {
-            if (!checkAuth()) return;
-            try {
-                const response = await fetchWithTimeout(`${API_BASE_URL}/notification-settings/me/`, {
-                    method: 'GET',
-                    headers: { 'Authorization': `Token ${AUTH_TOKEN}`, 'Content-Type': 'application/json' }
-                });
-                if (response.ok) {
-                    const data = await response.json();
-                    document.getElementById('notify-open-house').checked = data.email_open_house || false;
-                    document.getElementById('notify-new-perks').checked = data.email_new_perks || false;
-                }
-            } catch (error) { console.error('Error loading settings:', error); }
+            return;
         }
 
         async function changePassword() {
@@ -784,21 +759,6 @@
                 document.getElementById('new-password').value = '';
                 document.getElementById('confirm-password').value = '';
             } catch (error) { alert(`Error: ${error.message}`); }
-        }
-
-        async function saveNotificationPreferences() {
-            try {
-                const response = await fetchWithTimeout(`${API_BASE_URL}/notification-settings/update_settings/`, {
-                    method: 'PATCH',
-                    headers: { 'Authorization': `Token ${AUTH_TOKEN}`, 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        email_open_house: document.getElementById('notify-open-house').checked,
-                        email_new_perks: document.getElementById('notify-new-perks').checked,
-                    })
-                });
-                if (!response.ok) throw new Error('Failed to save');
-                alert('Notification preferences saved!');
-            } catch (error) { console.error('Error saving notifications:', error); alert('Failed to save preferences.'); }
         }
 
         // --- INIT ---

@@ -116,7 +116,7 @@
         </nav>
 
         <div class="p-4 border-t border-gray-100">
-            <a href="/"
+            <a href="/" onclick="localStorage.removeItem('authToken'); localStorage.removeItem('auth_token'); localStorage.removeItem('user');"
                 class="flex items-center gap-2 text-sm text-gray-500 hover:text-red-600 transition hover:bg-red-50 p-2 rounded-lg">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -516,28 +516,6 @@
                         </div>
                     </div>
 
-                    <div class="p-6 md:p-8">
-                        <h3 class="font-semibold text-gray-900 mb-4">Notifications</h3>
-                        <div class="space-y-3">
-                            <label class="flex items-center gap-3 cursor-pointer">
-                                <input id="settings-email-open-house" type="checkbox" checked
-                                    class="rounded text-purple-600 focus:ring-purple-500">
-                                <span class="text-sm text-gray-700">Email me when an Open House is upcoming</span>
-                            </label>
-                            <label class="flex items-center gap-3 cursor-pointer">
-                                <input id="settings-email-new-perks" type="checkbox"
-                                    class="rounded text-purple-600 focus:ring-purple-500">
-                                <span class="text-sm text-gray-700">Email me about new Perk providers</span>
-                            </label>
-                        </div>
-                        <div class="mt-4">
-                            <button id="save-notifications-btn"
-                                class="bg-purple-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-purple-700 transition">
-                                Save Notification Preferences
-                            </button>
-                            <p id="settings-status" class="text-sm text-gray-500 mt-2"></p>
-                        </div>
-                    </div>
                 </div>
             </div>
 
@@ -818,15 +796,7 @@
 
         // === SETTINGS ===
         async function initializeSettingsSection() {
-            if (!checkAuth()) return;
-            try {
-                const response = await fetchWithTimeout(`${API_BASE_URL}/notification-settings/me/`, { headers: { 'Authorization': `Token ${AUTH_TOKEN}` } });
-                if (response.ok) {
-                    const data = await response.json();
-                    document.getElementById('settings-email-open-house').checked = data.email_open_house;
-                    document.getElementById('settings-email-new-perks').checked = data.email_new_perks;
-                }
-            } catch (e) { }
+            return;
         }
 
         document.addEventListener('DOMContentLoaded', function () {
@@ -855,16 +825,6 @@
                 } catch (e) { statusEl.textContent = 'Error updating password'; statusEl.className = 'text-sm text-red-600'; }
             });
 
-            // Save notifications
-            document.getElementById('save-notifications-btn')?.addEventListener('click', async function () {
-                const statusEl = document.getElementById('settings-status');
-                const data = { email_open_house: document.getElementById('settings-email-open-house').checked, email_new_perks: document.getElementById('settings-email-new-perks').checked };
-                try {
-                    const response = await fetchWithTimeout(`${API_BASE_URL}/notification-settings/update_settings/`, { method: 'PATCH', headers: { 'Authorization': `Token ${AUTH_TOKEN}`, 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
-                    if (response.ok) { statusEl.textContent = 'Preferences saved!'; statusEl.className = 'text-sm text-green-600'; }
-                    else { statusEl.textContent = 'Error saving preferences'; statusEl.className = 'text-sm text-red-600'; }
-                } catch (e) { statusEl.textContent = 'Error saving preferences'; statusEl.className = 'text-sm text-red-600'; }
-            });
         });
 
         window.addEventListener('popstate', function () { initializeTab(); });

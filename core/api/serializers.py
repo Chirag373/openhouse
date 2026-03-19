@@ -467,6 +467,12 @@ class PropertySerializer(serializers.ModelSerializer):
     realtor_profile_photo = serializers.SerializerMethodField(read_only=True)
     photos = serializers.SerializerMethodField(read_only=True)
     photo_count = serializers.SerializerMethodField(read_only=True)
+    has_open_house = serializers.SerializerMethodField(read_only=True)
+    has_perks = serializers.SerializerMethodField(read_only=True)
+    open_house_count = serializers.SerializerMethodField(read_only=True)
+    perks_count = serializers.SerializerMethodField(read_only=True)
+    open_house_schedule = serializers.SerializerMethodField(read_only=True)
+    perks_preview = serializers.SerializerMethodField(read_only=True)
     
     class Meta:
         model = Property
@@ -509,44 +515,60 @@ class PropertySerializer(serializers.ModelSerializer):
             'description',
             'photos',
             'photo_count',
+            'has_open_house',
+            'has_perks',
+            'open_house_count',
+            'perks_count',
+            'open_house_schedule',
+            'perks_preview',
             'created_at',
             'updated_at',
         ]
         read_only_fields = ['id', 'listing_id', 'realtor', 'realtor_name', 'realtor_email', 'created_at', 'updated_at']
 
-    def _get_realtor_profile(self, obj):
-        return getattr(obj.realtor, 'realtor_profile', None)
+    def _get_profile_for_property_owner(self, obj):
+        user = obj.realtor
+        # Prefer realtor profile for realtor-owned listings, then fallback to any available role profile.
+        return (
+            getattr(user, 'realtor_profile', None)
+            or getattr(user, 'broker_profile', None)
+            or getattr(user, 'lender_profile', None)
+            or getattr(user, 'partner_profile', None)
+            or getattr(user, 'promoter_profile', None)
+        )
 
     def get_realtor_company(self, obj):
-        profile = self._get_realtor_profile(obj)
+        profile = self._get_profile_for_property_owner(obj)
         return profile.company_name if profile else ''
 
     def get_realtor_phone_1(self, obj):
-        profile = self._get_realtor_profile(obj)
+        profile = self._get_profile_for_property_owner(obj)
         return profile.phone_number_1 if profile else ''
 
     def get_realtor_phone_2(self, obj):
-        profile = self._get_realtor_profile(obj)
+        profile = self._get_profile_for_property_owner(obj)
         return profile.phone_number_2 if profile else ''
 
     def get_realtor_website(self, obj):
-        profile = self._get_realtor_profile(obj)
+        profile = self._get_profile_for_property_owner(obj)
         return profile.business_website if profile else ''
 
     def get_realtor_serving_states(self, obj):
-        profile = self._get_realtor_profile(obj)
-        return profile.serving_states if profile else ''
+        profile = self._get_profile_for_property_owner(obj)
+        if not profile:
+            return ''
+        return profile.serving_states or getattr(profile, 'license_states', '')
 
     def get_realtor_serving_cities(self, obj):
-        profile = self._get_realtor_profile(obj)
+        profile = self._get_profile_for_property_owner(obj)
         return profile.serving_cities if profile else ''
 
     def get_realtor_biography(self, obj):
-        profile = self._get_realtor_profile(obj)
+        profile = self._get_profile_for_property_owner(obj)
         return profile.biography if profile else ''
 
     def get_realtor_profile_photo(self, obj):
-        profile = self._get_realtor_profile(obj)
+        profile = self._get_profile_for_property_owner(obj)
         return profile.profile_photo if profile else ''
     
     def get_photos(self, obj):
@@ -555,6 +577,45 @@ class PropertySerializer(serializers.ModelSerializer):
     
     def get_photo_count(self, obj):
         return PropertyPhoto.objects.filter(property=obj).count()
+
+    def get_has_open_house(self, obj):
+        return obj.open_houses.filter(is_active=True).exists()
+
+    def get_has_perks(self, obj):
+        return obj.perks.filter(is_active=True).exists()
+
+    def get_open_house_count(self, obj):
+        return obj.open_houses.filter(is_active=True).count()
+
+    def get_perks_count(self, obj):
+        return obj.perks.filter(is_active=True).count()
+
+    def get_open_house_schedule(self, obj):
+        open_house = obj.open_houses.filter(is_active=True).order_by('-updated_at').first()
+        if not open_house:
+            return None
+
+        return {
+            'saturday_date': open_house.saturday_date,
+            'saturday_start_time': open_house.saturday_start_time,
+            'saturday_end_time': open_house.saturday_end_time,
+            'sunday_date': open_house.sunday_date,
+            'sunday_start_time': open_house.sunday_start_time,
+            'sunday_end_time': open_house.sunday_end_time,
+            'virtual_tour_url': open_house.virtual_tour_url,
+        }
+
+    def get_perks_preview(self, obj):
+        perks = obj.perks.filter(is_active=True).order_by('-created_at')[:5]
+        return [
+            {
+                'id': perk.id,
+                'promoter_name': perk.promoter_name,
+                'promo_code': perk.promo_code,
+                'description': perk.description,
+            }
+            for perk in perks
+        ]
 
 
 class OpenHouseSerializer(serializers.ModelSerializer):

@@ -50,7 +50,28 @@ class BrokersView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         # Prefetch properties where realtor (which is User) is the broker's user
-        context['broker_profiles'] = BrokerProfile.objects.all().prefetch_related('user__properties').order_by('-created_at')
+        profiles = BrokerProfile.objects.all().select_related('user').prefetch_related('user__properties').order_by('-created_at')
+
+        for profile in profiles:
+            company_name = (profile.company_name or '').strip()
+            full_name = profile.user.get_full_name().strip() or profile.user.username
+            biography = (profile.biography or '').strip()
+            license_number = (profile.license_number or '').strip()
+            serving_states = (profile.license_states or profile.serving_states or '').strip()
+            serving_cities = (profile.serving_cities or '').strip()
+            website = (profile.business_website or '').strip()
+
+            if website and not (website.startswith('http://') or website.startswith('https://')):
+                website = f'https://{website}'
+
+            profile.display_company_name = company_name or full_name or 'Unnamed Broker'
+            profile.display_biography = biography or "This broker hasn't provided a biography yet."
+            profile.display_license_number = license_number or 'N/A'
+            profile.display_serving_states = serving_states or 'N/A'
+            profile.display_serving_cities = serving_cities or 'N/A'
+            profile.display_website_url = website
+
+        context['broker_profiles'] = profiles
         return context
 
 from django.conf import settings

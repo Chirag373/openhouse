@@ -145,7 +145,7 @@
         </nav>
 
         <div class="p-4 border-t border-gray-100">
-            <a href="/"
+            <a href="/" onclick="localStorage.removeItem('authToken'); localStorage.removeItem('auth_token'); localStorage.removeItem('user');"
                 class="flex items-center gap-2 text-sm text-gray-500 hover:text-red-600 transition hover:bg-red-50 p-2 rounded-lg">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -782,28 +782,6 @@
                         </div>
                     </div>
 
-                    <div class="p-6 md:p-8">
-                        <h3 class="font-semibold text-gray-900 mb-4">Notifications</h3>
-                        <div class="space-y-3">
-                            <label class="flex items-center gap-3 cursor-pointer">
-                                <input id="settings-email-open-house" type="checkbox" checked
-                                    class="rounded text-indigo-600 focus:ring-indigo-500">
-                                <span class="text-sm text-gray-700">Email me when an Open House is upcoming</span>
-                            </label>
-                            <label class="flex items-center gap-3 cursor-pointer">
-                                <input id="settings-email-new-perks" type="checkbox"
-                                    class="rounded text-indigo-600 focus:ring-indigo-500">
-                                <span class="text-sm text-gray-700">Email me about new Perk providers</span>
-                            </label>
-                        </div>
-                        <div class="mt-4">
-                            <button id="save-notifications-btn"
-                                class="bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-indigo-700 transition">
-                                Save Notification Preferences
-                            </button>
-                            <p id="settings-status" class="text-sm text-gray-500 mt-2"></p>
-                        </div>
-                    </div>
                 </div>
             </div>
 
@@ -1427,47 +1405,6 @@
             }
         }
 
-        async function loadSettings() {
-            try {
-                const response = await fetchWithTimeout(`${API_BASE_URL}/notification-settings/me/`, {
-                    method: 'GET',
-                    headers: {
-                        'Authorization': `Token ${AUTH_TOKEN}`,
-                        'Content-Type': 'application/json'
-                    }
-                });
-                if (!response.ok) throw new Error('Failed to load settings');
-                const data = await response.json();
-                document.getElementById('settings-email-open-house').checked = Boolean(data.email_open_house);
-                document.getElementById('settings-email-new-perks').checked = Boolean(data.email_new_perks);
-                setStatusText('settings-status', 'Settings loaded.', 'info');
-            } catch (error) {
-                console.error('Error loading settings:', error);
-                setStatusText('settings-status', 'Failed to load settings.', 'error');
-            }
-        }
-
-        async function saveNotificationSettings() {
-            try {
-                const response = await fetchWithTimeout(`${API_BASE_URL}/notification-settings/update_settings/`, {
-                    method: 'PATCH',
-                    headers: {
-                        'Authorization': `Token ${AUTH_TOKEN}`,
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        email_open_house: document.getElementById('settings-email-open-house').checked,
-                        email_new_perks: document.getElementById('settings-email-new-perks').checked
-                    })
-                });
-                if (!response.ok) throw new Error('Failed to save notification settings');
-                setStatusText('settings-status', 'Notification settings saved.', 'success');
-            } catch (error) {
-                console.error('Error saving notification settings:', error);
-                setStatusText('settings-status', 'Failed to save notification settings.', 'error');
-            }
-        }
-
         async function updatePassword() {
             const current_password = document.getElementById('settings-current-password').value;
             const new_password = document.getElementById('settings-new-password').value;
@@ -1523,7 +1460,7 @@
         }
 
         async function initializeSettingsSection() {
-            await loadSettings();
+            return;
         }
 
         function formatBillingDate(value) {
@@ -1665,9 +1602,6 @@
 
             const addPerkBtn = document.getElementById('add-perk-btn');
             if (addPerkBtn) addPerkBtn.addEventListener('click', addPerk);
-
-            const saveNotificationsBtn = document.getElementById('save-notifications-btn');
-            if (saveNotificationsBtn) saveNotificationsBtn.addEventListener('click', saveNotificationSettings);
 
             const updatePasswordBtn = document.getElementById('update-password-btn');
             if (updatePasswordBtn) updatePasswordBtn.addEventListener('click', updatePassword);

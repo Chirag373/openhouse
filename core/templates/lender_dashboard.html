@@ -122,7 +122,7 @@
         </nav>
 
         <div class="p-4 border-t border-gray-100">
-            <a href="/"
+            <a href="/" onclick="localStorage.removeItem('authToken'); localStorage.removeItem('auth_token'); localStorage.removeItem('user');"
                 class="flex items-center gap-2 text-sm text-gray-500 hover:text-red-600 transition hover:bg-red-50 p-2 rounded-lg">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -460,15 +460,6 @@
                         </div>
                     </div>
 
-                    <div class="p-6 md:p-8">
-                        <h3 class="font-semibold text-gray-900 mb-4">Notifications</h3>
-                        <div class="space-y-3">
-                            <label class="flex items-center gap-3 cursor-pointer">
-                                <input type="checkbox" class="rounded text-emerald-600 focus:ring-emerald-500">
-                                <span class="text-sm text-gray-700">Email me about new Perk providers</span>
-                            </label>
-                        </div>
-                    </div>
                 </div>
             </div>
 

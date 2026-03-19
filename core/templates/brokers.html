@@ -48,21 +48,21 @@
     {% for profile in broker_profiles %}
     <!-- Broker -->
     <div data-search-item
-        data-search-text="{{ profile.company_name|default:profile.user.get_full_name|default:'Unnamed Broker' }} {{ profile.biography|default:'' }} {{ profile.license_number|default:'' }} {{ profile.license_states|default:'' }} {{ profile.serving_cities|default:'' }} {{ profile.business_website|default:'' }}"
+        data-search-text="{{ profile.display_company_name }} {{ profile.display_biography }} {{ profile.display_license_number }} {{ profile.display_serving_states }} {{ profile.display_serving_cities }} {{ profile.display_website_url|default:'' }}"
         class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow duration-300">
         <div class="p-8 md:p-10 grid grid-cols-1 lg:grid-cols-12 gap-10">
             <!-- Brand Info -->
             <div class="lg:col-span-5 flex flex-col h-full">
                 <div class="flex items-start justify-between mb-6">
                     <div>
-                        <h2 class="text-3xl font-bold text-gray-900 tracking-tight">{{ profile.company_name|default:profile.user.get_full_name|default:"Unnamed Broker" }}</h2>
-                        <p class="text-sm font-mono text-gray-400 mt-2">LICENSE #{{ profile.license_number|default:"N/A" }}</p>
+                        <h2 class="text-3xl font-bold text-gray-900 tracking-tight">{{ profile.display_company_name }}</h2>
+                        <p class="text-sm font-mono text-gray-400 mt-2">LICENSE #{{ profile.display_license_number }}</p>
                     </div>
                 </div>
 
                 <div class="prose prose-slate text-gray-600 mb-8 flex-grow">
                     <p class="leading-relaxed">
-                        {{ profile.biography|default:"This broker hasn't provided a biography yet." }}
+                        {{ profile.display_biography }}
                     </p>
                 </div>
 
@@ -71,16 +71,17 @@
                         <div>
                             <span class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Serving
                                 States</span>
-                            <span class="font-semibold text-gray-800">{{ profile.license_states|default:"N/A" }}</span>
+                            <span class="font-semibold text-gray-800">{{ profile.display_serving_states }}</span>
                         </div>
                         <div>
                             <span class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Key
                                 Cities</span>
-                            <span class="font-semibold text-gray-800">{{ profile.serving_cities|default:"N/A" }}</span>
+                            <span class="font-semibold text-gray-800">{{ profile.display_serving_cities }}</span>
                         </div>
                     </div>
 
-                    <a href="{{ profile.business_website|default:'#' }}"
+                    {% if profile.display_website_url %}
+                    <a href="{{ profile.display_website_url }}" target="_blank" rel="noopener noreferrer"
                         class="inline-flex items-center justify-center w-full bg-slate-900 hover:bg-slate-800 text-white font-medium py-3 px-6 rounded-lg transition-colors duration-200 group">
                         Open Broker Website
                         <svg class="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" fill="none"
@@ -89,6 +90,12 @@
                                 d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
                         </svg>
                     </a>
+                    {% else %}
+                    <span
+                        class="inline-flex items-center justify-center w-full bg-gray-200 text-gray-500 font-medium py-3 px-6 rounded-lg cursor-not-allowed">
+                        Website Not Provided
+                    </span>
+                    {% endif %}
                 </div>
             </div>
 
